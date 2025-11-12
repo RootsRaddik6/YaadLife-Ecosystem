@@ -4,22 +4,16 @@ import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react';
 export default function App() {
   const [region, setRegion] = useState('Montego Bay');
   const [villaId, setVillaId] = useState('Villa001');
-  const [amount, setAmount] = useState(100);
+  const [amount, setAmount] = useState(10);
   const [isLynk, setIsLynk] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
 
-  const handleBook = async () => {
+  const handleBook = () => {
     if (!tonConnectUI?.connected) {
       alert('Connect TON wallet first!');
       return;
     }
-    // Diminishing $DOGS reward
-    const totalBookings = parseInt(localStorage.getItem('bookings') || '0') + 1;
-    localStorage.setItem('bookings', totalBookings);
-    const reward = Math.max(1, Math.floor(10 * Math.exp(-totalBookings / 50)));
-
-    alert(`Booked ${villaId} in ${region}!\nSBT Minted + ${reward} $DOGS Airdropped.\n(Stack: 13,381 → ${13381 - reward})`);
-    console.log(`Booking #${totalBookings} → ${reward} $DOGS`);
+    alert(`Booked ${villaId} in ${region}!\nSBT Minted.`);
   };
 
   return (
