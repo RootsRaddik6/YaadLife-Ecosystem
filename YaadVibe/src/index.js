@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 
-// === BABY STEP 1: Detect Telegram Mini App ===
+// === DETECT TELEGRAM MINI APP ===
 const isTelegram = !!window.Telegram?.WebApp;
 
 if (isTelegram) {
@@ -11,14 +11,15 @@ if (isTelegram) {
   window.Telegram.WebApp.expand();
 }
 
-// === BABY STEP 2: Choose correct config ===
-const manifestUrl = isTelegram
-  ? '/testnet-config.json'           // Use testnet inside Telegram
-  : 'https://ton.org/tonconnect-manifest.json'; // Fallback
+// === ALWAYS USE REAL MANIFEST ===
+const manifestUrl = '/tonconnect-manifest.json';
 
-// === BABY STEP 3: Force @wallet in Telegram ===
+// === FORCE @wallet IN TELEGRAM ===
 const uiOptions = isTelegram
-  ? { universalLink: 'https://t.me/wallet?attach=tonconnect' }
+  ? {
+      universalLink: 'https://t.me/wallet?attach=tonconnect',
+      bridgeUrl: 'https://bridge.tonapi.io/bridge'
+    }
   : {};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
