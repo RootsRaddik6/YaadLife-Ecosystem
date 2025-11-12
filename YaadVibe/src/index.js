@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 
-// === DETECT TELEGRAM MINI APP ===
+// === TMA DETECTION ===
 const isTelegram = !!window.Telegram?.WebApp;
 
 if (isTelegram) {
@@ -11,16 +11,19 @@ if (isTelegram) {
   window.Telegram.WebApp.expand();
 }
 
-// === ALWAYS USE REAL MANIFEST ===
-const manifestUrl = '/tonconnect-manifest.json';
+// === BULLETPROOF MANIFEST (GITHUB RAW) ===
+const manifestUrl = 'https://raw.githubusercontent.com/rootsraddik6/YaadLife-Ecosystem/main/tonconnect-manifest.json';
 
-// === FORCE @wallet IN TELEGRAM ===
+// === TMA-SPECIFIC OPTIONS (@wallet Priority + Return Strategy) ===
 const uiOptions = isTelegram
   ? {
       universalLink: 'https://t.me/wallet?attach=tonconnect',
-      bridgeUrl: 'https://bridge.tonapi.io/bridge'
+      twaReturnUrl: 'https://t.me/YaadLifeBot/app?startapp=return',  // Redirect back to Mini App
+      manifestUrl: manifestUrl  // Explicit for TMA
     }
-  : {};
+  : {
+      manifestUrl: manifestUrl
+    };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
