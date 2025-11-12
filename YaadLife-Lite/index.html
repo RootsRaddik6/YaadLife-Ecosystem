@@ -1,170 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YaadLife Lite - Jamaica Stays & Rides</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f4f4f4; }
-        .header { text-align: center; background: #28a745; color: white; padding: 20px; }
-        .dropdown { margin: 20px 0; }
-        select { padding: 10px; width: 100%; font-size: 16px; }
-        button { background: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 10px 0; }
-        button:hover { background: #0056b3; }
-        #botfather-btn { background: #ffc107; color: black; }
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 15% auto; padding: 20px; width: 70%; border-radius: 5px; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f2f2f2; }
-        .local { background: #d4edda; } /* Highlight local owned */
-        .fee { font-weight: bold; color: #28a745; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YaadLife Lite – Build Your Jamaica Package</title>
+  <script src="mock-data.js"></script>
+  <script src="qrcode.min.js"></script>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px;color:#333}
+    .container{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+    h1,h2{margin-top:0}
+    .step{margin:30px 0;display:none}
+    .step.active{display:block}
+    select,button,input{padding:10px;margin:5px 0;width:100%;font-size:16px}
+    button{background:#28a745;color:#fff;border:none;cursor:pointer}
+    button:hover{background:#218838}
+    .summary{margin-top:20px;padding:15px;background:#e9ecef;border-radius:5px}
+    .item{display:flex;justify-content:space-between;margin:8px 0}
+    .fee{color:#28a745;font-weight:bold}
+    .qr{margin-top:10px}
+    .hero img{max-width:100%;border-radius:8px}
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>YaadLife Lite</h1>
-        <p>Discover Yaad – Local Stays & Rides in Jamaica</p>
-        <img src="IMG_0039.jpg" alt="YaadLife Vibes" style="max-width: 100%; height: auto;">
-    </div>
+<div class="container">
 
-    <div class="dropdown">
-        <label for="parish">Select Parish:</label>
-        <select id="parish">
-            <option value="">Choose a parish...</option>
-            <option value="kingston">Kingston</option>
-            <option value="st-andrew">St. Andrew</option>
-            <option value="st-thomas">St. Thomas</option>
-            <option value="portland">Portland</option>
-            <option value="st-mary">St. Mary</option>
-            <option value="st-ann">St. Ann</option>
-            <option value="trelawny">Trelawny</option>
-            <option value="st-james">St. James</option>
-            <option value="hanover">Hanover</option>
-            <option value="westmoreland">Westmoreland</option>
-            <option value="st-elizabeth">St. Elizabeth</option>
-            <option value="manchester">Manchester</option>
-            <option value="clarendon">Clarendon</option>
-            <option value="st-catherine">St. Catherine</option>
-        </select>
-        <br>
-        <button onclick="scanAccommodations()">Scan Stays</button>
-        <button onclick="scanTransport()">Scan Rides</button>
-        <button id="botfather-btn" onclick="openBotFather()">Chat with BotFather</button>
-    </div>
+  <div class="hero"><img src="IMG_0039.jpg" alt="Jamaica Vibes"></div>
 
-    <div id="results"></div>
+  <!-- ==== STEP 0 – Opening Question ==== -->
+  <div id="step0" class="step active">
+    <h1>How can we help you book your vacation package?</h1>
+    <button onclick="nextStep(1)">Start Building</button>
+  </div>
 
-    <!-- BotFather Modal -->
-    <div id="botfather-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeBotFather()">&times;</span>
-            <h2>BotFather – Your Yaad Guide</h2>
-            <div id="chat-log" style="height: 200px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; margin: 10px 0;"></div>
-            <input type="text" id="chat-input" placeholder="Ask me: Book a villa in Portland?" style="width: 70%; padding: 10px;">
-            <button onclick="sendMessage()" style="width: 25%; padding: 10px;">Send</button>
-        </div>
-    </div>
+  <!-- ==== STEP 1 – Travel To Jamaica? ==== -->
+  <div id="step1" class="step">
+    <h2>Are you traveling to Jamaica?</h2>
+    <select onchange="this.value&&nextStep(2)">
+      <option value="">Select…</option>
+      <option value="yes">Yes</option>
+      <option value="no">No (local resident)</option>
+    </select>
+  </div>
 
-    <script>
-        // Mock data for scans (simulate Airbnb/Booking/Lynk API pulls – prioritize local)
-        const mockAccommodations = {
-            kingston: [
-                { name: "Rasta Road Villa", source: "Airbnb", price: 150, local: true, fee: 7.5 },
-                { name: "Harbor View Apt", source: "Booking.com", price: 80, local: false, fee: 4 },
-                { name: "Kingston Roots Guesthouse", source: "Local Board", price: 100, local: true, fee: 5 }
-            ],
-            'st-andrew': [
-                { name: "Blue Mountains Cabin", source: "Airbnb", price: 200, local: true, fee: 10 },
-                // Add more per parish as needed
-            ]
-            // Extend for all 14 parishes with similar mock data
-        };
+  <!-- ==== STEP 2 – From Where? ==== -->
+  <div id="step2" class="step">
+    <h2>Where are you traveling from?</h2>
+    <input type="text" placeholder="City, Country" id="from">
+    <button onclick="nextStep(3)">Next</button>
+  </div>
 
-        const mockTransport = {
-            kingston: [
-                { name: "Lynk Ride to Airport", source: "Lynk", price: 25, priority: true },
-                { name: "JUTC Bus", source: "Public", price: 2, priority: false }
-            ]
-            // Similar for others
-        };
+  <!-- ==== STEP 3 – When? ==== -->
+  <div id="step3" class="step">
+    <h2>When do you plan to arrive?</h2>
+    <input type="date" id="arrive">
+    <button onclick="nextStep(4)">Next</button>
+  </div>
 
-        function scanAccommodations() {
-            const parish = document.getElementById('parish').value;
-            if (!parish || !mockAccommodations[parish]) {
-                alert('Select a parish first!');
-                return;
-            }
-            let table = '<table><tr><th>Name</th><th>Source</th><th>Price (USD)</th><th>YaadLife Fee (5%)</th><th>Total</th></tr>';
-            mockAccommodations[parish].forEach(item => {
-                const total = item.price + item.fee;
-                const rowClass = item.local ? 'local' : '';
-                table += `<tr class="${rowClass}"><td>${item.name}</td><td>${item.source}</td><td>$${item.price}</td><td class="fee">$${item.fee}</td><td>$${total}</td><td><button onclick="bookItem('${item.name}', ${total})">Book</button></td></tr>`;
-            });
-            table += '</table>';
-            document.getElementById('results').innerHTML = `<h3>Stays in ${parish.replace('-', ' ')} (Prioritizing Local)</h3>` + table;
-        }
+  <!-- ==== STEP 4 – Parish ==== -->
+  <div id="step4" class="step">
+    <h2>Which parish will you stay in?</h2>
+    <select id="parish" onchange="loadAccommodationOptions()"></select>
+    <button onclick="nextStep(5)">Next</button>
+  </div>
 
-        function scanTransport() {
-            const parish = document.getElementById('parish').value;
-            if (!parish || !mockTransport[parish]) {
-                alert('Select a parish first!');
-                return;
-            }
-            let table = '<table><tr><th>Name</th><th>Source</th><th>Price (USD)</th></tr>';
-            mockTransport[parish].sort((a, b) => b.priority - a.priority); // Prioritize Lynk
-            mockTransport[parish].forEach(item => {
-                table += `<tr><td>${item.name}</td><td>${item.source}</td><td>$${item.price}</td><td><button onclick="bookItem('${item.name}', ${item.price})">Book</button></td></tr>`;
-            });
-            table += '</table>';
-            document.getElementById('results').innerHTML = `<h3>Rides in ${parish.replace('-', ' ')} (Prioritizing Lynk)</h3>` + table;
-        }
+  <!-- ==== STEP 5 – Inland / Coastal ==== -->
+  <div id="step5" class="step">
+    <h2>Inland or Coastal vibe?</h2>
+    <select id="vibe" onchange="filterAccommodations()">
+      <option value="">Any</option>
+      <option value="inland">Inland</option>
+      <option value="coastal">Coastal</option>
+    </select>
+  </div>
 
-        function bookItem(name, total) {
-            // Background SBT Generation (stub – export JSON token)
-            const sbt = {
-                id: Date.now(),
-                user: 'YaadUser', // Tie to wallet later
-                item: name,
-                total: total,
-                timestamp: new Date().toISOString(),
-                type: 'SoulboundToken'
-            };
-            console.log('SBT Generated:', sbt); // Background – no UI flash
-            const blob = new Blob([JSON.stringify(sbt, null, 2)], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `yaadlife-sbt-${sbt.id}.json`;
-            a.click();
-            alert(`Booked ${name}! SBT generated in background. Total: $${total}`);
-        }
+  <!-- ==== STEP 6 – Accommodation Choices ==== -->
+  <div id="step6" class="step">
+    <h2>Choose your stay</h2>
+    <div id="accommodation-list"></div>
+    <button onclick="nextStep(7)">Next → Transport</button>
+  </div>
 
-        // BotFather UX
-        function openBotFather() {
-            document.getElementById('botfather-modal').style.display = 'block';
-        }
-        function closeBotFather() {
-            document.getElementById('botfather-modal').style.display = 'none';
-        }
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const log = document.getElementById('chat-log');
-            const msg = input.value;
-            if (!msg) return;
-            log.innerHTML += `<p><strong>You:</strong> ${msg}</p>`;
-            // Mock response (expand with real AI later)
-            setTimeout(() => {
-                log.innerHTML += `<p><strong>BotFather:</strong> Got it! Scanning for "${msg}". Try: Villas in St. Ann?</p>`;
-                log.scrollTop = log.scrollHeight;
-            }, 500);
-            input.value = '';
-        }
-        window.onclick = function(event) {
-            const modal = document.getElementById('botfather-modal');
-            if (event.target == modal) closeBotFather();
-        }
-    </script>
+  <!-- ==== STEP 7 – Transport ==== -->
+  <div id="step7" class="step">
+    <h2>Need transportation?</h2>
+    <select id="needTransport" onchange="toggleTransport(this.value)">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </select>
+    <div id="transport-options" style="display:none;margin-top:10px"></div>
+    <button onclick="nextStep(8)">Next → Tours</button>
+  </div>
+
+  <!-- ==== STEP 8 – Tours / Attractions ==== -->
+  <div id="step8" class="step">
+    <h2>Add tours or attractions (optional)</h2>
+    <div id="tour-list"></div>
+    <button onclick="showSummary()">Show My Package</button>
+  </div>
+
+  <!-- ==== FINAL SUMMARY ==== -->
+  <div id="summary" class="step">
+    <h2>Your YaadLife Package</h2>
+    <div id="package-items"></div>
+    <div class="summary"><strong>Total:</strong> <span id="total">0</span> USD</div>
+    <button onclick="payNow()">Pay & Generate SBT / QR</button>
+    <div id="qr-area" style="margin-top:20px"></div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- GLOBAL STATE ---------- */
+const state = {
+  from: '', arrive: '', parish: '', vibe: '',
+  stay: null, transport: [], tours: []
+};
+
+/* ---------- PARISH LIST ---------- */
+const parishes = [
+  "kingston","st-andrew","st-thomas","portland","st-mary","st-ann",
+  "trelawny","st-james","hanover","westmoreland","st-elizabeth",
+  "manchester","clarendon","st-catherine"
+];
+const parishSelect = document.getElementById('parish');
+parishes.forEach(p=>{
+  const opt = document.createElement('option');
+  opt.value = p; opt.textContent = p.replace(/-/g,' ').toUpperCase();
+  parishSelect.appendChild(opt);
+});
+
+/* ---------- NAVIGATION ---------- */
+function nextStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
+function showSummary(){
+  renderSummary();
+  nextStep(9); // summary is step 9 (id="summary")
+}
+
+/* ---------- STEP 2 – FROM ---------- */
+document.querySelector('#step2 button').onclick = ()=>{
+  state.from = document.getElementById('from').value.trim();
+};
+
+/* ---------- STEP 3 – ARRIVE ---------- */
+document.querySelector('#step3 button').onclick = ()=>{
+  state.arrive = document.getElementById('arrive').value;
+};
+
+/* ---------- STEP 4 – PARISH ---------- */
+function loadAccommodationOptions(){
+  state.parish = document.getElementById('parish').value;
+  filterAccommodations(); // will also be called by vibe
+}
+
+/* ---------- STEP 5 – VIBE & ACCOMMODATION LIST ---------- */
+function filterAccommodations(){
+  const vibe = document.getElementById('vibe').value;
+  state.vibe = vibe;
+  const listDiv = document.getElementById('accommodation-list');
+  listDiv.innerHTML = '';
+  const items = MOCK.accommodations[state.parish] || [];
+  const filtered = vibe ? items.filter(i=>i.type===vibe) : items;
+  filtered.forEach((item,idx)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    const fee = item.price * 0.05;
+    div.innerHTML = `
+      <span>${item.name} (${item.source}) – $${item.price} 
+        ${item.local?'<i>(local)</i>':''}
+      </span>
+      <button data-idx="${idx}">Select</button>
+    `;
+    div.querySelector('button').onclick = ()=>{
+      state.stay = {...item, fee};
+      document.querySelectorAll('#accommodation-list button').forEach(b=>b.disabled=false);
+      div.querySelector('button').disabled = true;
+      div.querySelector('button').textContent = 'Selected';
+    };
+    listDiv.appendChild(div);
+  });
+  nextStep(6);
+}
+
+/* ---------- STEP 7 – TRANSPORT ---------- */
+function toggleTransport(val){
+  const opts = document.getElementById('transport-options');
+  opts.style.display = val==='yes'?'block':'none';
+  if(val==='yes') loadTransport();
+  else state.transport = [];
+}
+function loadTransport(){
+  const div = document.getElementById('transport-options');
+  div.innerHTML = '';
+  const items = (MOCK.transport[state.parish]||[]).sort((a,b)=>b.priority-a.priority);
+  items.forEach((t,idx)=>{
+    const chk = document.createElement('div');
+    chk.innerHTML = `<label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>`;
+    chk.querySelector('input').onclick = (e)=>{
+      if(e.target.checked) state.transport.push(t);
+      else state.transport = state.transport.filter(x=>x.name!==t.name);
+    };
+    div.appendChild(chk);
+  });
+}
+
+/* ---------- STEP 8 – TOURS ---------- */
+document.getElementById('step8').querySelector('#tour-list').innerHTML = (()=>{
+  const items = MOCK.tours[state.parish]||[];
+  return items.map((t,idx)=>`
+    <div class="item">
+      <label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>
+    </div>`).join('');
+})();
+document.querySelectorAll('#tour-list input[type=checkbox]').forEach(cb=>{
+  cb.onclick = (e)=>{
+    const t = MOCK.tours[state.parish][e.target.dataset.idx];
+    if(e.target.checked) state.tours.push(t);
+    else state.tours = state.tours.filter(x=>x.name!==t.name);
+  };
+});
+
+/* ---------- SUMMARY RENDER ---------- */
+function renderSummary(){
+  const container = document.getElementById('package-items');
+  container.innerHTML = '';
+  let total = 0;
+
+  const add = (label, price, fee=0)=>{
+    total += price + fee;
+    const div = document.createElement('div');
+    div.className='item';
+    div.innerHTML = `<span>${label}</span><span>$${price}${fee?` + <span class="fee">$${fee}</span>`:''}</span>`;
+    container.appendChild(div);
+  };
+
+  if(state.stay){
+    add(state.stay.name, state.stay.price, state.stay.fee);
+  }
+  state.transport.forEach(t=>add(t.name, t.price));
+  state.tours.forEach(t=>add(t.name, t.price));
+
+  document.getElementById('total').textContent = total.toFixed(2);
+}
+
+/* ---------- PAYMENT & SBT + QR ---------- */
+function payNow(){
+  const total = parseFloat(document.getElementById('total').textContent);
+  if(total===0) return alert('Add something to your package first!');
+
+  // ---- 1. SBT (background) ----
+  const sbt = {
+    id: Date.now(),
+    user: 'YaadUser-'+Math.random().toString(36).substr(2,5),
+    package: {
+      from: state.from,
+      arrive: state.arrive,
+      parish: state.parish,
+      stay: state.stay?.name,
+      transport: state.transport.map(t=>t.name),
+      tours: state.tours.map(t=>t.name),
+      total
+    },
+    timestamp: new Date().toISOString(),
+    type: 'SoulboundVacationToken'
+  };
+  console.log('SBT generated →', sbt);
+  const blob = new Blob([JSON.stringify(sbt, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`;
+  a.click();
+
+  // ---- 2. QR codes for each booked item ----
+  const qrArea = document.getElementById('qr-area');
+  qrArea.innerHTML = '<h3>Scan to redeem</h3>';
+  const items = [];
+  if(state.stay) items.push(`Stay: ${state.stay.name}`);
+  state.transport.forEach(t=>items.push(`Ride: ${t.name}`));
+  state.tours.forEach(t=>items.push(`Tour: ${t.name}`));
+
+  items.forEach(txt=>{
+    const div = document.createElement('div');
+    div.style = 'display:inline-block;margin:10px;text-align:center';
+    const qr = document.createElement('div');
+    new QRCode(qr, {text: txt, width:128, height:128});
+    div.appendChild(qr);
+    const cap = document.createElement('p');
+    cap.textContent = txt;
+    div.appendChild(cap);
+    qrArea.appendChild(div);
+  });
+
+  alert('Payment simulated! SBT downloaded, QR codes ready.');
+}
+</script>
 </body>
 </html>
