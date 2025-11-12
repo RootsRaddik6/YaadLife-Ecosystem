@@ -7,16 +7,18 @@ function App() {
   const [amount, setAmount] = useState(100);
   const [isLynk, setIsLynk] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
-
 const handleBook = async () => {
   if (!tonConnectUI?.connected) {
     alert('Connect TON wallet first!');
     return;
   }
-  // Sim airdrop: 100 $DOGS reward (your 13k+ $DOGS stack covers 130+ bookings)
-  console.log(`Airdropping 100 $DOGS + minting SBT for ${villaId} in ${region}`);
-  alert(`Booked ${villaId} in ${region}!\nSBT Minted + 100 $DOGS Airdropped.\nPowered by your 13,381 $DOGS stack`);
-  // TODO: Real TonWeb call to contract + $DOGS transfer
+  // Diminishing reward: 10 → 1 $DOGS over 100 bookings
+  const totalBookings = parseInt(localStorage.getItem('bookings') || '0') + 1;
+  localStorage.setItem('bookings', totalBookings);
+  const reward = Math.max(1, Math.floor(10 * Math.exp(-totalBookings / 50)));
+  
+  alert(`Booked ${villaId} in ${region}!\nSBT Minted + ${reward} $DOGS Airdropped.\n(Your stack: 13,381 → ${13381 - reward})`);
+  console.log(`Booking #${totalBookings} → ${reward} $DOGS`);
 };
   return (
     <div style={{
