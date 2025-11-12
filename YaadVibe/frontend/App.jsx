@@ -8,15 +8,16 @@ function App() {
   const [isLynk, setIsLynk] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
 
-  const handleBook = async () => {
-    if (!tonConnectUI?.connected) {
-      alert('Connect TON wallet first!');
-      return;
-    }
-    alert(`Booked ${villaId} in ${region} for ${amount} TON${isLynk ? ' via Lynk' : ''}\nSBT Minted! Check wallet.`);
-    console.log('BOOKING:', { region, villaId, amount, isLynk });
-  };
-
+const handleBook = async () => {
+  if (!tonConnectUI?.connected) {
+    alert('Connect TON wallet first!');
+    return;
+  }
+  // Sim airdrop: 100 $DOGS reward (your 13k+ $DOGS stack covers 130+ bookings)
+  console.log(`Airdropping 100 $DOGS + minting SBT for ${villaId} in ${region}`);
+  alert(`Booked ${villaId} in ${region}!\nSBT Minted + 100 $DOGS Airdropped.\nPowered by your 13,381 $DOGS stack`);
+  // TODO: Real TonWeb call to contract + $DOGS transfer
+};
   return (
     <div style={{
       padding: '20px', textAlign: 'center', minHeight: '100vh',
