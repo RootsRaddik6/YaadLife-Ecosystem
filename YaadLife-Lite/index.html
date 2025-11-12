@@ -41,17 +41,15 @@
 
   <script>
     document.getElementById('launchBtn').addEventListener('click', () => {
-      console.log('Button commanded — bridging to YaadVibe DApp');
-      alert("YaadVibe loading... Select villa, pay with TON, mint SBT. On-chain irie incoming.");
-
-      // BRIDGE: Redirect to YaadVibe DApp (same domain)
-      window.location.href = '/YaadVibe';
+      console.log('Launching YaadVibe...');
+      alert("Hunt X → Book Villa → Earn SBT");
+      setTimeout(() => {
+        window.location.href = '/YaadVibe';
+      }, 500);
     });
 
-    // Auto-redirect if in Telegram WebApp
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
-      document.getElementById('launchBtn').click(); // Auto-launch in bot
     }
   </script>
 </body>
