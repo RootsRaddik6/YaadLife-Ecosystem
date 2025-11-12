@@ -26,8 +26,11 @@ export default function App() {
       fontFamily: 'Arial'
     }}>
       <h1>YaadVibe Villas</h1>
-      <img src="https://raw.githubusercontent.com/RootsRaddik6/YaadLife-Ecosystem/main/YaadVibe/IMG_0039.jpeg" alt="Yaad" style={{ width: '100%', maxWidth: '400px', borderRadius: '12px' }} />
-      
+      <img 
+  src="/IMG_0039.jpeg" 
+  alt="Yaad Villa" 
+  style={{ width: '100%', maxWidth: '400px', borderRadius: '12px', margin: '20px 0' }} 
+/>
       <select value={region} onChange={e => setRegion(e.target.value)}>
         <option>Montego Bay</option>
         <option>Ocho Rios</option>
