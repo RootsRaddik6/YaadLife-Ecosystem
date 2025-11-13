@@ -3,164 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  <title>YAAD LIFE – One Love. One Calendar. Full Jamaica.</title>
-  <meta name="description" content="Book your full Jamaica trip in one flow. Villas, transport, food, vibes — all in one Yaad." />
-  
-  <!-- TON Connect + Telegram WebApp -->
+  <title>YAAD LIFE</title>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-  
   <style>
-    :root {
-      --gold: #FFD700;
-      --dark: #0F1620;
-      --green: #00C853;
-      --bg: #000;
-      --text: #FFF;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    }
-    .container { flex: 1; padding: 2rem 1rem; text-align: center; }
-    h1 {
-      font-size: 4.5rem;
-      font-weight: 900;
-      background: linear-gradient(0deg, var(--gold), #FFEDAB);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
-      letter-spacing: -2px;
-    }
-    p {
-      font-size: 1.4rem;
-      opacity: 0.9;
-      margin-bottom: 3rem;
-    }
-    .btn {
-      width: 90%;
-      max-width: 420px;
-      margin: 1rem auto;
-      padding: 1.4rem;
-      border-radius: 16px;
-      font-size: 1.5rem;
-      font-weight: 800;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
-    .btn-gold {
-      background: var(--gold);
-      color: var(--dark);
-    }
-    .btn-dark {
-      background: var(--dark);
-      color: var(--gold);
-    }
-    .btn-green {
-      background: var(--green);
-      color: white;
-    }
-    .btn:active { transform: scale(0.97); }
-    .hidden { display: none !important; }
-    #journey { margin: 2rem 0; font-size: 1.3rem; }
-    .stay { background: rgba(255,255,255,0.1); padding: 1rem; margin: 0.8rem; border-radius: 12px; }
+    :root {--gold:#FFD700;--dark:#0F1620;--green:#00C853;--bg:#000}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:#fff;font-family:system-ui,min-height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+    .c{flex:1;padding:2rem 1rem;text-align:center}
+    h1{font-size:4.8rem;font-weight:900;background:linear-gradient(var(--gold),#FFEDAB);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .btn{width:90%;max-width:440px;margin:1rem auto;padding:1.4rem;border-radius:16px;font-size:1.5rem;font-weight:800;border:none;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.6);transition:.3s}
+    .gold{background:var(--gold);color:var(--dark)}
+    .dark{background:var(--dark);color:var(--gold)}
+    .green{background:var(--green);color:#fff}
+    .hidden{display:none}
+    .panel{background:rgba(255,255,255,0.08);padding:1.5rem;border-radius:16px;margin:1.5rem 0}
+    .num{display:inline-block;width:60px;height:60px;line-height:60px;font-size:2rem;background:var(--dark);color:var(--gold);border-radius:50%;margin:0 12px}
+    .stay{background:rgba(255,215,0,0.15);padding:1rem;margin:1rem;border-radius:12px}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>YAAD<br>LIFE</h1>
-    <p>One Love. One Calendar. Full Jamaica.</p>
+<div class="c">
+  <h1>YAAD<br>LIFE</h1>
+  <p>One Love. One Calendar. Full Jamaica.</p>
 
-    <div id="journey"></div>
-
-    <button id="primaryBtn" class="btn btn-gold">BOOK YAAD</button>
-    <button id="mintBtn" class="btn btn-dark">Konnet Yaad + MINT</button>
-    <button id="addBtn" class="btn btn-green hidden">Add Another Stay</button>
+  <div id="profilePanel" class="panel">
+    <h2>How many in your Yaad?</h2>
+    <div style="margin:2rem 0">
+      <div>Adults (13+) <button onclick="adj('a',-1)">−</button><span id="a" class="num">1</span><button onclick="adj('a',1)">+</button></div>
+      <div style="margin:1rem 0">Children (3–12) <button onclick="adj('c',-1)">−</button><span id="c" class="num">0</span><button onclick="adj('c',1)">+</button></div>
+      <div>Infants (0–2) <button onclick="adj('i',-1)">−</button><span id="i" class="num">0</span><button onclick="adj('i',1)">+</button></div>
+    </div>
+    <p>Pets? <select id="pets"><option>No</option><option>Dog</option><option>Cat</option><option>Both</option></select></p>
+    <p><label><input type="checkbox" id="child"> Child-friendly only</label><br>
+       <label><input type="checkbox" id="pet"> Pet-friendly only</label></p>
+    <button class="btn gold" onclick="saveProfile()">LOCK IN & BOOK YAAD</button>
   </div>
 
-  <script>
-    const stays = [];
-    const stages = ["stay", "transport", "activities", "food", "review"];
-    let currentStage = 0;
+  <div id="journey"></div>
 
-    const primaryBtn = document.getElementById("primaryBtn");
-    const mintBtn = document.getElementById("mintBtn");
-    const addBtn = document.getElementById("addBtn");
-    const journeyDiv = document.getElementById("journey");
+  <button id="primary" class="btn gold">BOOK YAAD</button>
+  <button id="mint" class="btn dark">Konnet Yaad + MINT</button>
+  <button id="add" class="btn green hidden">Add Another Stay</button>
+</div>
 
-    const stageLabels = {
-      stay: "Next: Transport",
-      transport: "Next: Activities",
-      activities: "Next: Food & Vibes",
-      food: "Next: Review Trip",
-      review: "BOOK YAAD & PAY"
-    };
+<script>
+  let traveller = {a:1,c:0,i:0,pets:"No",child:false,pet:false};
+  let stays = [], stage = 0;
+  const stages = ["stay","transport","activities","food","review"];
+  const labels = {stay:"Next: Transport",transport:"Next: Activities",activities:"Next: Food & Vibes",food:"Next: Review Trip",review:"BOOK YAAD & PAY"};
 
-    function updateUI() {
-      journeyDiv.innerHTML = stays.map(s => `<div class="stay">${s}</div>`).join("");
-      
-      if (stays.length === 0) {
-        primaryBtn.textContent = "BOOK YAAD";
-        addBtn.classList.add("hidden");
-      } else {
-        primaryBtn.textContent = stageLabels[stages[currentStage]] || "BOOK YAAD & PAY";
-        addBtn.classList.remove("hidden");
-        addBtn.textContent = `Add Another ${stages[currentStage].charAt(0).toUpperCase() + stages[currentStage].slice(1)}`;
-      }
+  const primary = document.getElementById("primary");
+  const mint = document.getElementById("mint");
+  const add = document.getElementById("add");
+  const journey = document.getElementById("journey");
+  const profilePanel = document.getElementById("profilePanel");
 
-      if (currentStage >= stages.length - 1) {
-        primaryBtn.textContent = "BOOK YAAD & PAY";
-      }
+  function adj(type, delta) {
+    if (type==='a' && traveller.a+delta>=1 || type!=='a' && traveller.a+delta>=0) {
+      traveller[type] += delta;
+      document.getElementById(type).textContent = traveller[c] || 0;
     }
+  }
 
-    primaryBtn.onclick = () => {
-      if (stays.length === 0) {
-        stays.push("Jamaica Pegasus • Kingston • 3 nights");
-      } else if (currentStage < stages.length - 1) {
-        currentStage++;
-        const mock = {
-          transport: "Private Transfer • Round-trip",
-          activities: "Dunn’s River + YS Falls",
-          food: "Scotchie’s Jerk + Rick’s Café Sunset"
-        };
-        stays.push(mock[stages[currentStage]] || `Added ${stages[currentStage]}`);
-      } else {
-        primaryBtn.textContent = "Trip Booked! Share Yaad";
-        primaryBtn.disabled = true;
-        mintBtn.textContent = "Konnet Yaad + MINT (Lifetime SBT)";
-      }
-      updateUI();
-    };
+  function saveProfile() {
+    traveller.child = document.getElementById("child").checked;
+    traveller.pet = document.getElementById("pet").checked;
+    traveller.pets = document.getElementById("pets").value;
+    profilePanel.classList.add("hidden");
+    primary.textContent = "Next: Transport";
+    add.classList.remove("hidden");
+    update();
+  }
 
-    addBtn.onclick = () => {
-      stays.push(`Extra ${stages[currentStage]} added`);
-      updateUI();
-    };
+  function calcPrice(base) {
+    let p = base;
+    if (traveller.a > 2) p += 45 * (traveller.a - 2);
+    if (traveller.c > 0) p += 20 * traveller.c;
+    if (traveller.pets!=="No" && traveller.pet) p += 45;
+    return p.toFixed(0);
+  }
 
-    // Konnet Yaad + MINT (TON Connect)
-    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: "https://yaadlife.github.io/ton-manifest.json",
-      buttonRootId: null
-    });
+  function update() {
+    journey.innerHTML = stays.map(s=>`<div class="stay">${s}</div>`).join("");
+    if (stays.length===0) { primary.textContent = "BOOK YAAD"; add.classList.add("hidden"); }
+    else { primary.textContent = labels[stages[stage]] || "BOOK YAAD & PAY"; }
+  }
 
-    mintBtn.onclick = async () => {
-      if (!tonConnectUI.connected) {
-        await tonConnectUI.openModal();
-      } else {
-        alert("Yaad SBT Minted! Welcome to the family lifetime.");
-        mintBtn.textContent = "Minted – Yaad Forever";
-        mintBtn.disabled = true;
-      }
-    };
+  primary.onclick = () => {
+    if (stays.length===0) { stays.push(`Jamaica Pegasus • Kingston • 3 nights • $${calcPrice(280)} USD`); }
+    else if (stage < 4) {
+      stage++;
+      const mock = ["Private Van (fits "+(traveller.a+traveller.c)+" + pets)","Dunn’s River (family package)","Scotchie’s Jerk (child seats available)"];
+      stays.push(mock[stage-1] || "Added");
+    } else {
+      primary.textContent = "BOOK YAAD & PAY → $"+stays.reduce((a,s)=>a+(+s.match(/\d+/g)?.[0]||0),0)+" USD";
+    }
+    update();
+  };
 
-    updateUI();
-  </script>
+  add.onclick = () => { stays.push(`Extra stay • $${calcPrice(220)} USD`); update(); };
+
+  // TON Connect
+  const tc = new TON_CONNECT_UI.TonConnectUI({manifestUrl:"https://yaadlife.github.io/ton-manifest.json"});
+  mint.onclick = async () => {
+    if (!tc.connected) await tc.openModal();
+    else { alert("Lifetime Yaad SBT Minted!"); mint.textContent = "Minted Forever"; mint.disabled=true; }
+  };
+
+  update();
+</script>
 </body>
 </html>
