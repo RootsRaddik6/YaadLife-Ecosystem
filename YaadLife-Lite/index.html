@@ -363,6 +363,15 @@ function payNow(){
       alert('QRCode library failed to load!');
     }
   });
+  // === FIX: Attach Start Building click ===
+document.addEventListener('DOMContentLoaded', function() {
+  const startBtn = document.getElementById('start-button');
+  if (startBtn) {
+    startBtn.addEventListener('click', function() {
+      nextStep(1);
+    });
+  }
+});
 </script>
   <script>
 // EMBEDDED MOCK DATA (no separate file needed)
