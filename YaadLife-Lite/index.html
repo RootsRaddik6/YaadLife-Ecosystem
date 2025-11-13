@@ -344,5 +344,36 @@ function payNow(){
   alert('Payment simulated! SBT downloaded, QR codes ready.');
 }
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<script>
+// EMBEDDED MOCK DATA (no separate file needed)
+const MOCK = {
+  accommodations: {
+    kingston: [
+      {name:"Rasta Road Villa", source:"Local", price:150, local:true, type:"coastal"},
+      {name:"Harbor View Apt", source:"Airbnb", price:80, local:false, type:"coastal"},
+      {name:"Kingston Roots GH", source:"Local", price:100, local:true, type:"inland"}
+    ],
+    "st-andrew": [
+      {name:"Blue Mountain Cabin", source:"Local", price:200, local:true, type:"inland"}
+    ],
+    // Add other parishes here if needed (e.g., portland: [...])
+  },
+  transport: {
+    kingston: [
+      {name:"Lynk Airport → City", source:"Lynk", price:25, priority:true},
+      {name:"JUTC Bus", source:"Public", price:2, priority:false}
+    ]
+    // Add more...
+  },
+  tours: {
+    kingston: [
+      {name:"Bob Marley Museum", price:30},
+      {name:"Devon House Tour", price:20}
+    ]
+    // Add more...
+  }
+};
+</script>
+
 </body>
 </html>
