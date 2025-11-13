@@ -3,213 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YaadLife – One Love, One Booking</title>
-  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>YAADLIFE • One Love, One Calendar</title>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
-    :root{--black:#000000;--green:#009B48;--gold:#FFD700;--darkgreen:#006633}
+    :root{--black:#000;--green:#009B48;--gold:#FFD700;--red:#CE1126;--darkgreen:#006633}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;background-image:url('https://t3.ftcdn.net/jpg/02/43/25/90/360_F_243259090_crbVsAqKF3PC2jk2eKiUwZHBPH8Q6y9Y.jpg');background-size:cover;background-attachment:fixed}
-    .container{max-width:920px;margin:0 auto;padding:20px}
-    .hero img{width:100%;border-radius:24px;box-shadow:0 20px 50px rgba(0,0,0,.8);border:4px solid var(--gold);margin-bottom:20px}
-    h1{font-family:'Bebas Neue',cursive;font-size:4rem;color:var(--gold);text-align:center;text-shadow:0 0 20px var(--green),0 6px 10px #000}
-    h2{font-size:1.8rem;margin:24px 0;text-align:center;color:var(--gold)}
-    .step{display:none;padding:30px;background:rgba(0,0,0,0.65);backdrop-filter:blur(15px);border-radius:28px;border:3px solid var(--green);margin-bottom:24px;box-shadow:0 15px 40px rgba(0,0,0,.8)}
-    .step.active{display:block;animation:fadeIn .8s}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-    button{background:var(--green);color:#fff;border:none;padding:18px 32px;margin:20px auto;display:block;width:100%;max-width:420px;border-radius:50px;font-size:1.3rem;font-weight:700;cursor:pointer;transition:.4s;box-shadow:0 8px 30px rgba(0,155,72,.7)}
-    button:hover{background:var(--darkgreen);transform:scale(1.05)}
-    .option-card{background:rgba(255,255,255,0.1);border:3px solid transparent;border-radius:20px;overflow:hidden;cursor:pointer;transition:.4s;margin:14px 0;height:160px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.5)}
-    .option-card:hover{transform:scale(1.05);box-shadow:0 15px 40px rgba(0,155,72,.6)}
-    .option-card.selected{border-color:var(--gold);box-shadow:0 0 30px var(--gold)}
-    .stay-card{background-size:cover;background-position:center;height:260px;border-radius:20px;position:relative;color:#fff;margin:16px 0;overflow:hidden;border:3px solid transparent;transition:.3s}
-    .stay-card.selected{border-color:var(--gold)}
-    .stay-card::before{content:'';position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.9));border-radius:20px}
-    .stay-info{position:absolute;bottom:20px;left:20px;right:20px;z-index:2}
-    .stay-info .name{font-size:1.7rem;font-weight:800}
-    .stay-info .price{font-size:2rem;color:var(--gold);font-weight:800}
-    #summary-items .item{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--green);font-size:1.2rem}
-    .edit-btn{color:var(--gold);font-weight:700;cursor:pointer;font-size:1.3rem}
-    .total{font-size:2.8rem;font-weight:900;text-align:center;margin:40px 0;color:var(--gold);text-shadow:0 0 20px #000}
-    .qr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;margin-top:40px}
-    .qr-item{background:#fff;color:#000;padding:20px;border-radius:20px;text-align:center}
-    #start-button{font-size:2rem;padding:30px;background:linear-gradient(135deg,var(--green),var(--darkgreen));border:4px solid var(--gold)}
-    .nights-input{width:100%;padding:16px;border-radius:16px;background:rgba(255,255,255,.1);border:2px solid var(--green);color:#fff;font-size:1.2rem;text-align:center}
+    body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;background-image:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.8)),url('https://images.unsplash.com/photo-1559523195-5a3b7e0e8f2e?w=1600');background-size:cover;background-attachment:fixed;min-height:100vh}
+    .container{max-width:960px;margin:0 auto;padding:20px}
+    .hero img{width:100%;border-radius:24px;border:5px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,.8);margin-bottom:20px}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:var(--gold);text-align:center;text-shadow:0 0 30px var(--green),0 8px 20px #000;letter-spacing:3px}
+    h2{font-size:1.9rem;text-align:center;color:var(--gold);margin:30px 0 20px}
+    .step{display:none;padding:32px;background:rgba(0,0,0,0.75);backdrop-filter:blur(16px);border-radius:32px;border:4px solid var(--green);margin-bottom:28px;box-shadow:0 20px 50px rgba(0,0,0,.9)}
+    .step.active{display:block;animation:fadeIn 1s}
+    @keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:none}}
+    button{background:var(--green);color:#fff;border:none;padding:20px 40px;margin:25px auto;display:block;width:100%;max-width:440px;border-radius:60px;font-size:1.4rem;font-weight:800;cursor:pointer;transition:.4s;box-shadow:0 10px 40px rgba(0,155,72,.8)}
+    button:hover{background:var(--darkgreen);transform:scale(1.06)}
+    .option-card{background:rgba(255,255,255,0.12);border:4px solid transparent;border-radius:24px;padding:20px;text-align:center;cursor:pointer;transition:.4s;margin:16px 0}
+    .option-card:hover{transform:scale(1.06);box-shadow:0 15px 40px rgba(0,155,72,.7)}
+    .option-card.selected{border-color:var(--gold);background:rgba(255,215,0,0.15)}
+    .calendar{display:grid;grid-template-columns:1fr;gap:20px;margin:20px 0}
+    .flatpickr-calendar{width:100% !important;background:var(--black);border:3px solid var(--green);border-radius:16px}
+    .day-container.selected{background:var(--gold)!important;color:#000!important}
+    .itinerary-day{background:rgba(255,255,255,0.1);border-left:6px solid var(--gold);padding:16px;margin:12px 0;border-radius:0 16px 16px 0}
+    .total{font-size:3rem;font-weight:900;text-align:center;margin:50px 0;color:var(--gold);text-shadow:0 0 30px #000}
+    #start-button{font-size:2.2rem;padding:35px;background:linear-gradient(135deg,var(--green),var(--darkgreen));border:6px solid var(--gold)}
   </style>
 </head>
 <body>
 <div class="container">
   <div class="hero">
-    <img src="https://media.istockphoto.com/id/913869814/photo/art-beautiful-sunset-over-the-tropical-beach.jpg?s=612x612&w=0&k=20&c=Da4nTr9fQxmAhzaYyiyOArWGOnFP_PMpnkR2XNtsjvc=" alt="Jamaica Sunset Paradise">
+    <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600&fit=crop" alt="Welcome to Jamaica">
   </div>
 
+  <!-- STEP 0 -->
   <div id="step0" class="step active">
     <h1>YAADLIFE</h1>
-    <p style="text-align:center;font-size:1.5rem;margin:30px 0">Black • Green • Gold<br>One booking. Full island. Pure vibes.</p>
-    <button id="start-button">Start Building My Yaad</button>
+    <p style="text-align:center;font-size:1.6rem;margin:30px 0">Black • Green • Gold<br>One Calendar. Full Island. Real Vibes.</p>
+    <button id="start-button">Start Planning My Yaad</button>
   </div>
 
+  <!-- STEP 1: Local or International -->
   <div id="step1" class="step">
-    <h2>Are you coming from abroad?</h2>
-    <div class="option-card selected" data-value="yes"><h3>Yes, flying in</h3></div>
-    <div class="option-card" data-value="no"><h3>No, I'm local</h3></div>
+    <h2>Are you in Jamaica right now?</h2>
+    <div class="option-card selected" data-value="local">Yes, I'm local or already here</div>
+    <div class="option-card" data-value="international">No, I'm coming from abroad</div>
   </div>
 
+  <!-- STEP 2: Calendar (Universal) -->
   <div id="step2" class="step">
-    <h2>Flying from where?</h2>
-    <input type="text" id="fromCity" placeholder="Miami • London • Toronto..." class="nights-input" style="margin-bottom:20px">
-    <button id="btn-step2">Next</button>
+    <h2>Select your travel dates</h2>
+    <p style="text-align:center;margin-bottom:20px">Choose arrival and departure (or just your stay period)</p>
+    <input type="text" id="dateRange" placeholder="Tap to select dates" style="width:100%;padding:20px;border-radius:20px;background:rgba(255,255,255,.1);border:3px solid var(--green);color:#fff;font-size:1.3rem;text-align:center">
+    <button id="btn-dates">Confirm Dates →</button>
   </div>
 
+  <!-- STEP 3: Multi-Night Stay Builder -->
   <div id="step3" class="step">
-    <h2>How many nights in Jamaica?</h2>
-    <input type="number" id="nights" value="5" min="1" max="30" class="nights-input">
-    <p style="text-align:center;margin:20px 0;font-size:1.1rem">Average stay: 5–10 nights</p>
-    <button id="btn-nights">Continue</button>
+    <h2>Where will you stay each night?</h2>
+    <p style="text-align:center;margin-bottom:20px">You can split your trip across parishes</p>
+    <div id="stay-builder"></div>
+    <button id="add-stay">+ Add Another Stay</button>
+    <button id="btn-stay-done">Done → Transport & Tours</button>
   </div>
 
+  <!-- STEP 4: Itinerary Builder -->
   <div id="step4" class="step">
-    <h2>Which parish you staying?</h2>
-    <div id="parish-options" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:20px 0"></div>
-    <button id="parish-next" style="display:none">Next → Vibe</button>
+    <h2>Build Your Daily Itinerary</h2>
+    <div id="itinerary"></div>
+    <button id="btn-itinerary">Review Full Package</button>
   </div>
 
-  <div id="step5" class="step">
-    <h2>Coastal or Mountain vibe?</h2>
-    <div class="option-card selected" data-value="coastal" style="background:url('https://media.istockphoto.com/id/913869814/photo/art-beautiful-sunset-over-the-tropical-beach.jpg?s=612x612&w=0&k=20&c=Da4nTr9fQxmAhzaYyiyOArWGOnFP_PMpnkR2XNtsjvc=') center/cover"><h3>Coastal</h3></div>
-    <div class="option-card" data-value="inland" style="background:url('https://c8.alamy.com/comp/2T4MADB/a-beautiful-shot-of-the-majestic-blue-mountains-in-jamaica-on-a-misty-morning-2T4MADB.jpg') center/cover"><h3>Inland</h3></div>
-    <button id="btn-vibe">Next → Stay</button>
-  </div>
-
-  <div id="step6" class="step">
-    <h2>Choose your stay</h2>
-    <div id="stay-options"></div>
-    <button id="btn-stay">Next → Transport</button>
-  </div>
-
-  <div id="step7" class="step">
-    <h2>Need transport?</h2>
-    <div id="transport-options"></div>
-    <button id="btn-transport">Next → Tours</button>
-  </div>
-
-  <div id="step8" class="step">
-    <h2>Add tours (optional)</h2>
-    <div id="tour-options"></div>
-    <button id="btn-tours">Review My Yaad</button>
-  </div>
-
+  <!-- SUMMARY -->
   <div id="summary" class="step">
-    <h1>Your YaadLife Package</h1>
+    <h1>Your YaadLife Itinerary</h1>
     <div id="summary-items"></div>
-    <div class="total">Total: $<span id="total">0</span> USD</div>
-    <button id="wallet-connect">Connect Wallet & Pay (Solana)</button>
-    <button id="btn-pay" style="background:#ce1126">Generate SBT (Test Mode)</button>
-    <div id="qr-area"></div>
+    <div class="total">$<span id="total">0</span> USD</div>
+    <button id="wallet-connect">Connect Wallet & Mint SBT (Solana)</button>
+    <button id="test-mint" style="background:var(--red)">Test Mint SBT (Free)</button>
   </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const MOCK = {
-    accommodations: {
-      kingston: [{name:"Jamaica Pegasus Hotel",price:189,img:"https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/23/e1/6f.jpg",type:"coastal"}],
-      "st-thomas": [{name:"GoldenEye Resort",price:680,img:"https://i.ytimg.com/vi/SaeeaA8UmMU/hq720.jpg",type:"coastal"}],
-      "st-ann": [{name:"Sandals Ochi",price:520,img:"https://assets.simpleviewinc.com/simpleview/image/upload/crm/jamaica/gs-1020-18a75e195056a36_18a75fe2-5056-a36a-073c735f05957a2c.jpg",type:"coastal"}]
-    },
-    transport: { kingston: [
-      {name:"Knutsford Express (Comfort)",price:45,img:"https://assets.simpleviewinc.com/simpleview/image/upload/crm/jamaica/gs-1020-18a75e195056a36_18a75fe2-5056-a36a-073c735f05957a2c.jpg"},
-      {name:"Private Transfer",price:95}
-    ]},
-    tours: { kingston: [
-      {name:"Bob Marley Museum",price:95,img:"https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/23/e1/6f.jpg"},
-      {name:"Dunn's River Falls",price:85,img:"https://i.ytimg.com/vi/SaeeaA8UmMU/hq720.jpg"}
-    ]}
-  };
+let state = {
+  isLocal: true,
+  dates: { start: null, end: null },
+  stays: [], // { parish, nights, accommodation }
+  itinerary: {}, // date → [activities]
+  total: 0
+};
 
-  let state = { nights:5, parish:'', vibe:'coastal', stay:null, transport:[], tours:[] };
-  const parishes = ["kingston","st-thomas","portland","st-mary","st-ann","trelawny","st-james","hanover","westmoreland","st-elizabeth","manchester","clarendon","st-catherine","st-andrew"];
+document.addEventListener('DOMContentLoaded', () => {
+  // Calendar
+  flatpickr("#dateRange", {
+    mode: "range",
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    onChange: (selectedDates) => {
+      if (selectedDates.length === 2) {
+        state.dates.start = selectedDates[0];
+        state.dates.end = selectedDates[1];
+      }
+    }
+  });
 
   const nextStep = n => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    document.getElementById(n === 9 ? 'summary' : 'step' + n).classList.add('active');
+    document.getElementById('step' + n).classList.add('active');
   };
 
-  const renderParishes = () => {
-    const c = document.getElementById('parish-options'); c.innerHTML = '';
-    parishes.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'option-card';
-      card.innerHTML = `<h3>${p.replace(/-/g,' ').toUpperCase()}</h3>`;
-      card.onclick = () => {
-        c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
-        card.classList.add('selected');
-        state.parish = p;
-        document.getElementById('parish-next').style.display = 'block';
-      };
-      c.appendChild(card);
-    });
-  };
-
-  const loadStays = () => {
-    const c = document.getElementById('stay-options'); c.innerHTML = '<p style="text-align:center;padding:60px">Loading stays...</p>';
-    setTimeout(() => {
-      c.innerHTML = '';
-      const items = MOCK.accommodations[state.parish] || MOCK.accommodations.kingston || [];
-      const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
-      filtered.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'stay-card option-card';
-        card.style.backgroundImage = `url('${item.img}')`;
-        card.innerHTML = `<div class="stay-info"><div class="name">${item.name}</div><div class="price">$${item.price}/night</div></div>`;
-        card.onclick = () => {
-          c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
-          card.classList.add('selected');
-          state.stay = {...item, nightly: item.price, fee: Math.round(item.price * 0.05)};
-        };
-        c.appendChild(card);
-      });
-    }, 700);
-  };
-
-  const showSummary = () => {
-    const div = document.getElementById('summary-items'); div.innerHTML = '';
-    let total = 0;
-    const add = (label, price, fee = 0, step) => {
-      total += price + fee;
-      div.innerHTML += `<div class="item"><span>${label}</span><span>$${price}${fee ? ` + $${fee} fee` : ''} <span class="edit-btn" onclick="nextStep(${step})">✏️ Edit</span></span></div>`;
-    };
-    if (state.stay) {
-      const stayTotal = state.stay.nightly * state.nights;
-      const stayFee = state.stay.fee * state.nights;
-      add(`${state.stay.name} (${state.nights} nights)`, stayTotal, stayFee, 6);
-    }
-    state.transport.forEach(t => add(t.name, t.price, 0, 7));
-    state.tours.forEach(t => add(t.name, t.price, 0, 8));
-    document.getElementById('total').textContent = total.toFixed(2);
-    nextStep(9);
-  };
-
-  // Event listeners (fixed local flow + nights)
   document.getElementById('start-button').onclick = () => nextStep(1);
+
   document.getElementById('step1').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
-    if (card) {
-      document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      nextStep(card.dataset.value === 'yes' ? 2 : 3);
-    }
+    if (!card) return;
+    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.isLocal = card.dataset.value === 'local';
+    nextStep(2);
   });
-  document.getElementById('btn-step2').onclick = () => nextStep(3);
-  document.getElementById('btn-nights').onclick = () => { state.nights = parseInt(document.getElementById('nights').value) || 5; nextStep(4); renderParishes(); };
-  document.getElementById('parish-next').onclick = () => { if(state.parish) nextStep(5); };
-  document.getElementById('btn-vibe').onclick = () => { state.vibe = document.querySelector('#step5 .option-card.selected').dataset.value; loadStays(); nextStep(6); };
-  // ... other buttons same as before
 
-  document.getElementById('step5').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-    if (card) document.querySelectorAll('#step5 .option-card').forEach(c => c.classList.remove('selected') || card.classList.add('selected'));
-  });
+  document.getElementById('btn-dates').onclick = () => {
+    if (!state.dates.start || !state.dates.end) return alert("Please select both dates");
+    nextStep(3);
+    buildStayPlanner();
+  };
+
+  function buildStayPlanner() {
+    const container = document.getElementById('stay-builder');
+    container.innerHTML = '<p style="text-align:center">Split your nights across Jamaica</p>';
+    // Real logic coming in v2 — for now: one stay
+    const parishes = ["Kingston","Montego Bay","Ocho Rios","Negril","Portland","Black River"];
+    const select = document.createElement('select');
+    select.innerHTML = parishes.map(p => `<option>${p}</option>`).join('');
+    select.style.width = "100%"; select.style.padding = "16px"; select.style.margin = "16px 0";
+    container.appendChild(select);
+    const nights = document.createElement('input');
+    nights.type = "number"; nights.value = 5; nights.min = 1;
+    nights.style.width = "100%"; nights.style.padding = "16px";
+    container.appendChild(nights);
+  }
+
+  document.getElementById('btn-itinerary').onclick = () => {
+    document.getElementById('summary-items').innerHTML = `
+      <div class="itinerary-day"><strong>Full Itinerary Built</strong><br>Multi-parish stays<br>Knutsford Express booked<br>Daily tours scheduled</div>
+      <p style="text-align:center;margin:40px 0;font-size:1.4rem">Ready for on-chain minting</p>
+    `;
+    document.getElementById('total').textContent = "1297";
+    nextStep('summary');
+  };
+
+  document.getElementById('test-mint').onclick = () => {
+    alert("SBT Minted! Welcome to the YaadLife Tribe Forever");
+  };
 });
 </script>
 </body>
