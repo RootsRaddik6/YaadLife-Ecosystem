@@ -11,44 +11,34 @@
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{height:100%;margin:0;background:#000}
     body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
-
-    /* FIXED: Background now behind everything perfectly */
     .bg-slideshow{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
     .bg-slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;transition:opacity 3s ease}
     .bg-slide.active{opacity:1}
-
-    /* Content above background */
     .container{max-width:960px;margin:0 auto;padding:20px;position:relative;z-index:10}
-
     h1{font-size:5.8rem;color:var(--gold);text-align:center;font-weight:900;text-shadow:0 0 60px var(--green),0 15px 40px #000;letter-spacing:6px;margin:40px 0}
     h2{font-size:2.4rem;text-align:center;color:var(--gold);margin:40px 0 25px}
-    
     .step{display:none;padding:40px;background:rgba(0,0,0,0.88);backdrop-filter:blur(22px);border-radius:44px;border:6px solid var(--green);margin:35px 0;box-shadow:0 35px 90px rgba(0,0,0,.98)}
     .step.active{display:block;animation:fadeIn 1s}
     @keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-
     button{background:var(--green);color:#fff;border:none;padding:26px 50px;margin:35px auto;display:block;width:100%;max-width:520px;border-radius:90px;font-size:1.8rem;font-weight:900;cursor:pointer;transition:.5s;box-shadow:0 20px 70px rgba(0,155,72,1)}
     button:hover{background:var(--darkgreen);transform:scale(1.08)}
-    button.wallet{background:#6B4EFF;border:6px solid var(--gold);font-size:1.9rem;padding:32px}
-    button.small{background:var(--gold);color:#000;padding:14px 28px;font-size:1.2rem;border-radius:40px;margin:10px 0}
-
+    button.wallet{background:#6B4EFF;border:8px solid var(--gold);font-size:2rem;padding:36px;animation:pulse 2s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,215,0,0.8)}70%{box-shadow:0 0 0 20px rgba(255,215,0,0)}100%{box-shadow:0 0 0 0 rgba(255,215,0,0)}}
+    button.small{background:var(--gold);color:#000;padding:14px 28px;font-size:1.2rem;border-radius:40px;margin-top:10px}
     .option-card{background:rgba(255,255,255,0.16);border:5px solid transparent;border-radius:36px;overflow:hidden;cursor:pointer;transition:.5s;margin:22px 0;box-shadow:0 18px 50px rgba(0,0,0,.7)}
     .option-card:hover{transform:scale(1.06)}
     .option-card.selected{border-color:var(--gold)}
     .option-img{height:200px;background-size:cover;background-position:center}
     .option-text{padding:24px;text-align:center;font-size:1.5rem;font-weight:700}
-
     .calendar-input{width:100%;padding:32px;border-radius:32px;background:rgba(255,255,255,.14);border:6px solid var(--green);color:#fff;font-size:1.8rem;text-align:center;margin:35px 0}
     #start-button{font-size:3.2rem;padding:60px;background:linear-gradient(135deg,var(--green),var(--darkgreen));border:14px solid var(--gold)}
-
-    .total{font-size:5rem;font-weight:900;text-align:center;margin:80px 0;color:var(--gold);text-shadow:0 0 70px #000}
-    .breakdown{background:rgba(255,255,255,0.1);padding:20px;border-radius:20px;margin:20px 0;border-left:6px solid var(--gold);font-size:1.4rem}
-    .stay-block{margin:20px 0;padding:20px;background:rgba(255,255,255,0.08);border-radius:20px;border-left:6px solid var(--gold)}
+    .total{font-size:5.5rem;font-weight:900;text-align:center;margin:80px 0;color:var(--gold);text-shadow:0 0 80px #000}
+    .breakdown{background:rgba(255,255,255,0.1);padding:22px;border-radius:20px;margin:20px 0;border-left:6px solid var(--gold);font-size:1.5rem}
+    .stay-block{margin:25px 0;padding:25px;background:rgba(255,255,255,0.08);border-radius:25px;border-left:6px solid var(--gold)}
   </style>
 </head>
 <body>
 
-<!-- FIXED: Background slideshow -->
 <div class="bg-slideshow">
   <div class="bg-slide active" style="background-image:url('https://i.ibb.co/9v7k7vP/your-moon-image.jpg')"></div>
   <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600')"></div>
@@ -57,58 +47,51 @@
 </div>
 
 <div class="container">
-
-  <!-- STEP 0 -->
   <div id="step0" class="step active">
     <h1>YAADLIFE</h1>
     <p style="text-align:center;font-size:2.2rem;margin:50px 0;opacity:0.95">One Love. One Calendar. Full Jamaica.</p>
     <button id="start-button">Start Building My Yaad</button>
   </div>
 
-  <!-- STEP 1 -->
   <div id="step1" class="step">
     <h2>Are you in Jamaica right now?</h2>
-    <div class="option-card selected" data-value="local">
+    <div class="option-card selected" onclick="next('step2')">
       <div class="option-img" style="background-image:url('https://images.unsplash.com/photo-1570559449616-0e7d30c69b69?w=800')"></div>
       <div class="option-text">Yes, I'm local / already here</div>
     </div>
-    <div class="option-card" data-value="intl">
+    <div class="option-card" onclick="next('step2')">
       <div class="option-img" style="background-image:url('https://images.unsplash.com/photo-1519677100203-0d5a4e4e9d9b?w=800')"></div>
       <div class="option-text">Flying in from abroad</div>
     </div>
   </div>
 
-  <!-- STEP 2: DATES -->
   <div id="step2" class="step">
     <h2>Select Your Travel Dates</h2>
     <input type="text" id="dateRange" class="calendar-input" placeholder="Tap to choose Arrival to Departure">
-    <button id="confirm-dates">Confirm Dates</button>
+    <button id="confirm-dates">Confirm Dates & Start Planning</button>
   </div>
 
-  <!-- STEP 3: STAYS -->
   <div id="step3" class="step">
     <h2>Where Will You Stay?</h2>
-    <p style="text-align:center">Split your trip across any parish</p>
+    <p style="text-align:center">Split across any parish — add as many as you want</p>
     <div id="stays-container"></div>
     <button id="add-stay">+ Add Another Stay</button>
-    <button id="done-stays">Review & Pay</button>
+    <button id="done-stays">Review Trip & Pay</button>
   </div>
 
-  <!-- FINAL SUMMARY -->
   <div id="summary" class="step">
     <h1>Your YaadLife Trip</h1>
     <div id="final-summary" style="margin:40px 0"></div>
     <div class="total">$<span id="total">0</span> USD</div>
-    <button id="wallet-connect" class="wallet">Connect Wallet & Pay</button>
+    <button id="wallet-connect" class="wallet">CONNECT WALLET & PAY NOW</button>
     <p style="text-align:center;margin:50px 0;font-size:1.5rem;opacity:0.9">
-      Your lifetime YaadLife Soulbound Pass will be minted automatically<br>
-      <strong>Welcome to the tribe forever</strong>
+      Your lifetime YaadLife Soulbound Pass will be minted instantly<br>
+      <strong>Welcome home forever</strong>
     </p>
   </div>
 </div>
 
 <script>
-// Background slideshow — FIXED
 const slides = document.querySelectorAll('.bg-slide');
 let current = 0;
 setInterval(() => {
@@ -117,16 +100,12 @@ setInterval(() => {
   slides[current].classList.add('active');
 }, 15000);
 
-// Full 14 Parishes
 const parishes = ["Kingston","St. Andrew","St. Catherine","Portland","St. Thomas","St. Mary","St. Ann","Trelawny","St. James","Hanover","Westmoreland","St. Elizabeth","Manchester","Clarendon"];
-
 const hotelsByParish = {
-  "Kingston": ["Jamaica Pegasus","Courtleigh Hotel","AC Hotel"],
+  "Kingston": ["Jamaica Pegasus","Courtleigh","AC Hotel"],
+  "Portland": ["Trident Hotel","Geejam","Moon Palace"],
   "St. Andrew": ["Terra Nova","Strawberry Hill"],
-  "Portland": ["Trident Hotel","Geejam","Kanopi House"],
-  "St. James": ["Sandals Montego Bay","Half Moon","Round Hill"],
-  "Westmoreland": ["Sandals Negril","The Caves","Rockhouse"],
-  "St. Ann": ["Sandals Ochi","Jewel Dunn’s River"]
+  "St. James": ["Round Hill","Half Moon","Sandals Montego Bay"]
 };
 
 let state = { stays: [], total: 0 };
@@ -134,21 +113,12 @@ let state = { stays: [], total: 0 };
 document.addEventListener('DOMContentLoaded', () => {
   flatpickr("#dateRange", { mode: "range", dateFormat: "M j, Y", minDate: "today" });
 
-  const next = id => {
+  window.next = (id) => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   };
 
   document.getElementById('start-button').onclick = () => next('step1');
-  
-  document.getElementById('step1').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-    if (card) {
-      document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      next('step2');
-    }
-  });
 
   document.getElementById('confirm-dates').onclick = () => {
     if (!document.getElementById('dateRange').value.includes('to')) {
@@ -168,58 +138,53 @@ document.addEventListener('DOMContentLoaded', () => {
       </select>
       <select class="hotel-select" style="width:100%;padding:18px;margin:10px 0;background:#111;color:#fff;border:3px solid var(--green);border-radius:16px;font-size:1.3rem"></select>
       <input type="number" class="nights" value="3" min="1" placeholder="Nights" style="width:100%;padding:18px;margin:10px 0;background:#111;color:#fff;border:3px solid var(--green);border-radius:16px;font-size:1.3rem">
-      <button class="small" onclick="this.parentElement.remove(); updateTotal()">Remove</button>
+      <button class="small" onclick="this.parentElement.remove(); updateTotal()">Remove Stay</button>
     `;
     document.getElementById('stays-container').appendChild(block);
-
-    const parishSelect = block.querySelector('.parish-select');
-    const hotelSelect = block.querySelector('.hotel-select');
-    
-    parishSelect.onchange = () => {
-      const hotels = hotelsByParish[parishSelect.value] || ["Premium Resort", "Beach Villa"];
-      hotelSelect.innerHTML = hotels.map(h => `<option>${h}</option>`).join('');
+    const parish = block.querySelector('.parish-select');
+    const hotel = block.querySelector('.hotel-select');
+    parish.onchange = () => {
+      const hotels = hotelsByParish[parish.value] || ["Luxury Villa", "Beach Resort", "Airbnb"];
+      hotel.innerHTML = hotels.map(h => `<option>${h}</option>`).join('');
     };
-    parishSelect.onchange(); // Trigger initial load
+    parish.onchange();
     block.querySelector('.nights').oninput = updateTotal;
+    updateTotal();
   }
 
   document.getElementById('add-stay').onclick = addStayBlock;
 
+  window.updateTotal = () => {
+    state.total = 0;
+    document.querySelectorAll('.stay-block').forEach(b => {
+      const nights = parseInt(b.querySelector('.nights').value) || 0;
+      state.total += nights * 280;
+    });
+    document.getElementById('total').textContent = state.total.toLocaleString();
+  };
+
   document.getElementById('done-stays').onclick = () => {
     if (document.querySelectorAll('.stay-block').length === 0) {
-      alert("Please add at least one stay");
+      alert("Add at least one stay");
       return;
     }
     state.stays = Array.from(document.querySelectorAll('.stay-block')).map(b => ({
       parish: b.querySelector('.parish-select').value,
       hotel: b.querySelector('.hotel-select').value,
-      nights: +(b.querySelector('.nights').value) || 1
+      nights: parseInt(b.querySelector('.nights').value)
     }));
+    let html = '';
+    state.stays.forEach(s => {
+      const cost = s.nights * 280;
+      html += `<div class="breakdown"><strong>${s.hotel}</strong> • ${s.parish} • ${s.nights} nights → $${cost.toLocaleString()}</div>`;
+    });
+    document.getElementById('final-summary').innerHTML = html;
     updateTotal();
-    renderSummary();
     next('summary');
   };
 
-  function updateTotal() {
-    state.total = 0;
-    document.querySelectorAll('.stay-block').forEach(b => {
-      const nights = +(b.querySelector('.nights').value) || 0;
-      state.total += nights * 280; // Real avg rate
-    });
-    document.getElementById('total').textContent = state.total.toLocaleString();
-  }
-
-  function renderSummary() {
-    let html = '<h2 style="color:var(--gold);margin-bottom:30px">Your Full Trip</h2>';
-    state.stays.forEach(s => {
-      const cost = s.nights * 280;
-      html += `<div class="breakdown"><strong>${s.hotel}</strong><br>${s.parish} • ${s.nights} night${s.nights>1?'s':''} → $${cost}</div>`;
-    });
-    document.getElementById('final-summary').innerHTML = html;
-  }
-
   document.getElementById('wallet-connect').onclick = () => {
-    alert(`Payment of $${state.total} Confirmed on Solana\n\nYour YaadLife Soulbound Pass has been minted.\n\nWelcome home forever.\n\nIRIE`);
+    alert(`Payment of $${state.total.toLocaleString()} Confirmed\nSoulbound Pass Minted\n\nYou are now YAADLIFE forever\n\nIRIE`);
   };
 });
 </script>
