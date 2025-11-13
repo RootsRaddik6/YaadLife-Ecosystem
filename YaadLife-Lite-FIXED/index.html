@@ -3,23 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YaadLife Lite – Book Your Jamaica Vacation</title>
+  <title>YaadLife – Book Your Jamaica Vibes</title>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body{font-family:-apple-system,Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px;color:#333}
-    .container{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
-    h1,h2{margin:0 0 20px;font-weight:600}
-    .step{margin:30px 0;display:none}
+    :root{--green:#28a745;--dark:#1a1a1a;--light:#f8f9fa;--gray:#6c757d}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;background:#f4f4f4;color:#333;line-height:1.6}
+    .container{max-width:900px;margin:0 auto;padding:20px}
+    .hero img{width:100%;border-radius:16px;margin-bottom:20px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+    h1,h2{font-weight:700;color:var(--dark)}
+    h1{font-size:1.8rem;margin-bottom:16px}
+    h2{font-size:1.4rem;margin:24px 0 12px}
+    .step{display:none;padding:20px;background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
     .step.active{display:block}
-    select,button,input{padding:12px;margin:8px 0;width:100%;font-size:16px;border-radius:8px;border:1px solid #ddd}
-    button{background:#28a745;color:#fff;border:none;cursor:pointer;font-weight:600}
+    select,button,input{padding:14px 16px;margin:8px 0;width:100%;font-size:16px;border-radius:12px;border:1px solid #ddd;font-weight:600}
+    button{background:var(--green);color:white;border:none;cursor:pointer;transition:.2s}
     button:hover{background:#218838}
-    .summary{margin:20px 0;padding:15px;background:#e9ecef;border-radius:8px}
-    .item{display:flex;justify-content:space-between;margin:8px 0;font-size:16px}
-    .fee{color:#28a745;font-weight:bold}
-    .qr{margin-top:15px;text-align:center}
-    .hero img{width:100%;max-width:800px;border-radius:12px;margin-bottom:20px;display:block}
-    #start-button{background:#28a745;color:white;padding:16px 32px;font-size:18px;border:none;border-radius:12px;cursor:pointer;width:100%;max-width:400px;margin:20px auto;display:block}
+    .option-card{display:flex;align-items:center;padding:12px;border:2px solid transparent;border-radius:12px;margin:8px 0;cursor:pointer;transition:.2s}
+    .option-card:hover{border-color:var(--green)}
+    .option-card.selected{border-color:var(--green);background:#e8f5e9}
+    .option-card img{width:80px;height:80px;object-fit:cover;border-radius:8px;margin-right:12px}
+    .option-card .info{flex:1}
+    .option-card .name{font-weight:600}
+    .option-card .price{color:var(--green);font-weight:700}
+    .option-card .source{font-size:0.85rem;color:var(--gray)}
+    #summary-items .item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
+    #summary-items .item:last-child{border:none}
+    .total{font-size:1.3rem;font-weight:700;color:var(--dark);margin:16px 0}
+    .qr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:20px}
+    .qr-item{text-align:center}
+    .qr-item img{width:100%;max-width:120px;height:120px}
+    .qr-item p{font-size:0.9rem;margin-top:4px;color:var(--gray)}
+    #start-button{background:var(--green);color:white;padding:18px;font-size:1.2rem;border-radius:16px;width:100%;max-width:500px;margin:30px auto;display:block}
+    .trustpilot{margin-top:30px;text-align:center;font-size:0.9rem;color:var(--gray)}
+    .trustpilot a{color:var(--green);text-decoration:none}
   </style>
 </head>
 <body>
@@ -27,84 +45,271 @@
   <div class="hero">
     <img src="IMG_0039.jpeg" alt="Jamaica Vibes">
   </div>
+
   <div id="step0" class="step active">
     <h1>How can we help you book your vacation package?</h1>
     <button id="start-button">Start Building</button>
+    <div class="trustpilot">
+      Trusted by 500+ travelers • <a href="#" target="_blank">Read reviews on Trustpilot</a>
+    </div>
   </div>
+
   <div id="step1" class="step">
     <h2>Are you traveling to Jamaica?</h2>
-    <select id="toJamaica"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No (local)</option></select>
+    <div class="option-card selected" data-value="yes">
+      <div class="info">
+        <div class="name">Yes, from abroad</div>
+      </div>
+    </div>
+    <div class="option-card" data-value="no">
+      <div class="info">
+        <div class="name">No, I'm local</div>
+      </div>
+    </div>
   </div>
+
   <div id="step2" class="step">
     <h2>Where are you traveling from?</h2>
-    <input type="text" placeholder="City, Country" id="from">
-    <button>Next</button>
+    <input type="text" placeholder="e.g. Miami, USA" id="fromCity">
+    <button onclick="nextStep(3)">Next</button>
   </div>
+
   <div id="step3" class="step">
-    <h2>When do you plan to arrive?</h2>
-    <input type="date" id="arrive">
-    <button>Next</button>
+    <h2>When do you arrive?</h2>
+    <input type="date" id="arriveDate">
+    <button onclick="nextStep(4)">Next</button>
   </div>
+
   <div id="step4" class="step">
     <h2>Which parish will you stay in?</h2>
-    <select id="parish"></select>
+    <div id="parish-options"></div>
   </div>
+
   <div id="step5" class="step">
     <h2>Inland or Coastal vibe?</h2>
-    <select id="vibe"><option value="">Any</option><option value="inland">Inland</option><option value="coastal">Coastal</option></select>
+    <div class="option-card" data-value="coastal">
+      <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=80&h=80&fit=crop" alt="Beach">
+      <div class="info">
+        <div class="name">Coastal</div>
+      </div>
+    </div>
+    <div class="option-card" data-value="inland">
+      <img src="https://images.unsplash.com/photo-1516026672322-bc52d8c0fb80?w=80&h=80&fit=crop" alt="Mountains">
+      <div class="info">
+        <div class="name">Inland</div>
+      </div>
+    </div>
+    <button onclick="loadStays()">Next</button>
   </div>
+
   <div id="step6" class="step">
     <h2>Choose your stay</h2>
-    <div id="accommodation-list"></div>
-    <button>Next to Transport</button>
+    <div id="stay-options"></div>
+    <button onclick="nextStep(7)">Next to Transport</button>
   </div>
+
   <div id="step7" class="step">
-    <h2>Need transportation?</h2>
-    <select id="needTransport"><option value="no">No</option><option value="yes">Yes</option></select>
-    <div id="transport-options" style="display:none;margin-top:15px"></div>
-    <button>Next to Tours</button>
+    <h2>Need a ride?</h2>
+    <div id="transport-options"></div>
+    <button onclick="nextStep(8)">Next to Tours</button>
   </div>
+
   <div id="step8" class="step">
-    <h2>Add tours or attractions (optional)</h2>
-    <div id="tour-list"></div>
-    <button>Show My Package</button>
+    <h2>Add tours (optional)</h2>
+    <div id="tour-options"></div>
+    <button onclick="showSummary()">Show My Package</button>
   </div>
+
   <div id="summary" class="step">
     <h2>Your YaadLife Package</h2>
-    <div id="package-items"></div>
-    <div class="summary"><strong>Total:</strong> <span id="total">0</span> USD</div>
-    <button>Pay & Generate SBT / QR</button>
-    <div id="qr-area" style="margin-top:20px"></div>
+    <div id="summary-items"></div>
+    <div class="total">Total: $<span id="total">0</span> USD</div>
+    <button onclick="payNow()">Pay & Generate SBT / QR</button>
+    <div id="qr-area"></div>
   </div>
 </div>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const MOCK = { accommodations: { kingston: [{name:"Rasta Road Villa",source:"Local",price:150,local:true,type:"coastal"},{name:"Harbor View Apt",source:"Airbnb",price:80,local:false,type:"coastal"},{name:"Kingston Roots GH",source:"Local",price:100,local:true,type:"inland"}], "st-andrew": [{name:"Blue Mountain Cabin",source:"Local",price:200,local:true,type:"inland"}] }, transport: { kingston: [{name:"Lynk Airport to City",source:"Lynk",price:25,priority:true},{name:"JUTC Bus",source:"Public",price:2,priority:false}] }, tours: { kingston: [{name:"Bob Marley Museum",price:30},{name:"Devon House Tour",price:20}] } };
-  const state = { from: '', arrive: '', parish: '', vibe: '', stay: null, transport: [], tours: [] };
-  const parishes = ["kingston","st-andrew","st-thomas","portland","st-mary","st-ann","trelawny","st-james","hanover","westmoreland","st-elizabeth","manchester","clarendon","st-catherine"];
-  const parishSelect = document.getElementById('parish');
-  parishes.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = p.replace(/-/g,' ').toUpperCase(); parishSelect.appendChild(opt); });
-  window.nextStep = function(n) { document.querySelectorAll('.step').forEach(s => s.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); };
-  window.showSummary = function() { renderSummary(); nextStep(9); };
-  window.filterAccommodations = function() { const list = document.getElementById('accommodation-list'); list.innerHTML = ''; const items = MOCK.accommodations[state.parish] || []; const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items; filtered.forEach((item, idx) => { const div = document.createElement('div'); div.className = 'item'; div.innerHTML = `<span>${item.name} (${item.source}) – $${item.price} ${item.local?'<i>(local)</i>':''}</span><button data-idx="${idx}">Select</button>`; div.querySelector('button').onclick = () => { state.stay = {...item, fee: item.price * 0.05}; list.querySelectorAll('button').forEach(b => b.disabled = false); div.querySelector('button').disabled = true; div.querySelector('button').textContent = 'Selected'; }; list.appendChild(div); }); nextStep(6); };
-  window.toggleTransport = function(val) { const opts = document.getElementById('transport-options'); opts.style.display = val === 'yes' ? 'block' : 'none'; if (val === 'yes') loadTransport(); else state.transport = []; };
-  function loadTransport() { const div = document.getElementById('transport-options'); div.innerHTML = ''; const items = (MOCK.transport[state.parish] || []).sort((a,b) => b.priority - a.priority); items.forEach((t, idx) => { const chk = document.createElement('div'); chk.innerHTML = `<label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>`; chk.querySelector('input').onclick = e => { if (e.target.checked) state.transport.push(t); else state.transport = state.transport.filter(x => x.name !== t.name); }; div.appendChild(chk); }); }
-  document.getElementById('tour-list').innerHTML = MOCK.tours.kingston.map((t, idx) => `<div class="item"><label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label></div>`).join('');
-  document.querySelectorAll('#tour-list input[type=checkbox]').forEach(cb => { cb.onclick = e => { const t = MOCK.tours.kingston[parseInt(e.target.dataset.idx)]; if (e.target.checked) state.tours.push(t); else state.tours = state.tours.filter(x => x.name !== t.name); }; });
-  function renderSummary() { const container = document.getElementById('package-items'); container.innerHTML = ''; let total = 0; const add = (label, price, fee = 0) => { total += price + fee; const div = document.createElement('div'); div.className = 'item'; div.innerHTML = `<span>${label}</span><span>$${price}${fee?` + <span class="fee">$${fee}</span>`:''}</span>`; container.appendChild(div); }; if (state.stay) add(state.stay.name, state.stay.price, state.stay.fee); state.transport.forEach(t => add(t.name, t.price)); state.tours.forEach(t => add(t.name, t.price)); document.getElementById('total').textContent = total.toFixed(2); }
-  window.payNow = function() { const total = parseFloat(document.getElementById('total').textContent); if (total === 0) return alert('Add something!'); const sbt = { id: Date.now(), user: 'YaadUser-'+Math.random().toString(36).substr(2,5), package: {...state, total}, timestamp: new Date().toISOString() }; const blob = new Blob([JSON.stringify(sbt, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`; a.click(); const qrArea = document.getElementById('qr-area'); qrArea.innerHTML = '<h3>Scan to redeem</h3>'; const items = []; if (state.stay) items.push(`Stay: ${state.stay.name}`); state.transport.forEach(t => items.push(`Ride: ${t.name}`)); state.tours.forEach(t => items.push(`Tour: ${t.name}`)); items.forEach(txt => { const div = document.createElement('div'); div.className = 'qr'; const qr = document.createElement('div'); new QRCode(qr, {text: txt, width:128, height:128}); div.appendChild(qr); const cap = document.createElement('p'); cap.textContent = txt; div.appendChild(cap); qrArea.appendChild(div); }); alert('SBT + QR ready!'); };
-  document.getElementById('start-button').onclick = () => nextStep(1);
-  document.getElementById('toJamaica').onchange = e => { if (e.target.value) nextStep(2); };
-  document.querySelector('#step2 button').onclick = () => { state.from = document.getElementById('from').value.trim(); nextStep(3); };
-  document.querySelector('#step3 button').onclick = () => { state.arrive = document.getElementById('arrive').value; nextStep(4); };
-  document.getElementById('parish').onchange = e => { state.parish = e.target.value; filterAccommodations(); };
-  document.getElementById('vibe').onchange = e => { state.vibe = e.target.value; filterAccommodations(); };
-  document.getElementById('needTransport').onchange = e => toggleTransport(e.target.value);
-  document.querySelector('#step6 button').onclick = () => nextStep(7);
-  document.querySelector('#step7 button').onclick = () => nextStep(8);
-  document.querySelector('#step8 button').onclick = showSummary;
-  document.querySelector('#summary button').onclick = payNow;
+const MOCK = {
+  accommodations: {
+    kingston: [
+      {name:"Rasta Road Villa",price:150,source:"Local",img:"https://images.unsplash.com/photo-1566073776990-3b7c5c93d3b0?w=400",type:"coastal"},
+      {name:"Harbor View Apt",price:80,source:"Airbnb",img:"https://images.unsplash.com/photo-1522706323590-d12735f6b2d4?w=400",type:"coastal"},
+      {name:"Kingston Roots GH",price:100,source:"Local",img:"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=400",type:"inland"}
+    ],
+    "st-andrew": [
+      {name:"Blue Mountain Cabin",price:200,source:"Local",img:"https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=400",type:"inland"}
+    ]
+  },
+  transport: { kingston: [
+    {name:"Lynk Airport → City",price:25,source:"Lynk"},
+    {name:"JUTC Bus",price:2,source:"Public"}
+  ]},
+  tours: { kingston: [
+    {name:"Bob Marley Museum",price:30},
+    {name:"Devon House Tour",price:20}
+  ]}
+};
+
+let state = { from: '', arrive: '', parish: '', vibe: '', stay: null, transport: [], tours: [] };
+const parishes = ["kingston","st-andrew","st-thomas","portland","st-mary","st-ann","trelawny","st-james","hanover","westmoreland","st-elizabeth","manchester","clarendon","st-catherine"];
+
+function nextStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
+
+function renderParishes() {
+  const container = document.getElementById('parish-options');
+  container.innerHTML = '';
+  parishes.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = `<div class="info"><div class="name">${p.replace(/-/g,' ').toUpperCase()}</div></div>`;
+    card.onclick = () => {
+      document.querySelectorAll('#parish-options .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.parish = p;
+      nextStep(5);
+    };
+    container.appendChild(card);
+  });
+}
+
+function loadStays() {
+  const container = document.getElementById('stay-options');
+  container.innerHTML = '';
+  const items = MOCK.accommodations[state.parish] || [];
+  const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
+  filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = `
+      <img src="${item.img}" alt="${item.name}">
+      <div class="info">
+        <div class="name">${item.name}</div>
+        <div class="source">${item.source}</div>
+        <div class="price">$${item.price}/night</div>
+      </div>
+    `;
+    card.onclick = () => {
+      document.querySelectorAll('#stay-options .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.stay = {...item, fee: item.price * 0.05};
+    };
+    container.appendChild(card);
+  });
+  nextStep(6);
+}
+
+function loadTransport() {
+  const container = document.getElementById('transport-options');
+  container.innerHTML = '';
+  const items = MOCK.transport[state.parish] || [];
+  items.forEach(t => {
+    const chk = document.createElement('div');
+    chk.className = 'option-card';
+    chk.innerHTML = `<div class="info"><div class="name">${t.name} – $${t.price}</div></div>`;
+    chk.onclick = () => {
+      chk.classList.toggle('selected');
+      if (chk.classList.contains('selected')) {
+        state.transport.push(t);
+      } else {
+        state.transport = state.transport.filter(x => x.name !== t.name);
+      }
+    };
+    container.appendChild(chk);
+  });
+}
+
+function loadTours() {
+  const container = document.getElementById('tour-options');
+  container.innerHTML = '';
+  const items = MOCK.tours.kingston;
+  items.forEach(t => {
+    const chk = document.createElement('div');
+    chk.className = 'option-card';
+    chk.innerHTML = `<div class="info"><div class="name">${t.name} – $${t.price}</div></div>`;
+    chk.onclick = () => {
+      chk.classList.toggle('selected');
+      if (chk.classList.contains('selected')) {
+        state.tours.push(t);
+      } else {
+        state.tours = state.tours.filter(x => x.name !== t.name);
+      }
+    };
+    container.appendChild(chk);
+  });
+}
+
+function showSummary() {
+  const container = document.getElementById('summary-items');
+  container.innerHTML = '';
+  let total = 0;
+  const add = (label, price, fee = 0) => {
+    total += price + fee;
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `<span>${label}</span><span>$${price}${fee?` + <strong>$${fee}</strong>`:''}</span>`;
+    container.appendChild(div);
+  };
+  if (state.stay) add(state.stay.name, state.stay.price, state.stay.fee);
+  state.transport.forEach(t => add(t.name, t.price));
+  state.tours.forEach(t => add(t.name, t.price));
+  document.getElementById('total').textContent = total.toFixed(2);
+  nextStep(9);
+}
+
+function payNow() {
+  const total = parseFloat(document.getElementById('total').textContent);
+  if (total === 0) return alert('Add something!');
+  const sbt = { id: Date.now(), user: 'YaadUser-'+Math.random().toString(36).substr(2,5), package: {...state, total}, timestamp: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(sbt, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`; a.click();
+  const qrArea = document.getElementById('qr-area');
+  qrArea.innerHTML = '<h3>Scan to redeem</h3><div class="qr-grid"></div>';
+  const items = [];
+  if (state.stay) items.push(`Stay: ${state.stay.name}`);
+  state.transport.forEach(t => items.push(`Ride: ${t.name}`));
+  state.tours.forEach(t => items.push(`Tour: ${t.name}`));
+  items.forEach(txt => {
+    const div = document.createElement('div');
+    div.className = 'qr-item';
+    const qr = document.createElement('div');
+    new QRCode(qr, {text: txt, width:120, height:120});
+    div.appendChild(qr);
+    const p = document.createElement('p'); p.textContent = txt; div.appendChild(p);
+    document.querySelector('.qr-grid').appendChild(div);
+  });
+  alert('SBT + QR ready!');
+}
+
+// INIT
+document.getElementById('start-button').onclick = () => nextStep(1);
+document.querySelector('#step1').onclick = e => {
+  const card = e.target.closest('.option-card');
+  if (card) {
+    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    if (card.dataset.value === 'yes') nextStep(2);
+    else nextStep(4);
+  }
+};
+document.getElementById('fromCity').onchange = () => { state.from = document.getElementById('fromCity').value; };
+document.getElementById('arriveDate').onchange = () => { state.arrive = document.getElementById('arriveDate').value; };
+document.getElementById('step4').onclick = e => {
+  const card = e.target.closest('.option-card');
+  if (card) renderParishes();
+};
+document.querySelectorAll('#step5 .option-card').forEach(card => {
+  card.onclick = () => {
+    document.querySelectorAll('#step5 .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.vibe = card.dataset.value;
+  };
 });
+setTimeout(() => { loadTransport(); loadTours(); }, 100);
 </script>
 </body>
 </html>
