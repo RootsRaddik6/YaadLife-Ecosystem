@@ -3,29 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YAADLIFE • One Love, One Calendar</title>
+  <title>YAADLIFE • Jamaica Forever</title>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
-    :root{--black:#000;--green:#009B48;--gold:#FFD700;--red:#CE1126;--darkgreen:#006633}
+    :root{--black:#000;--green:#009B48;--gold:#FFD700;--darkgreen:#006633}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;background-image:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.8)),url('https://images.unsplash.com/photo-1559523195-5a3b7e0e8f2e?w=1600');background-size:cover;background-attachment:fixed;min-height:100vh}
+    body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;background-image:linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.9)),url('https://images.unsplash.com/photo-1559523195-5a3b7e0e8f2e?w=1600');background-size:cover;background-attachment:fixed;min-height:100vh}
     .container{max-width:960px;margin:0 auto;padding:20px}
     .hero img{width:100%;border-radius:24px;border:5px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,.8);margin-bottom:20px}
-    h1{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:var(--gold);text-align:center;text-shadow:0 0 30px var(--green),0 8px 20px #000;letter-spacing:3px}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:var(--gold);text-align:center;text-shadow:0 0 30px var(--green),0 8px 20px #000;letter-spacing:3px;margin:20px 0}
     h2{font-size:1.9rem;text-align:center;color:var(--gold);margin:30px 0 20px}
     .step{display:none;padding:32px;background:rgba(0,0,0,0.75);backdrop-filter:blur(16px);border-radius:32px;border:4px solid var(--green);margin-bottom:28px;box-shadow:0 20px 50px rgba(0,0,0,.9)}
-    .step.active{display:block;animation:fadeIn 1s}
-    @keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:none}}
+    .step.active{display:block;animation:fadeIn 0.8s}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
     button{background:var(--green);color:#fff;border:none;padding:20px 40px;margin:25px auto;display:block;width:100%;max-width:440px;border-radius:60px;font-size:1.4rem;font-weight:800;cursor:pointer;transition:.4s;box-shadow:0 10px 40px rgba(0,155,72,.8)}
-    button:hover{background:var(--darkgreen);transform:scale(1.06)}
-    .option-card{background:rgba(255,255,255,0.12);border:4px solid transparent;border-radius:24px;padding:20px;text-align:center;cursor:pointer;transition:.4s;margin:16px 0}
-    .option-card:hover{transform:scale(1.06);box-shadow:0 15px 40px rgba(0,155,72,.7)}
+    button:hover{background:var(--darkgreen);transform:scale(1.05)}
+    button.small{background:var(--gold);color:var(--black);padding:12px 20px;font-size:1rem;border-radius:30px;margin:10px auto;display:inline-block}
+    .option-card{background:rgba(255,255,255,0.12);border:4px solid transparent;border-radius:24px;padding:24px;text-align:center;cursor:pointer;transition:.4s;margin:16px 0;font-size:1.3rem;font-weight:600}
+    .option-card:hover{transform:scale(1.05);box-shadow:0 15px 40px rgba(0,155,72,.7)}
     .option-card.selected{border-color:var(--gold);background:rgba(255,215,0,0.15)}
-    .calendar{display:grid;grid-template-columns:1fr;gap:20px;margin:20px 0}
-    .flatpickr-calendar{width:100% !important;background:var(--black);border:3px solid var(--green);border-radius:16px}
-    .day-container.selected{background:var(--gold)!important;color:#000!important}
-    .itinerary-day{background:rgba(255,255,255,0.1);border-left:6px solid var(--gold);padding:16px;margin:12px 0;border-radius:0 16px 16px 0}
+    .stay-block{background:rgba(255,255,255,0.1);border-radius:16px;padding:20px;margin:16px 0;border-left:6px solid var(--gold)}
     .total{font-size:3rem;font-weight:900;text-align:center;margin:50px 0;color:var(--gold);text-shadow:0 0 30px #000}
     #start-button{font-size:2.2rem;padding:35px;background:linear-gradient(135deg,var(--green),var(--darkgreen));border:6px solid var(--gold)}
   </style>
@@ -33,54 +31,46 @@
 <body>
 <div class="container">
   <div class="hero">
-    <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600&fit=crop" alt="Welcome to Jamaica">
+    <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600&fit=crop" alt="Jamaica">
   </div>
 
   <!-- STEP 0 -->
   <div id="step0" class="step active">
     <h1>YAADLIFE</h1>
-    <p style="text-align:center;font-size:1.6rem;margin:30px 0">Black • Green • Gold<br>One Calendar. Full Island. Real Vibes.</p>
-    <button id="start-button">Start Planning My Yaad</button>
+    <p style="text-align:center;font-size:1.6rem;margin:30px 0">One Love. One Calendar. Full Island.</p>
+    <button id="start-button">Start Planning</button>
   </div>
 
-  <!-- STEP 1: Local or International -->
+  <!-- STEP 1 -->
   <div id="step1" class="step">
     <h2>Are you in Jamaica right now?</h2>
-    <div class="option-card selected" data-value="local">Yes, I'm local or already here</div>
-    <div class="option-card" data-value="international">No, I'm coming from abroad</div>
+    <div class="option-card selected" data-value="local">Yes, I'm local / already here</div>
+    <div class="option-card" data-value="intl">No, flying in from abroad</div>
   </div>
 
-  <!-- STEP 2: Calendar (Universal) -->
+  <!-- STEP 2: Calendar -->
   <div id="step2" class="step">
-    <h2>Select your travel dates</h2>
-    <p style="text-align:center;margin-bottom:20px">Choose arrival and departure (or just your stay period)</p>
-    <input type="text" id="dateRange" placeholder="Tap to select dates" style="width:100%;padding:20px;border-radius:20px;background:rgba(255,255,255,.1);border:3px solid var(--green);color:#fff;font-size:1.3rem;text-align:center">
-    <button id="btn-dates">Confirm Dates →</button>
+    <h2>Select your dates</h2>
+    <input type="text" id="dateRange" placeholder="Tap to pick arrival → departure" style="width:100%;padding:20px;border-radius:20px;background:rgba(255,255,255,.1);border:3px solid var(--green);color:#fff;font-size:1.3rem;text-align:center;margin:20px 0">
+    <button id="btn-dates">Confirm Dates</button>
   </div>
 
-  <!-- STEP 3: Multi-Night Stay Builder -->
+  <!-- STEP 3: Multi-Stay Builder -->
   <div id="step3" class="step">
-    <h2>Where will you stay each night?</h2>
-    <p style="text-align:center;margin-bottom:20px">You can split your trip across parishes</p>
-    <div id="stay-builder"></div>
+    <h2>Where will you stay?</h2>
+    <p style="text-align:center;margin-bottom:20px">You can split your trip across different parishes</p>
+    <div id="stays-container"></div>
     <button id="add-stay">+ Add Another Stay</button>
-    <button id="btn-stay-done">Done → Transport & Tours</button>
+    <button id="done-stays">Done → Next</button>
   </div>
 
-  <!-- STEP 4: Itinerary Builder -->
+  <!-- STEP 4: Final Review -->
   <div id="step4" class="step">
-    <h2>Build Your Daily Itinerary</h2>
-    <div id="itinerary"></div>
-    <button id="btn-itinerary">Review Full Package</button>
-  </div>
-
-  <!-- SUMMARY -->
-  <div id="summary" class="step">
-    <h1>Your YaadLife Itinerary</h1>
-    <div id="summary-items"></div>
-    <div class="total">$<span id="total">0</span> USD</div>
+    <h1>Your YaadLife Trip</h1>
+    <div id="final-summary"></div>
+    <div class="total">$<span id="total">1,297</span> USD</div>
     <button id="wallet-connect">Connect Wallet & Mint SBT (Solana)</button>
-    <button id="test-mint" style="background:var(--red)">Test Mint SBT (Free)</button>
+    <button style="background:#CE1126">Test Mint SBT (Free)</button>
   </div>
 </div>
 
@@ -88,18 +78,18 @@
 let state = {
   isLocal: true,
   dates: { start: null, end: null },
-  stays: [], // { parish, nights, accommodation }
-  itinerary: {}, // date → [activities]
-  total: 0
+  stays: [] // { parish: "Kingston", nights: 3, hotel: "Pegasus" }
 };
 
+const parishes = ["Kingston","Montego Bay","Ocho Rios","Negril","Portland","Black River","Mandeville"];
+const hotels = ["Jamaica Pegasus","Sandals Ochi","GoldenEye","Couples Negril","Trident Hotel","Jakes Hotel","Courtleigh Hotel"];
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Calendar
   flatpickr("#dateRange", {
     mode: "range",
-    dateFormat: "Y-m-d",
+    dateFormat: "M j",
     minDate: "today",
-    onChange: (selectedDates) => {
+    onClose: (selectedDates) => {
       if (selectedDates.length === 2) {
         state.dates.start = selectedDates[0];
         state.dates.end = selectedDates[1];
@@ -107,12 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const nextStep = n => {
+  const next = n => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step' + n).classList.add('active');
+    document.getElementById(n === 'final' ? 'step4' : 'step' + n).classList.add('active');
   };
 
-  document.getElementById('start-button').onclick = () => nextStep(1);
+  document.getElementById('start-button').onclick = () => next(1);
 
   document.getElementById('step1').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
@@ -120,42 +110,56 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     state.isLocal = card.dataset.value === 'local';
-    nextStep(2);
+    next(2);
   });
 
   document.getElementById('btn-dates').onclick = () => {
     if (!state.dates.start || !state.dates.end) return alert("Please select both dates");
-    nextStep(3);
-    buildStayPlanner();
+    next(3);
+    addStayBlock(); // auto-add first stay
   };
 
-  function buildStayPlanner() {
-    const container = document.getElementById('stay-builder');
-    container.innerHTML = '<p style="text-align:center">Split your nights across Jamaica</p>';
-    // Real logic coming in v2 — for now: one stay
-    const parishes = ["Kingston","Montego Bay","Ocho Rios","Negril","Portland","Black River"];
-    const select = document.createElement('select');
-    select.innerHTML = parishes.map(p => `<option>${p}</option>`).join('');
-    select.style.width = "100%"; select.style.padding = "16px"; select.style.margin = "16px 0";
-    container.appendChild(select);
-    const nights = document.createElement('input');
-    nights.type = "number"; nights.value = 5; nights.min = 1;
-    nights.style.width = "100%"; nights.style.padding = "16px";
-    container.appendChild(nights);
+  function addStayBlock() {
+    const container = document.getElementById('stays-container');
+    const block = document.createElement('div');
+    block.className = 'stay-block';
+    block.innerHTML = `
+      <select style="width:100%;padding:16px;margin:8px 0;border-radius:12px;background:#111;color:#fff;border:2px solid var(--green)">
+        ${parishes.map(p => `<option>${p}</option>`).join('')}
+      </select>
+      <input type="number" placeholder="Nights" value="3" min="1" style="width:100%;padding:16px;margin:8px 0;border-radius:12px;background:#111;color:#fff;border:2px solid var(--green)">
+      <select style="width:100%;padding:16px;margin:8px 0;border-radius:12px;background:#111;color:#fff;border:2px solid var(--green)">
+        ${hotels.map(h => `<option>${h}</option>`).join('')}
+      </select>
+      <button class="small" onclick="this.parentElement.remove()">Remove</button>
+    `;
+    container.appendChild(block);
   }
 
-  document.getElementById('btn-itinerary').onclick = () => {
-    document.getElementById('summary-items').innerHTML = `
-      <div class="itinerary-day"><strong>Full Itinerary Built</strong><br>Multi-parish stays<br>Knutsford Express booked<br>Daily tours scheduled</div>
-      <p style="text-align:center;margin:40px 0;font-size:1.4rem">Ready for on-chain minting</p>
+  document.getElementById('add-stay').onclick = addStayBlock;
+
+  document.getElementById('done-stays').onclick = () => {
+    const blocks = document.querySelectorAll('.stay-block');
+    state.stays = [];
+    blocks.forEach(b => {
+      const parish = b.querySelector('select').value;
+      const nights = parseInt(b.querySelector('input').value) || 1;
+      const hotel = b.querySelectorAll('select')[1].value;
+      state.stays.push({ parish, nights, hotel });
+    });
+    if (state.stays.length === 0) return alert("Add at least one stay");
+    next('final');
+    document.getElementById('final-summary').innerHTML = `
+      <h2 style="color:var(--gold);text-align:center">Your Full Trip</h2>
+      ${state.stays.map(s => `<div class="stay-block"><strong>${s.hotel}</strong><br>${s.parish} • ${s.nights} night${s.nights>1?'s':''}</div>`).join('')}
+      <p style="text-align:center;margin:30px 0;font-size:1.4rem">Ready to mint your lifetime YaadLife SBT</p>
     `;
-    document.getElementById('total').textContent = "1297";
-    nextStep('summary');
   };
 
-  document.getElementById('test-mint').onclick = () => {
-    alert("SBT Minted! Welcome to the YaadLife Tribe Forever");
-  };
+  // Test mint
+  document.querySelectorAll('button[style*="background:#CE1126"]').forEach(btn => {
+    btn.onclick = () => alert("SBT MINTED! You are now part of the YaadLife Tribe forever");
+  });
 });
 </script>
 </body>
