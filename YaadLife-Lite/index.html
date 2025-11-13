@@ -132,6 +132,16 @@ parishes.forEach(p=>{
 
 /* ---------- NAVIGATION ---------- */
 function nextStep(n){
+  console.log('Switching to step ' + n); // For later
+  alert('Debug: Moving to Step ' + n); // iPhone-visible
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  const target = document.getElementById('step'+n);
+  if (target) {
+    target.classList.add('active');
+  } else {
+    alert('Error: Step ' + n + ' not found!');
+  }
+}
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step'+n).classList.add('active');
 }
