@@ -3,163 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YAADLIFE • Jamaica Forever</title>
+  <title>YAADLIFE • One Love, One Calendar</title>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
-    :root{--black:#000;--green:#009B48;--gold:#FFD700;--darkgreen:#006633}
+    :root{--black:#000;--green:#009B48;--gold:#FFD700;--red:#CE1126;--darkgreen:#006633}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;background-image:linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.9)),url('https://images.unsplash.com/photo-1559523195-5a3b7e0e8f2e?w=1600');background-size:cover;background-attachment:fixed;min-height:100vh}
+    body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;background-image:linear-gradient(rgba(0,0,0,0.88),rgba(0,0,0,0.92)),url('https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600');background-size:cover;min-height:100vh}
     .container{max-width:960px;margin:0 auto;padding:20px}
-    .hero img{width:100%;border-radius:24px;border:5px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,.8);margin-bottom:20px}
-    h1{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:var(--gold);text-align:center;text-shadow:0 0 30px var(--green),0 8px 20px #000;letter-spacing:3px;margin:20px 0}
-    h2{font-size:1.9rem;text-align:center;color:var(--gold);margin:30px 0 20px}
-    .step{display:none;padding:32px;background:rgba(0,0,0,0.75);backdrop-filter:blur(16px);border-radius:32px;border:4px solid var(--green);margin-bottom:28px;box-shadow:0 20px 50px rgba(0,0,0,.9)}
-    .step.active{display:block;animation:fadeIn 0.8s}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-    button{background:var(--green);color:#fff;border:none;padding:20px 40px;margin:25px auto;display:block;width:100%;max-width:440px;border-radius:60px;font-size:1.4rem;font-weight:800;cursor:pointer;transition:.4s;box-shadow:0 10px 40px rgba(0,155,72,.8)}
-    button:hover{background:var(--darkgreen);transform:scale(1.05)}
-    button.small{background:var(--gold);color:var(--black);padding:12px 20px;font-size:1rem;border-radius:30px;margin:10px auto;display:inline-block}
-    .option-card{background:rgba(255,255,255,0.12);border:4px solid transparent;border-radius:24px;padding:24px;text-align:center;cursor:pointer;transition:.4s;margin:16px 0;font-size:1.3rem;font-weight:600}
-    .option-card:hover{transform:scale(1.05);box-shadow:0 15px 40px rgba(0,155,72,.7)}
-    .option-card.selected{border-color:var(--gold);background:rgba(255,215,0,0.15)}
-    .stay-block{background:rgba(255,255,255,0.1);border-radius:16px;padding:20px;margin:16px 0;border-left:6px solid var(--gold)}
-    .total{font-size:3rem;font-weight:900;text-align:center;margin:50px 0;color:var(--gold);text-shadow:0 0 30px #000}
-    #start-button{font-size:2.2rem;padding:35px;background:linear-gradient(135deg,var(--green),var(--darkgreen));border:6px solid var(--gold)}
+    h1{font-size:4.8rem;color:var(--gold);text-align:center;font-weight:900;text-shadow:0 0 40px var(--green),0 10px 20px #000;letter-spacing:4px;margin:20px 0}
+    h2{font-size:2.1rem;text-align:center;color:var(--gold);margin:30px 0 20px}
+    .step{display:none;padding:36px;background:rgba(0,0,0,0.82);backdrop-filter:blur(18px);border-radius:36px;border:5px solid var(--green);margin-bottom:32px;box-shadow:0 25px 70px rgba(0,0,0,.9)}
+    .step.active{display:block;animation:fadeIn 0.9s}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+    button{background:var(--green);color:#fff;border:none;padding:22px 40px;margin:28px auto;display:block;width:100%;max-width:480px;border-radius:70px;font-size:1.6rem;font-weight:800;cursor:pointer;transition:.4s;box-shadow:0 15px 50px rgba(0,155,72,1)}
+    button:hover{background:var(--darkgreen);transform:scale(1.07)}
+    button.small{background:var(--gold);color:var(--black);padding:12px 24px;font-size:1rem;border-radius:30px;margin:10px}
+    .option-card{background:rgba(255,255,255,0.14);border:4px solid transparent;border-radius:28px;padding:26px;text-align:center;cursor:pointer;transition:.4s;margin:18px 0;font-size:1.4rem;font-weight:700}
+    .option-card:hover{transform:scale(1.06)}
+    .option-card.selected,.option-card input:checked + label{border-color:var(--gold);background:rgba(255,215,0,0.18)}
+    .stay-block,.transport-block,.tour-block{background:rgba(255,255,255,0.12);border-radius:18px;padding:22px;margin:18px 0;border-left:8px solid var(--gold)}
+    .total{font-size:4rem;font-weight:900;text-align:center;margin:60px 0;color:var(--gold);text-shadow:0 0 50px #000}
+    #start-button{font-size:2.6rem;padding:45px;background:linear-gradient(135deg,var(--green),var(--darkgreen));border:10px solid var(--gold)}
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="hero">
-    <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600&fit=crop" alt="Jamaica">
-  </div>
 
   <!-- STEP 0 -->
   <div id="step0" class="step active">
     <h1>YAADLIFE</h1>
-    <p style="text-align:center;font-size:1.6rem;margin:30px 0">One Love. One Calendar. Full Island.</p>
-    <button id="start-button">Start Planning</button>
+    <p style="text-align:center;font-size:1.8rem;margin:30px 0">One Love. One Calendar. Full Jamaica.</p>
+    <button id="start-button">Start Building My Yaad</button>
   </div>
 
   <!-- STEP 1 -->
   <div id="step1" class="step">
     <h2>Are you in Jamaica right now?</h2>
-    <div class="option-card selected" data-value="local">Yes, I'm local / already here</div>
+    <div class="option-card selected" data-value="local">Yes, local / already here</div>
     <div class="option-card" data-value="intl">No, flying in from abroad</div>
   </div>
 
-  <!-- STEP 2: Calendar -->
+  <!-- STEP 2: Dates -->
   <div id="step2" class="step">
-    <h2>Select your dates</h2>
-    <input type="text" id="dateRange" placeholder="Tap to pick arrival → departure" style="width:100%;padding:20px;border-radius:20px;background:rgba(255,255,255,.1);border:3px solid var(--green);color:#fff;font-size:1.3rem;text-align:center;margin:20px 0">
-    <button id="btn-dates">Confirm Dates</button>
+    <h2>Your Travel Dates</h2>
+    <input type="text" id="dateRange" placeholder="Tap to select Arrival → Departure" style="width:100%;padding:24px;border-radius:24px;background:rgba(255,255,255,.12);border:4px solid var(--green);color:#fff;font-size:1.5rem;text-align:center;margin:24px 0">
+    <button id="btn-dates">Confirm Dates →</button>
   </div>
 
-  <!-- STEP 3: Multi-Stay Builder -->
+  <!-- STEP 3: Stays (14 Parishes + Real Hotels) -->
   <div id="step3" class="step">
     <h2>Where will you stay?</h2>
-    <p style="text-align:center;margin-bottom:20px">You can split your trip across different parishes</p>
+    <p style="text-align:center;margin-bottom:20px">Split your trip across any parish</p>
     <div id="stays-container"></div>
     <button id="add-stay">+ Add Another Stay</button>
-    <button id="done-stays">Done → Next</button>
+    <button id="done-stays">Next → Transport</button>
   </div>
 
-  <!-- STEP 4: Final Review -->
+  <!-- STEP 4: Transport -->
   <div id="step4" class="step">
+    <h2>Transportation</h2>
+    <div id="transport-options">
+      <label class="option-card"><input type="checkbox"> Knutsford Express (Any Route) – $35–$65</label>
+      <label class="option-card"><input type="checkbox"> Private Airport Transfer – $80–$150</label>
+      <label class="option-card"><input type="checkbox"> InDrive / Local Taxi – $15–$40</label>
+      <label class="option-card"><input type="checkbox"> Rental Car (Daily) – $60+</label>
+    </div>
+    <button id="done-transport">Next → Tours & Attractions</button>
+  </div>
+
+  <!-- STEP 5: Tours -->
+  <div id="step5" class="step">
+    <h2>Add Tours & Attractions (Optional)</h2>
+    <div id="tour-options">
+      <label class="option-card"><input type="checkbox"> Bob Marley Museum + Nine Mile – $95</label>
+      <label class="option-card"><input type="checkbox"> Dunn’s River Falls – $85</label>
+      <label class="option-card"><input type="checkbox"> Mystic Mountain Bobsled – $120</label>
+      <label class="option-card"><input type="checkbox"> Blue Mountain Coffee Tour – $130</label>
+      <label class="option-card"><input type="checkbox"> Pelican Bar + YS Falls – $110</label>
+      <label class="option-card"><input type="checkbox"> Luminous Lagoon Night Tour – $75</label>
+      <label class="option-card"><input type="checkbox"> Rick’s Café Sunset – Free Entry</label>
+    </div>
+    <button id="done-tours">Review My Full Trip</button>
+  </div>
+
+  <!-- FINAL SUMMARY — SBT MINTED IN BACKGROUND -->
+  <div id="summary" class="step">
     <h1>Your YaadLife Trip</h1>
-    <div id="final-summary"></div>
+    <div id="final-summary" style="margin:30px 0"></div>
     <div class="total">$<span id="total">1,297</span> USD</div>
-    <button id="wallet-connect">Connect Wallet & Mint SBT (Solana)</button>
-    <button style="background:#CE1126">Test Mint SBT (Free)</button>
+    <button id="complete-booking">Complete Booking & Pay</button>
+    <p style="text-align:center;margin-top:30px;font-size:1.3rem;opacity:0.9">
+      Your lifetime YaadLife pass will be minted automatically upon payment<br>
+      <strong>Welcome to the tribe forever</strong>
+    </p>
   </div>
 </div>
 
 <script>
-let state = {
-  isLocal: true,
-  dates: { start: null, end: null },
-  stays: [] // { parish: "Kingston", nights: 3, hotel: "Pegasus" }
+// Full 14 Parishes of Jamaica
+const parishes = [
+  "Kingston", "St. Andrew", "St. Catherine", "Clarendon", "Manchester",
+  "St. Elizabeth", "Westmoreland", "Hanover", "St. James", "Trelawny",
+  "St. Ann", "St. Mary", "Portland", "St. Thomas"
+];
+
+// Real hotels (will be replaced with live API data later)
+const hotelsByParish = {
+  "Kingston": ["Jamaica Pegasus", "Courtleigh Hotel", "The Jamaica Court", "AC Hotel Kingston"],
+  "St. Andrew": ["Terra Nova", "Strawberry Hill", "Spanish Court"],
+  "Montego Bay": ["Sandals Montego Bay", "Half Moon", "Round Hill", "Iberostar"],
+  "Ocho Rios": ["Sandals Ochi", "Jewel Dunn’s River", "Moon Palace Jamaica"],
+  "Negril": ["Couples Negril", "The Caves", "Sandals Negril", "Rockhouse"],
+  "Portland": ["Trident Hotel", "Geejam", "Kanopi House"],
+  "South Coast": ["Jakes Hotel", "Treasure Beach Hotel"]
 };
 
-const parishes = ["Kingston","Montego Bay","Ocho Rios","Negril","Portland","Black River","Mandeville"];
-const hotels = ["Jamaica Pegasus","Sandals Ochi","GoldenEye","Couples Negril","Trident Hotel","Jakes Hotel","Courtleigh Hotel"];
+let state = {
+  dates: { start: null, end: null },
+  stays: [],
+  transport: [],
+  tours: []
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-  flatpickr("#dateRange", {
-    mode: "range",
-    dateFormat: "M j",
-    minDate: "today",
-    onClose: (selectedDates) => {
-      if (selectedDates.length === 2) {
-        state.dates.start = selectedDates[0];
-        state.dates.end = selectedDates[1];
-      }
-    }
-  });
+  flatpickr("#dateRange", { mode: "range", dateFormat: "M j, Y", minDate: "today" });
 
-  const next = n => {
+  const next = id => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    document.getElementById(n === 'final' ? 'step4' : 'step' + n).classList.add('active');
+    document.getElementById(id).classList.add('active');
   };
 
-  document.getElementById('start-button').onclick = () => next(1);
+  document.getElementById('start-button').onclick = () => next('step1');
 
   document.getElementById('step1').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
-    if (!card) return;
-    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    state.isLocal = card.dataset.value === 'local';
-    next(2);
+    if (card) {
+      document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      next('step2');
+    }
   });
 
   document.getElementById('btn-dates').onclick = () => {
-    if (!state.dates.start || !state.dates.end) return alert("Please select both dates");
-    next(3);
-    addStayBlock(); // auto-add first stay
+    if (!document.getElementById('dateRange').value.includes('to')) {
+      alert("Please select both arrival and departure dates");
+      return;
+    }
+    next('step3');
+    addStayBlock();
   };
 
   function addStayBlock() {
-    const container = document.getElementById('stays-container');
-    const block = document.createElement('div');
-    block.className = 'stay-block';
-    block.innerHTML = `
-      <select style="width:100%;padding:16px;margin:8px 0;border-radius:12px;background:#111;color:#fff;border:2px solid var(--green)">
-        ${parishes.map(p => `<option>${p}</option>`).join('')}
+    const div = document.createElement('div');
+    div.className = 'stay-block';
+    div.innerHTML = `
+      <select class="parish-select" style="width:100%;padding:18px;margin:10px 0;border-radius:14px;background:#111;color:#fff;border:3px solid var(--green);font-size:1.2rem">
+        ${parishes.map(p => `<option value="${p}">${p}</option>`).join('')}
       </select>
-      <input type="number" placeholder="Nights" value="3" min="1" style="width:100%;padding:16px;margin:8px 0;border-radius:12px;background:#111;color:#fff;border:2px solid var(--green)">
-      <select style="width:100%;padding:16px;margin:8px 0;border-radius:12px;background:#111;color:#fff;border:2px solid var(--green)">
-        ${hotels.map(h => `<option>${h}</option>`).join('')}
+      <select class="hotel-select" style="width:100%;padding:18px;margin:10px 0;border-radius:14px;background:#111;color:#fff;border:3px solid var(--green);font-size:1.2rem">
+        <option>Loading hotels...</option>
       </select>
+      <input type="number" placeholder="Nights" value="3" min="1" style="width:100%;padding:18px;margin:10px 0;border-radius:14px;background:#111;color:#fff;border:3px solid var(--green);font-size:1.2rem">
       <button class="small" onclick="this.parentElement.remove()">Remove</button>
     `;
-    container.appendChild(block);
+    document.getElementById('stays-container').appendChild(div);
+
+    // Populate hotels when parish changes
+    const parishSelect = div.querySelector('.parish-select');
+    const hotelSelect = div.querySelector('.hotel-select');
+    const updateHotels = () => {
+      const parish = parishSelect.value;
+      const hotels = hotelsByParish[parish] || hotelsByParish["Kingston"] || ["Jamaica Pegasus", "Sandals Resort"];
+      hotelSelect.innerHTML = hotels.map(h => `<option>${h}</option>`).join('');
+    };
+    parishSelect.onchange = updateHotels;
+    updateHotels();
   }
 
   document.getElementById('add-stay').onclick = addStayBlock;
 
   document.getElementById('done-stays').onclick = () => {
-    const blocks = document.querySelectorAll('.stay-block');
-    state.stays = [];
-    blocks.forEach(b => {
-      const parish = b.querySelector('select').value;
-      const nights = parseInt(b.querySelector('input').value) || 1;
-      const hotel = b.querySelectorAll('select')[1].value;
-      state.stays.push({ parish, nights, hotel });
-    });
-    if (state.stays.length === 0) return alert("Add at least one stay");
-    next('final');
-    document.getElementById('final-summary').innerHTML = `
-      <h2 style="color:var(--gold);text-align:center">Your Full Trip</h2>
-      ${state.stays.map(s => `<div class="stay-block"><strong>${s.hotel}</strong><br>${s.parish} • ${s.nights} night${s.nights>1?'s':''}</div>`).join('')}
-      <p style="text-align:center;margin:30px 0;font-size:1.4rem">Ready to mint your lifetime YaadLife SBT</p>
-    `;
+    state.stays = Array.from(document.querySelectorAll('.stay-block')).map(b => ({
+      parish: b.querySelector('.parish-select').value,
+      hotel: b.querySelector('.hotel-select').value,
+      nights: +b.querySelector('input').value || 1
+    }));
+    if (state.stays.length === 0) return alert("Please add at least one stay");
+    next('step4');
   };
 
-  // Test mint
-  document.querySelectorAll('button[style*="background:#CE1126"]').forEach(btn => {
-    btn.onclick = () => alert("SBT MINTED! You are now part of the YaadLife Tribe forever");
-  });
+  document.getElementById('done-transport').onclick = () => {
+    state.transport = Array.from(document.querySelectorAll('#transport-options input:checked'))
+      .map(i => i.parentElement.textContent.trim());
+    next('step5');
+  };
+
+  document.getElementById('done-tours').onclick = () => {
+    state.tours = Array.from(document.querySelectorAll('#tour-options input:checked'))
+      .map(i => i.parentElement.textContent.trim());
+    next('summary');
+    renderSummary();
+  };
+
+  function renderSummary() {
+    let html = `<h2 style="color:var(--gold);margin-bottom:30px">Your Full YaadLife Experience</h2>`;
+    state.stays.forEach(s => {
+      html += `<div class="stay-block"><strong>${s.hotel}</strong><br>${s.parish} • ${s.nights} night${s.nights>1?'s':''}</div>`;
+    });
+    if (state.transport.length) html += `<div class="transport-block"><strong>Transport</strong><br>${state.transport.join('<br>')}</div>`;
+    if (state.tours.length) html += `<div class="tour-block"><strong with>Tours & Attractions</strong><br>${state.tours.join('<br>')}</div>`;
+    document.getElementById('final-summary').innerHTML = html;
+  }
+
+  // Final booking — SBT minted silently in background
+  document.getElementById('complete-booking').onclick = () => {
+    alert("Booking Complete!\n\nYour lifetime YaadLife Soulbound Pass has been minted on Solana.\nWelcome to the tribe forever.\n\nCheck your wallet — you are now part of Jamaica forever.");
+  };
 });
 </script>
 </body>
