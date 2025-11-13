@@ -128,4 +128,157 @@ const MOCK = {
   transport: {
     kingston: [
       {name:"Lynk Airport → City", source:"Lynk", price:25, priority:true},
-      {name:"JUTC Bus", source:"Public", price:
+      {name:"JUTC Bus", source:"Public", price:2, priority:false}
+    ]
+  },
+  tours: {
+    kingston: [
+      {name:"Bob Marley Museum", price:30},
+      {name:"Devon House Tour", price:20}
+    ]
+  }
+};
+
+// === STATE ===
+const state = { from: '', arrive: '', parish: '', vibe: '', stay: null, transport: [], tours: [] };
+
+// === PARISHES ===
+const parishes = ["kingston","st-andrew","st-thomas","portland","st-mary","st-ann","trelawny","st-james","hanover","westmoreland","st-elizabeth","manchester","clarendon","st-catherine"];
+const parishSelect = document.getElementById('parish');
+parishes.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p; opt.textContent = p.replace(/-/g,' ').toUpperCase();
+  parishSelect.appendChild(opt);
+});
+
+// === NAVIGATION ===
+function nextStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
+function showSummary() { renderSummary(); nextStep(9); }
+
+// === ACCOMMODATIONS ===
+function filterAccommodations() {
+  const list = document.getElementById('accommodation-list');
+  list.innerHTML = '';
+  const items = MOCK.accommodations[state.parish] || [];
+  const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
+  filtered.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <span>${item.name} (${item.source}) – $${item.price} ${item.local?'<i>(local)</i>':''}</span>
+      <button data-idx="${idx}">Select</button>
+    `;
+    div.querySelector('button').onclick = () => {
+      state.stay = {...item, fee: item.price * 0.05};
+      list.querySelectorAll('button').forEach(b => b.disabled = false);
+      div.querySelector('button').disabled = true;
+      div.querySelector('button').textContent = 'Selected';
+    };
+    list.appendChild(div);
+  });
+  nextStep(6);
+}
+
+// === TRANSPORT ===
+function toggleTransport(val) {
+  const opts = document.getElementById('transport-options');
+  opts.style.display = val === 'yes' ? 'block' : 'none';
+  if (val === 'yes') loadTransport();
+  else state.transport = [];
+}
+function loadTransport() {
+  const div = document.getElementById('transport-options');
+  div.innerHTML = '';
+  const items = (MOCK.transport[state.parish] || []).sort((a,b) => b.priority - a.priority);
+  items.forEach((t, idx) => {
+    const chk = document.createElement('div');
+    chk.innerHTML = `<label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>`;
+    chk.querySelector('input').onclick = e => {
+      if (e.target.checked) state.transport.push(t);
+      else state.transport = state.transport.filter(x => x.name !== t.name);
+    };
+    div.appendChild(chk);
+  });
+}
+
+// === TOURS ===
+document.getElementById('tour-list').innerHTML = (() => {
+  const items = MOCK.tours[state.parish] || [];
+  return items.map((t, idx) => `
+    <div class="item">
+      <label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>
+    </div>`).join('');
+})();
+document.querySelectorAll('#tour-list input[type=checkbox]').forEach(cb => {
+  cb.onclick = e => {
+    const t = MOCK.tours[state.parish][e.target.dataset.idx];
+    if (e.target.checked) state.tours.push(t);
+    else state.tours = state.tours.filter(x => x.name !== t.name);
+  };
+});
+
+// === SUMMARY ===
+function renderSummary() {
+  const container = document.getElementById('package-items');
+  container.innerHTML = '';
+  let total = 0;
+  const add = (label, price, fee = 0) => {
+    total += price + fee;
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `<span>${label}</span><span>$${price}${fee?` + <span class="fee">$${fee}</span>`:''}</span>`;
+    container.appendChild(div);
+  };
+  if (state.stay) add(state.stay.name, state.stay.price, state.stay.fee);
+  state.transport.forEach(t => add(t.name, t.price));
+  state.tours.forEach(t => add(t.name, t.price));
+  document.getElementById('total').textContent = total.toFixed(2);
+}
+
+// === PAY + SBT + QR ===
+function payNow() {
+  const total = parseFloat(document.getElementById('total').textContent);
+  if (total === 0) return alert('Add something to your package first!');
+
+  // SBT
+  const sbt = { id: Date.now(), user: 'YaadUser-'+Math.random().toString(36).substr(2,5), package: { ...state, total }, timestamp: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(sbt, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`; a.click();
+
+  // QR
+  const qrArea = document.getElementById('qr-area');
+  qrArea.innerHTML = '<h3>Scan to redeem</h3>';
+  const items = [];
+  if (state.stay) items.push(`Stay: ${state.stay.name}`);
+  state.transport.forEach(t => items.push(`Ride: ${t.name}`));
+  state.tours.forEach(t => items.push(`Tour: ${t.name}`));
+  items.forEach(txt => {
+    const div = document.createElement('div');
+    div.className = 'qr';
+    const qr = document.createElement('div');
+    new QRCode(qr, {text: txt, width:128, height:128});
+    div.appendChild(qr);
+    const cap = document.createElement('p'); cap.textContent = txt;
+    div.appendChild(cap);
+    qrArea.appendChild(div);
+  });
+
+  alert('Payment simulated! SBT downloaded, QR codes ready.');
+}
+
+// === START BUTTON FIX ===
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('start-button');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      nextStep(1);
+    });
+  }
+});
+</script>
+</body>
+</html>
