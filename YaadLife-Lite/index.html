@@ -355,6 +355,16 @@ function payNow(){
 }
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 <script>
+  // Test QR load
+  window.addEventListener('load', function() {
+    if (typeof QRCode !== 'undefined') {
+      console.log('QRCode loaded!');
+    } else {
+      alert('QRCode library failed to load!');
+    }
+  });
+</script>
+  <script>
 // EMBEDDED MOCK DATA (no separate file needed)
 const MOCK = {
   accommodations: {
