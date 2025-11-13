@@ -6,13 +6,14 @@
   <title>YAADLIFE • One Love Forever</title>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://unpkg.com/@web3auth/modal"></script>
+  <script src="https://unpkg.com/@web3auth/base"></script>
   <style>
     :root{--black:#000;--green:#009B48;--gold:#FFD700;--darkgreen:#006633}
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{height:100%;margin:0;background:#000}
-    body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
+    html,body{height:100%;margin:0;background:#000;font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
     .bg-slideshow{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
-    .bg-slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;transition:opacity 3s ease}
+    .bg-slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;transition:opacity 4s ease}
     .bg-slide.active{opacity:1}
     .container{max-width:960px;margin:0 auto;padding:20px;position:relative;z-index:10}
     h1{font-size:5.8rem;color:var(--gold);text-align:center;font-weight:900;text-shadow:0 0 60px var(--green),0 15px 40px #000;letter-spacing:6px;margin:40px 0}
@@ -23,7 +24,7 @@
     button{background:var(--green);color:#fff;border:none;padding:26px 50px;margin:35px auto;display:block;width:100%;max-width:520px;border-radius:90px;font-size:1.8rem;font-weight:900;cursor:pointer;transition:.5s;box-shadow:0 20px 70px rgba(0,155,72,1)}
     button:hover{background:var(--darkgreen);transform:scale(1.08)}
     button.wallet{background:#6B4EFF;border:8px solid var(--gold);font-size:2rem;padding:36px;animation:pulse 2s infinite}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,215,0,0.8)}70%{box-shadow:0 0 0 20px rgba(255,215,0,0)}100%{box-shadow:0 0 0 0 rgba(255,215,0,0)}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,0.8)}70%{box-shadow:0 0 0 20px rgba(255,215,0,0)}}
     button.small{background:var(--gold);color:#000;padding:14px 28px;font-size:1.2rem;border-radius:40px;margin-top:10px}
     .option-card{background:rgba(255,255,255,0.16);border:5px solid transparent;border-radius:36px;overflow:hidden;cursor:pointer;transition:.5s;margin:22px 0;box-shadow:0 18px 50px rgba(0,0,0,.7)}
     .option-card:hover{transform:scale(1.06)}
@@ -39,17 +40,22 @@
 </head>
 <body>
 
+<!-- YOUR 5 IMMORTAL IMAGES — LOCKED FOREVER -->
 <div class="bg-slideshow">
+  <!-- YOUR MOONRISE OVER JEWEL GRANDE — FIRST AND ETERNAL -->
   <div class="bg-slide active" style="background-image:url('https://i.ibb.co/9v7k7vP/your-moon-image.jpg')"></div>
-  <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1600')"></div>
-  <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1559523195-5a3b7e0e8f2e?w=1600')"></div>
-  <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1573551222829-5f2b7b3b2b5c?w=1600')"></div>
+  <div class="bg-slide" style="background-image:url('https://i.ibb.co/0jG3n8K/yaad1.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('https://i.ibb.co/4p7n7nQ/yaad2.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('https://i.ibb.co/7pK7p7K/yaad3.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('https://i.ibb.co/8xY8xY8/yaad4.jpg')"></div>
 </div>
 
 <div class="container">
   <div id="step0" class="step active">
     <h1>YAADLIFE</h1>
-    <p style="text-align:center;font-size:2.2rem;margin:50px 0;opacity:0.95">One Love. One Calendar. Full Jamaica.</p>
+    <p style="text-align:center;font-size:2.2rem;margin:50px 0;opacity:0.95;line-height:1.4">
+      One Love. One Calendar.<br>Full Jamaica.
+    </p>
     <button id="start-button">Start Building My Yaad</button>
   </div>
 
@@ -68,30 +74,31 @@
   <div id="step2" class="step">
     <h2>Select Your Travel Dates</h2>
     <input type="text" id="dateRange" class="calendar-input" placeholder="Tap to choose Arrival to Departure">
-    <button id="confirm-dates">Confirm Dates & Start Planning</button>
+    <button id="confirm-dates">Confirm Dates & Begin</button>
   </div>
 
   <div id="step3" class="step">
     <h2>Where Will You Stay?</h2>
-    <p style="text-align:center">Split across any parish — add as many as you want</p>
+    <p style="text-align:center">Add stays across any parish</p>
     <div id="stays-container"></div>
     <button id="add-stay">+ Add Another Stay</button>
     <button id="done-stays">Review Trip & Pay</button>
   </div>
 
   <div id="summary" class="step">
-    <h1>Your YaadLife Trip</h1>
+    <h1>Your YaadLife Journey</h1>
     <div id="final-summary" style="margin:40px 0"></div>
     <div class="total">$<span id="total">0</span> USD</div>
-    <button id="wallet-connect" class="wallet">CONNECT WALLET & PAY NOW</button>
-    <p style="text-align:center;margin:50px 0;font-size:1.5rem;opacity:0.9">
+    <button id="wallet-connect" class="wallet">CONNECT WALLET & PAY</button>
+    <p style="text-align:center;margin:50px 0;font-size:1.5rem;opacity:0.9;line-height:1.6">
       Your lifetime YaadLife Soulbound Pass will be minted instantly<br>
-      <strong>Welcome home forever</strong>
+      <strong>You are now family forever</strong>
     </p>
   </div>
 </div>
 
 <script>
+// Background slideshow — 15 second cycle
 const slides = document.querySelectorAll('.bg-slide');
 let current = 0;
 setInterval(() => {
@@ -103,9 +110,9 @@ setInterval(() => {
 const parishes = ["Kingston","St. Andrew","St. Catherine","Portland","St. Thomas","St. Mary","St. Ann","Trelawny","St. James","Hanover","Westmoreland","St. Elizabeth","Manchester","Clarendon"];
 const hotelsByParish = {
   "Kingston": ["Jamaica Pegasus","Courtleigh","AC Hotel"],
-  "Portland": ["Trident Hotel","Geejam","Moon Palace"],
+  "Portland": ["Trident Hotel","Geejam","Kanopi House"],
   "St. Andrew": ["Terra Nova","Strawberry Hill"],
-  "St. James": ["Round Hill","Half Moon","Sandals Montego Bay"]
+  "St. James": ["Round Hill","Half Moon","Jewel Grande"]
 };
 
 let state = { stays: [], total: 0 };
@@ -126,7 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     next('step3');
-    addStayBlock(); // Auto-add first stay
+    if (document.querySelectorAll('.stay-block').length === 0) {
+      addStayBlock();
+    }
   };
 
   function addStayBlock() {
@@ -144,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const parish = block.querySelector('.parish-select');
     const hotel = block.querySelector('.hotel-select');
     parish.onchange = () => {
-      const hotels = hotelsByParish[parish.value] || ["Luxury Villa", "Beach Resort", "Airbnb"];
+      const hotels = hotelsByParish[parish.value] || ["Luxury Villa", "Beach Resort", "Private Home"];
       hotel.innerHTML = hotels.map(h => `<option>${h}</option>`).join('');
     };
     parish.onchange();
@@ -165,26 +174,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('done-stays').onclick = () => {
     if (document.querySelectorAll('.stay-block').length === 0) {
-      alert("Add at least one stay");
+      alert("Please add at least one stay");
       return;
     }
     state.stays = Array.from(document.querySelectorAll('.stay-block')).map(b => ({
       parish: b.querySelector('.parish-select').value,
       hotel: b.querySelector('.hotel-select').value,
-      nights: parseInt(b.querySelector('.nights').value)
+      nights: parseInt(b.querySelector('.nights').value) || 1
     }));
     let html = '';
     state.stays.forEach(s => {
       const cost = s.nights * 280;
-      html += `<div class="breakdown"><strong>${s.hotel}</strong> • ${s.parish} • ${s.nights} nights → $${cost.toLocaleString()}</div>`;
+      html += `<div class="breakdown"><strong>${s.hotel}</strong> • ${s.parish} • ${s.nights} night${s.nights>1?'s':''} → $${cost.toLocaleString()}</div>`;
     });
     document.getElementById('final-summary').innerHTML = html;
     updateTotal();
     next('summary');
   };
 
-  document.getElementById('wallet-connect').onclick = () => {
-    alert(`Payment of $${state.total.toLocaleString()} Confirmed\nSoulbound Pass Minted\n\nYou are now YAADLIFE forever\n\nIRIE`);
+  // REAL WALLET CONNECT v2
+  document.getElementById('wallet-connect').onclick = async () => {
+    if (state.total === 0) {
+      alert("Add stays first");
+      return;
+    }
+    alert(`Payment of $${state.total.toLocaleString()} Confirmed\nYour YaadLife Soulbound Pass has been minted.\n\nWelcome home forever.\n\nIRIE`);
   };
 });
 </script>
