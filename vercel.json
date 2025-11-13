@@ -1,12 +1,9 @@
 {
   "builds": [
-    {
-      "src": "YaadLife-Lite/index.html",
-      "use": "@vercel/static"
-    }
+    { "src": "YaadLife-Lite-FIXED/index.html", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/", "dest": "/YaadLife-Lite/index.html" },
-    { "src": "/(.*)", "dest": "/YaadLife-Lite/$1" }
+    { "src": "/", "dest": "/YaadLife-Lite-FIXED/index.html" },
+    { "src": "/(.*)", "dest": "/YaadLife-Lite-FIXED/$1" }
   ]
 }
