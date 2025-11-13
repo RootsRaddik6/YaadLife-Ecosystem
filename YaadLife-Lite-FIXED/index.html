@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YaadLife Lite – Book Your Jamaica Vacation</title>
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <style>
+    body{font-family:-apple-system,Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px;color:#333}
+    .container{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    h1,h2{margin:0 0 20px;font-weight:600}
+    .step{margin:30px 0;display:none}
+    .step.active{display:block}
+    select,button,input{padding:12px;margin:8px 0;width:100%;font-size:16px;border-radius:8px;border:1px solid #ddd}
+    button{background:#28a745;color:#fff;border:none;cursor:pointer;font-weight:600}
+    button:hover{background:#218838}
+    .summary{margin:20px 0;padding:15px;background:#e9ecef;border-radius:8px}
+    .item{display:flex;justify-content:space-between;margin:8px 0;font-size:16px}
+    .fee{color:#28a745;font-weight:bold}
+    .qr{margin-top:15px;text-align:center}
+    .hero img{width:100%;max-width:800px;border-radius:12px;margin-bottom:20px}
+    #start-button{background:#28a745;color:white;padding:16px 32px;font-size:18px;border:none;border-radius:12px;cursor:pointer;width:100%;max-width:400px;margin:20px auto;display:block}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO IMAGE -->
+  <div class="hero">
+    <img src="IMG_0039.jpeg" alt="Jamaica Vibes">
+  </div>
+
+  <!-- STEP 0 -->
+  <div id="step0" class="step active">
+    <h1>How can we help you book your vacation package?</h1>
+    <button id="start-button">Start Building</button>
+  </div>
+
+  <!-- STEP 1 -->
+  <div id="step1" class="step">
+    <h2>Are you traveling to Jamaica?</h2>
+    <select id="toJamaica" onchange="if(this.value) nextStep(2)">
+      <option value="">Select…</option>
+      <option value="yes">Yes</option>
+      <option value="no">No (local)</option>
+    </select>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" class="step">
+    <h2>Where are you traveling from?</h2>
+    <input type="text" placeholder="City, Country" id="from">
+    <button onclick="state.from=document.getElementById('from').value.trim();nextStep(3)">Next</button>
+  </div>
+
+  <!-- STEP 3 -->
+  <div id="step3" class="step">
+    <h2>When do you plan to arrive?</h2>
+    <input type="date" id="arrive">
+    <button onclick="state.arrive=document.getElementById('arrive').value;nextStep(4)">Next</button>
+  </div>
+
+  <!-- STEP 4 -->
+  <div id="step4" class="step">
+    <h2>Which parish will you stay in?</h2>
+    <select id="parish" onchange="state.parish=this.value;filterAccommodations()"></select>
+  </div>
+
+  <!-- STEP 5 -->
+  <div id="step5" class="step">
+    <h2>Inland or Coastal vibe?</h2>
+    <select id="vibe" onchange="state.vibe=this.value;filterAccommodations()">
+      <option value="">Any</option>
+      <option value="inland">Inland</option>
+      <option value="coastal">Coastal</option>
+    </select>
+  </div>
+
+  <!-- STEP 6 -->
+  <div id="step6" class="step">
+    <h2>Choose your stay</h2>
+    <div id="accommodation-list"></div>
+    <button onclick="nextStep(7)">Next to Transport</button>
+  </div>
+
+  <!-- STEP 7 -->
+  <div id="step7" class="step">
+    <h2>Need transportation?</h2>
+    <select id="needTransport" onchange="toggleTransport(this.value)">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </select>
+    <div id="transport-options" style="display:none;margin-top:15px"></div>
+    <button onclick="nextStep(8)">Next to Tours</button>
+  </div>
+
+  <!-- STEP 8 -->
+  <div id="step8" class="step">
+    <h2>Add tours or attractions (optional)</h2>
+    <div id="tour-list"></div>
+    <button onclick="showSummary()">Show My Package</button>
+  </div>
+
+  <!-- SUMMARY -->
+  <div id="summary" class="step">
+    <h2>Your YaadLife Package</h2>
+    <div id="package-items"></div>
+    <div class="summary"><strong>Total:</strong> <span id="total">0</span> USD</div>
+    <button onclick="payNow()">Pay & Generate SBT / QR</button>
+    <div id="qr-area" style="margin-top:20px"></div>
+  </div>
+
+</div>
+
+<script>
+// === EMBEDDED MOCK DATA ===
+const MOCK = {
+  accommodations: {
+    kingston: [
+      {name:"Rasta Road Villa", source:"Local", price:150, local:true, type:"coastal"},
+      {name:"Harbor View Apt", source:"Airbnb", price:80, local:false, type:"coastal"},
+      {name:"Kingston Roots GH", source:"Local", price:100, local:true, type:"inland"}
+    ],
+    "st-andrew": [
+      {name:"Blue Mountain Cabin", source:"Local", price:200, local:true, type:"inland"}
+    ]
+  },
+  transport: {
+    kingston: [
+      {name:"Lynk Airport to City", source:"Lynk", price:25, priority:true},
+      {name:"JUTC Bus", source:"Public", price:2, priority:false}
+    ]
+  },
+  tours: {
+    kingston: [
+      {name:"Bob Marley Museum", price:30},
+      {name:"Devon House Tour", price:20}
+    ]
+  }
+};
+
+// === STATE ===
+const state = { from: '', arrive: '', parish: '', vibe: '', stay: null, transport: [], tours: [] };
+
+// === PARISHES ===
+const parishes = ["kingston","st-andrew","st-thomas","portland","st-mary","st-ann","trelawny","st-james","hanover","westmoreland","st-elizabeth","manchester","clarendon","st-catherine"];
+const parishSelect = document.getElementById('parish');
+parishes.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p; opt.textContent = p.replace(/-/g,' ').toUpperCase();
+  parishSelect.appendChild(opt);
+});
+
+// === NAVIGATION ===
+function nextStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
+function showSummary() { renderSummary(); nextStep(9); }
+
+// === ACCOMMODATIONS ===
+function filterAccommodations() {
+  const list = document.getElementById('accommodation-list');
+  list.innerHTML = '';
+  const items = MOCK.accommodations[state.parish] || [];
+  const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
+  filtered.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <span>${item.name} (${item.source}) – $${item.price} ${item.local?'<i>(local)</i>':''}</span>
+      <button data-idx="${idx}">Select</button>
+    `;
+    div.querySelector('button').onclick = () => {
+      state.stay = {...item, fee: item.price * 0.05};
+      list.querySelectorAll('button').forEach(b => b.disabled = false);
+      div.querySelector('button').disabled = true;
+      div.querySelector('button').textContent = 'Selected';
+    };
+    list.appendChild(div);
+  });
+  nextStep(6);
+}
+
+// === TRANSPORT ===
+function toggleTransport(val) {
+  const opts = document.getElementById('transport-options');
+  opts.style.display = val === 'yes' ? 'block' : 'none';
+  if (val === 'yes') loadTransport();
+  else state.transport = [];
+}
+function loadTransport() {
+  const div = document.getElementById('transport-options');
+  div.innerHTML = '';
+  const items = (MOCK.transport[state.parish] || []).sort((a,b) => b.priority - a.priority);
+  items.forEach((t, idx) => {
+    const chk = document.createElement('div');
+    chk.innerHTML = `<label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>`;
+    chk.querySelector('input').onclick = e => {
+      if (e.target.checked) state.transport.push(t);
+      else state.transport = state.transport.filter(x => x.name !== t.name);
+    };
+    div.appendChild(chk);
+  });
+}
+
+// === TOURS ===
+document.getElementById('tour-list').innerHTML = (() => {
+  const items = MOCK.tours[state.parish] || [];
+  return items.map((t, idx) => `
+    <div class="item">
+      <label><input type="checkbox" data-idx="${idx}"> ${t.name} – $${t.price}</label>
+    </div>`).join('');
+})();
+document.querySelectorAll('#tour-list input[type=checkbox]').forEach(cb => {
+  cb.onclick = e => {
+    const t = MOCK.tours[state.parish][e.target.dataset.idx];
+    if (e.target.checked) state.tours.push(t);
+    else state.tours = state.tours.filter(x => x.name !== t.name);
+  };
+});
+
+// === SUMMARY ===
+function renderSummary() {
+  const container = document.getElementById('package-items');
+  container.innerHTML = '';
+  let total = 0;
+  const add = (label, price, fee = 0) => {
+    total += price + fee;
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `<span>${label}</span><span>$${price}${fee?` + <span class="fee">$${fee}</span>`:''}</span>`;
+    container.appendChild(div);
+  };
+  if (state.stay) add(state.stay.name, state.stay.price, state.stay.fee);
+  state.transport.forEach(t => add(t.name, t.price));
+  state.tours.forEach(t => add(t.name, t.price));
+  document.getElementById('total').textContent = total.toFixed(2);
+}
+
+// === PAY + SBT + QR ===
+function payNow() {
+  const total = parseFloat(document.getElementById('total').textContent);
+  if (total === 0) return alert('Add something to your package first!');
+
+  // SBT
+  const sbt = { id: Date.now(), user: 'YaadUser-'+Math.random().toString(36).substr(2,5), package: { ...state, total }, timestamp: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(sbt, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`; a.click();
+
+  // QR
+  const qrArea = document.getElementById('qr-area');
+  qrArea.innerHTML = '<h3>Scan to redeem</h3>';
+  const items = [];
+  if (state.stay) items.push(`Stay: ${state.stay.name}`);
+  state.transport.forEach(t => items.push(`Ride: ${t.name}`));
+  state.tours.forEach(t => items.push(`Tour: ${t.name}`));
+  items.forEach(txt => {
+    const div = document.createElement('div');
+    div.className = 'qr';
+    const qr = document.createElement('div');
+    new QRCode(qr, {text: txt, width:128, height:128});
+    div.appendChild(qr);
+    const cap = document.createElement('p'); cap.textContent = txt;
+    div.appendChild(cap);
+    qrArea.appendChild(div);
+  });
+
+  alert('Payment simulated! SBT downloaded, QR codes ready.');
+}
+
+// === START BUTTON FIX ===
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('start-button');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      nextStep(1);
+    });
+  }
+});
+</script>
+</body>
+</html>
