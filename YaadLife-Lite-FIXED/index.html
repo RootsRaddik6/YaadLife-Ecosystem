@@ -5,7 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YaadLife Lite – Book Your Jamaica Vacation</title>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
-  <script>
+  <style>
+  body{font-family:-apple-system,Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px;color:#333}
+  .container{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+  h1,h2{margin:0 0 20px;font-weight:600}
+  .step{margin:30px 0;display:none}
+  .step.active{display:block}
+  select,button,input{padding:12px;margin:8px 0;width:100%;font-size:16px;border-radius:8px;border:1px solid #ddd}
+  button{background:#28a745;color:#fff;border:none;cursor:pointer;font-weight:600}
+  button:hover{background:#218838}
+  .summary{margin:20px 0;padding:15px;background:#e9ecef;border-radius:8px}
+  .item{display:flex;justify-content:space-between;margin:8px 0;font-size:16px}
+  .fee{color:#28a745;font-weight:bold}
+  .qr{margin-top:15px;text-align:center}
+  .hero img{width:100%;max-width:800px;border-radius:12px;margin-bottom:20px}
+  #start-button{background:#28a745;color:white;padding:16px 32px;font-size:18px;border:none;border-radius:12px;cursor:pointer;width:100%;max-width:400px;margin:20px auto;display:block}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <img src="IMG_0039.jpeg" alt="Jamaica Vibes">
+  </div>
+  <div id="step0" class="step active">
+    <h1>How can we help you book your vacation package?</h1>
+    <button id="start-button">Start Building</button>
+  </div>
+  <div id="step1" class="step">
+    <h2>Are you traveling to Jamaica?</h2>
+    <select id="toJamaica"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No (local)</option></select>
+  </div>
+  <div id="step2" class="step">
+    <h2>Where are you traveling from?</h2>
+    <input type="text" placeholder="City, Country" id="from">
+    <button>Next</button>
+  </div>
+  <div id="step3" class="step">
+    <h2>When do you plan to arrive?</h2>
+    <input type="date" id="arrive">
+    <button>Next</button>
+  </div>
+  <div id="step4" class="step">
+    <h2>Which parish will you stay in?</h2>
+    <select id="parish"></select>
+  </div>
+  <div id="step5" class="step">
+    <h2>Inland or Coastal vibe?</h2>
+    <select id="vibe"><option value="">Any</option><option value="inland">Inland</option><option value="coastal">Coastal</option></select>
+  </div>
+  <div id="step6" class="step">
+    <h2>Choose your stay</h2>
+    <div id="accommodation-list"></div>
+    <button>Next to Transport</button>
+  </div>
+  <div id="step7" class="step">
+    <h2>Need transportation?</h2>
+    <select id="needTransport"><option value="no">No</option><option value="yes">Yes</option></select>
+    <div id="transport-options" style="display:none;margin-top:15px"></div>
+    <button>Next to Tours</button>
+  </div>
+  <div id="step8" class="step">
+    <h2>Add tours or attractions (optional)</h2>
+    <div id="tour-list"></div>
+    <button>Show My Package</button>
+  </div>
+  <div id="summary" class="step">
+    <h2>Your YaadLife Package</h2>
+    <div id="package-items"></div>
+    <div class="summary"><strong>Total:</strong> <span id="total">0</span> USD</div>
+    <button>Pay & Generate SBT / QR</button>
+    <div id="qr-area" style="margin-top:20px"></div>
+  </div>
+</div>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
   const MOCK = { accommodations: { kingston: [{name:"Rasta Road Villa",source:"Local",price:150,local:true,type:"coastal"},{name:"Harbor View Apt",source:"Airbnb",price:80,local:false,type:"coastal"},{name:"Kingston Roots GH",source:"Local",price:100,local:true,type:"inland"}], "st-andrew": [{name:"Blue Mountain Cabin",source:"Local",price:200,local:true,type:"inland"}] }, transport: { kingston: [{name:"Lynk Airport to City",source:"Lynk",price:25,priority:true},{name:"JUTC Bus",source:"Public",price:2,priority:false}] }, tours: { kingston: [{name:"Bob Marley Museum",price:30},{name:"Devon House Tour",price:20}] } };
   const state = { from: '', arrive: '', parish: '', vibe: '', stay: null, transport: [], tours: [] };
@@ -34,7 +106,5 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#summary button').onclick = payNow;
 });
 </script>
-</body>
-</html>
 </body>
 </html>
