@@ -4,8 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YaadLife – Book Your Jamaica Vibes</title>
+
+  <!-- QR Code library -->
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root{--green:#28a745;--dark:#1a1a1a;--light:#f8f9fa;--gray:#6c757d}
     *{margin:0;padding:0;box-sizing:border-box}
@@ -42,10 +47,13 @@
 </head>
 <body>
 <div class="container">
+
+  <!-- HERO (real placeholder image) -->
   <div class="hero">
-    <img src="IMG_0039.jpeg" alt="Jamaica Vibes">
+    <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1200&fit=crop" alt="Jamaica Vibes">
   </div>
 
+  <!-- STEP 0 – Welcome -->
   <div id="step0" class="step active">
     <h1>How can we help you book your vacation package?</h1>
     <button id="start-button">Start Building</button>
@@ -54,72 +62,74 @@
     </div>
   </div>
 
+  <!-- STEP 1 – Abroad / Local -->
   <div id="step1" class="step">
     <h2>Are you traveling to Jamaica?</h2>
     <div class="option-card selected" data-value="yes">
-      <div class="info">
-        <div class="name">Yes, from abroad</div>
-      </div>
+      <div class="info"><div class="name">Yes, from abroad</div></div>
     </div>
     <div class="option-card" data-value="no">
-      <div class="info">
-        <div class="name">No, I'm local</div>
-      </div>
+      <div class="info"><div class="name">No, I'm local</div></div>
     </div>
   </div>
 
+  <!-- STEP 2 – From city -->
   <div id="step2" class="step">
     <h2>Where are you traveling from?</h2>
     <input type="text" placeholder="e.g. Miami, USA" id="fromCity">
     <button onclick="nextStep(3)">Next</button>
   </div>
 
+  <!-- STEP 3 – Arrival date -->
   <div id="step3" class="step">
     <h2>When do you arrive?</h2>
     <input type="date" id="arriveDate">
     <button onclick="nextStep(4)">Next</button>
   </div>
 
+  <!-- STEP 4 – Choose parish (populated dynamically) -->
   <div id="step4" class="step">
     <h2>Which parish will you stay in?</h2>
     <div id="parish-options"></div>
+    <button style="display:none;" id="parish-next" onclick="nextStep(5)">Next</button>
   </div>
 
+  <!-- STEP 5 – Coastal / Inland -->
   <div id="step5" class="step">
     <h2>Inland or Coastal vibe?</h2>
     <div class="option-card" data-value="coastal">
       <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=80&h=80&fit=crop" alt="Beach">
-      <div class="info">
-        <div class="name">Coastal</div>
-      </div>
+      <div class="info"><div class="name">Coastal</div></div>
     </div>
     <div class="option-card" data-value="inland">
       <img src="https://images.unsplash.com/photo-1516026672322-bc52d8c0fb80?w=80&h=80&fit=crop" alt="Mountains">
-      <div class="info">
-        <div class="name">Inland</div>
-      </div>
+      <div class="info"><div class="name">Inland</div></div>
     </div>
     <button onclick="loadStays()">Next</button>
   </div>
 
+  <!-- STEP 6 – Choose stay -->
   <div id="step6" class="step">
     <h2>Choose your stay</h2>
     <div id="stay-options"></div>
     <button onclick="nextStep(7)">Next to Transport</button>
   </div>
 
+  <!-- STEP 7 – Transport -->
   <div id="step7" class="step">
     <h2>Need a ride?</h2>
     <div id="transport-options"></div>
     <button onclick="nextStep(8)">Next to Tours</button>
   </div>
 
+  <!-- STEP 8 – Tours (optional) -->
   <div id="step8" class="step">
     <h2>Add tours (optional)</h2>
     <div id="tour-options"></div>
     <button onclick="showSummary()">Show My Package</button>
   </div>
 
+  <!-- SUMMARY -->
   <div id="summary" class="step">
     <h2>Your YaadLife Package</h2>
     <div id="summary-items"></div>
@@ -127,9 +137,11 @@
     <button onclick="payNow()">Pay & Generate SBT / QR</button>
     <div id="qr-area"></div>
   </div>
+
 </div>
 
 <script>
+/* ---------- DATA ---------- */
 const MOCK = {
   accommodations: {
     kingston: [
@@ -154,11 +166,19 @@ const MOCK = {
 let state = { from: '', arrive: '', parish: '', vibe: '', stay: null, transport: [], tours: [] };
 const parishes = ["kingston","st-andrew","st-thomas","portland","st-mary","st-ann","trelawny","st-james","hanover","westmoreland","st-elizabeth","manchester","clarendon","st-catherine"];
 
+/* ---------- NAVIGATION ---------- */
 function nextStep(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step'+n).classList.add('active');
+  const target = document.getElementById(n === 9 ? 'summary' : 'step' + n);
+  target.classList.add('active');
+
+  /* Auto-load content when a step becomes visible */
+  if (n === 4) renderParishes();
+  if (n === 7) loadTransport();
+  if (n === 8) loadTours();
 }
 
+/* ---------- PARISHES ---------- */
 function renderParishes() {
   const container = document.getElementById('parish-options');
   container.innerHTML = '';
@@ -170,17 +190,20 @@ function renderParishes() {
       document.querySelectorAll('#parish-options .option-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       state.parish = p;
-      nextStep(5);
+      document.getElementById('parish-next').style.display = 'block';
     };
     container.appendChild(card);
   });
 }
 
+/* ---------- STAYS ---------- */
 function loadStays() {
+  if (!state.parish) return alert('Pick a parish first');
   const container = document.getElementById('stay-options');
   container.innerHTML = '';
   const items = MOCK.accommodations[state.parish] || [];
   const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
+
   filtered.forEach(item => {
     const card = document.createElement('div');
     card.className = 'option-card';
@@ -202,8 +225,9 @@ function loadStays() {
   nextStep(6);
 }
 
+/* ---------- TRANSPORT ---------- */
 function loadTransport() {
-  const container = document.getElementById('transport-options');
+  const container = document.getCElementById('transport-options');
   container.innerHTML = '';
   const items = MOCK.transport[state.parish] || [];
   items.forEach(t => {
@@ -222,10 +246,11 @@ function loadTransport() {
   });
 }
 
+/* ---------- TOURS ---------- */
 function loadTours() {
   const container = document.getElementById('tour-options');
   container.innerHTML = '';
-  const items = MOCK.tours.kingston;
+  const items = MOCK.tours.kingston || [];
   items.forEach(t => {
     const chk = document.createElement('div');
     chk.className = 'option-card';
@@ -242,10 +267,12 @@ function loadTours() {
   });
 }
 
+/* ---------- SUMMARY ---------- */
 function showSummary() {
   const container = document.getElementById('summary-items');
   container.innerHTML = '';
   let total = 0;
+
   const add = (label, price, fee = 0) => {
     total += price + fee;
     const div = document.createElement('div');
@@ -253,63 +280,91 @@ function showSummary() {
     div.innerHTML = `<span>${label}</span><span>$${price}${fee?` + <strong>$${fee}</strong>`:''}</span>`;
     container.appendChild(div);
   };
+
   if (state.stay) add(state.stay.name, state.stay.price, state.stay.fee);
   state.transport.forEach(t => add(t.name, t.price));
   state.tours.forEach(t => add(t.name, t.price));
+
   document.getElementById('total').textContent = total.toFixed(2);
-  nextStep(9);
+  nextStep(9);   // 9 → summary step
 }
 
+/* ---------- PAY & QR ---------- */
 function payNow() {
   const total = parseFloat(document.getElementById('total').textContent);
-  if (total === 0) return alert('Add something!');
-  const sbt = { id: Date.now(), user: 'YaadUser-'+Math.random().toString(36).substr(2,5), package: {...state, total}, timestamp: new Date().toISOString() };
+  if (total === 0) return alert('Add at least one item!');
+
+  const sbt = {
+    id: Date.now(),
+    user: 'YaadUser-' + Math.random().toString(36).substr(2,5),
+    package: {...state, total},
+    timestamp: new Date().toISOString()
+  };
+
+  // Download JSON SBT
   const blob = new Blob([JSON.stringify(sbt, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`; a.click();
+  const a = document.createElement('a');
+  a.href = url; a.download = `yaadlife-sbt-${sbt.id}.json`;
+  a.click();
+
+  // QR codes
   const qrArea = document.getElementById('qr-area');
   qrArea.innerHTML = '<h3>Scan to redeem</h3><div class="qr-grid"></div>';
+  const grid = qrArea.querySelector('.qr-grid');
+
   const items = [];
   if (state.stay) items.push(`Stay: ${state.stay.name}`);
   state.transport.forEach(t => items.push(`Ride: ${t.name}`));
   state.tours.forEach(t => items.push(`Tour: ${t.name}`));
+
   items.forEach(txt => {
     const div = document.createElement('div');
     div.className = 'qr-item';
-    const qr = document.createElement('div');
-    new QRCode(qr, {text: txt, width:120, height:120});
-    div.appendChild(qr);
-    const p = document.createElement('p'); p.textContent = txt; div.appendChild(p);
-    document.querySelector('.qr-grid').appendChild(div);
+    const qrDiv = document.createElement('div');
+    new QRCode(qrDiv, {text: txt, width:120, height:120, colorDark: "#000", colorLight: "#fff"});
+    div.appendChild(qrDiv);
+    const p = document.createElement('p');
+    p.textContent = txt;
+    div.appendChild(p);
+    grid.appendChild(div);
   });
-  alert('SBT + QR ready!');
+
+  alert('SBT downloaded & QR codes ready!');
 }
 
-// INIT
+/* ---------- EVENT BINDINGS ---------- */
 document.getElementById('start-button').onclick = () => nextStep(1);
-document.querySelector('#step1').onclick = e => {
+
+document.getElementById('step1').addEventListener('click', e => {
   const card = e.target.closest('.option-card');
-  if (card) {
-    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    if (card.dataset.value === 'yes') nextStep(2);
-    else nextStep(4);
-  }
-};
-document.getElementById('fromCity').onchange = () => { state.from = document.getElementById('fromCity').value; };
-document.getElementById('arriveDate').onchange = () => { state.arrive = document.getElementById('arriveDate').value; };
-document.getElementById('step4').onclick = e => {
-  const card = e.target.closest('.option-card');
-  if (card) renderParishes();
-};
-document.querySelectorAll('#step5 .option-card').forEach(card => {
-  card.onclick = () => {
-    document.querySelectorAll('#step5 .option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    state.vibe = card.dataset.value;
-  };
+  if (!card) return;
+  document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  nextStep(card.dataset.value === 'yes' ? 2 : 4);
 });
-setTimeout(() => { loadTransport(); loadTours(); }, 100);
+
+document.getElementById('fromCity').addEventListener('change', () => {
+  state.from = document.getElementById('fromCity').value;
+});
+
+document.getElementById('arriveDate').addEventListener('change', () => {
+  state.arrive = document.getElementById('arriveDate').value;
+});
+
+document.getElementById('parish-next').addEventListener('click', () => {
+  if (!state.parish) return alert('Select a parish');
+  nextStep(5);
+});
+
+/* Coastal / Inland selection */
+document.getElementById('step5').addEventListener('click', e => {
+  const card = e.target.closest('.option-card');
+  if (!card) return;
+  document.querySelectorAll('#step5 .option-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  state.vibe = card.dataset.value;
+});
 </script>
 </body>
 </html>
