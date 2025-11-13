@@ -1,0 +1,12 @@
+{
+  "builds": [
+    {
+      "src": "YaadLife-Lite/index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/YaadLife-Lite/index.html" },
+    { "src": "/(.*)", "dest": "/YaadLife-Lite/$1" }
+  ]
+}
