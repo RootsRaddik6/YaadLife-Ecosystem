@@ -15,30 +15,40 @@
     body {
       font-family: 'Inter', sans-serif;
       background: #000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;
-      background-image: url('/IMG_0039.jpeg'), linear-gradient(135deg, rgba(0,0,0,0.25), rgba(0,155,72,0.18));
+      background-image: url('/IMG_0039.jpeg'), linear-gradient(135deg, rgba(0,0,0,0.15), rgba(0,155,72,0.25));
       color: #fff;
       min-height: 100dvh;
       overflow-x: hidden;
       position: relative;
     }
-.overlay {
-  position: fixed; inset: 0;
-  background: linear-gradient(135deg, rgba(0,0,0,0.25), rgba(0,155,72,0.38)); /* ← 0.88 → 0.58, 0.68 → 0.38 */
-  backdrop-filter: blur(4px);
-  z-index: 1;
-}
-.flag {
-  position: fixed; top: 16px; left: 16px;
-  width: 100px; height: 68px;
-  background: url('/IMG_0454.jpeg') center/cover no-repeat;
-  animation: waveFlow 3s ease-in-out infinite;
-  z-index: 10;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
+    .overlay {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.15), rgba(0,155,72,0.25));
+      backdrop-filter: blur(6px);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .flag {
+      position: fixed; top: 16px; left: 16px;
+      width: 100px; height: 68px;
+      background: url('/IMG_0454.jpeg') center/cover no-repeat;
+      animation: waveFlow 3s ease-in-out infinite;
+      z-index: 10;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+    .flag::after {
+      content: "JAM"; font-weight: 900; font-size: 1.2rem;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: #fff; text-shadow: 0 0 4px #000; opacity: 0.8;
+      display: none;
+    }
+    .flag:not([style*="url"])::after { display: block; }
+
     @keyframes waveFlow {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(2deg) scale(1.02); }
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(2deg) scale(1.02); }
     }
 
     .container {
@@ -63,7 +73,10 @@
       border-radius: 20px; padding: 10px 16px;
       font-weight: 700; font-size: 1.2rem; color: var(--gold);
       backdrop-filter: blur(12px); display: inline-block;
+      transition: transform 0.3s ease;
     }
+    .calc.animate { animation: countUp 0.6s ease-out; }
+    @keyframes countUp { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
     .msg {
       font-size: 1.55rem; font-weight: 600; text-align: center;
@@ -75,10 +88,22 @@
       border: none; cursor: pointer; margin: 0.9rem 0;
       box-shadow: 0 14px 30px rgba(0,0,0,0.65);
       transition: all .22s;
+      pointer-events: auto !important;
     }
     .btn.gold { background: var(--gold); color: #000; }
     .btn.green { background: var(--green); color: #fff; border: 3.5px solid var(--gold); }
+    .btn.back { background: rgba(255,255,255,0.2); border: 2px solid #666; }
     .btn:active { transform: scale(0.93); }
+
+    .progress {
+      display: flex; justify-content: center; gap: 8px; margin: 1rem 0;
+    }
+    .progress-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+    }
+    .progress-dot.active { background: var(--gold); transform: scale(1.3); }
 
     .step { display: none; width: 100%; animation: fade 0.55s ease-out; }
     .step.active { display: block; }
@@ -92,7 +117,12 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.38);
     }
     .option-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.22); }
+    .option-card.selected { 
+      border-color: var(--gold); 
+      background: rgba(255,215,0,0.22);
+      box-shadow: 0 0 20px rgba(255,215,0,0.4);
+      transform: scale(1.02);
+    }
     .option-card img { width: 84px; height: 84px; object-fit: cover; border-radius: 16px; margin-right: 18px; }
     .option-card .info { flex: 1; }
     .option-card .name { font-weight: 700; font-size: 1.25rem; }
@@ -137,7 +167,6 @@
       .occupancy select { width: 165px; }
     }
 
-    /* ALIGNMENT FIXES */
     .header > * { width: 100%; text-align: center; }
     .container > * { max-width: 380px; width: 100%; margin-left: auto; margin-right: auto; }
   </style>
@@ -150,6 +179,7 @@
     <div class="header">
       <h1 class="logo">YAAD<br>VIBE</h1>
       <div class="calc">Total: $<span id="liveTotal">0.00</span></div>
+      <div class="progress" id="progress"></div>
     </div>
 
     <!-- STEP 0 -->
@@ -172,6 +202,7 @@
 
     <!-- STEP 2 -->
     <div id="step2" class="step">
+      <button class="btn back" id="back2">Back</button>
       <p class="msg">Where are you traveling from?</p>
       <select id="fromCity">
         <option value="">Select City</option>
@@ -187,6 +218,7 @@
 
     <!-- STEP 2.5: FLIGHT BOOKING -->
     <div id="step25" class="step">
+      <button class="btn back" id="back25">Back</button>
       <p class="msg">Book your flight?</p>
       <div class="option-card" data-flight="skip">
         <div class="info"><div class="name">No, I’ll book later</div></div>
@@ -197,6 +229,7 @@
 
     <!-- STEP 3 -->
     <div id="step3" class="step">
+      <button class="btn back" id="back3">Back</button>
       <p class="msg">Arrival & Departure</p>
       <input type="date" id="arriveDate">
       <input type="date" id="departDate">
@@ -224,6 +257,7 @@
 
     <!-- STEP 4 -->
     <div id="step4" class="step">
+      <button class="btn back" id="back4">Back</button>
       <p class="msg">What parish will you stay in?</p>
       <div id="parish-options"></div>
       <button class="btn green" id="parishNext" style="display:none">Next to Choose Vibe</button>
@@ -231,6 +265,7 @@
 
     <!-- STEP 5 -->
     <div id="step5" class="step">
+      <button class="btn back" id="back5">Back</button>
       <p class="msg">What vibe — Inland or Coastal?</p>
       <div class="option-card" data-value="coastal">
         <div class="info"><div class="name">Coastal</div></div>
@@ -243,6 +278,7 @@
 
     <!-- STEP 6 -->
     <div id="step6" class="step">
+      <button class="btn back" id="back6">Back</button>
       <p class="msg">Choose your stay</p>
       <div id="stay-options"></div>
       <button class="btn green" id="btnStay">Next to Transport</button>
@@ -250,6 +286,7 @@
 
     <!-- STEP 7 -->
     <div id="step7" class="step">
+      <button class="btn back" id="back7">Back</button>
       <p class="msg">Need a ride? (optional)</p>
       <div id="transport-options"></div>
       <button class="btn green" id="btnTransport">Next to Tours</button>
@@ -257,6 +294,7 @@
 
     <!-- STEP 8 -->
     <div id="step8" class="step">
+      <button class="btn back" id="back8">Back</button>
       <p class="msg">Add tours (optional)</p>
       <div id="tour-options"></div>
       <button class="btn green" id="btnTours">Show My Package</button>
@@ -264,6 +302,7 @@
 
     <!-- SUMMARY -->
     <div id="summary" class="step">
+      <button class="btn back" id="backSummary">Back</button>
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
       <div class="total">Total: $<span id="total">0.00</span></div>
@@ -275,19 +314,10 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const PARISH_TOWNS = {
-    "clarendon": "May Pen",
-    "hanover": "Lucea",
-    "kingston": "Kingston",
-    "manchester": "Mandeville",
-    "portland": "Port Antonio",
-    "saint-andrew": "Half Way Tree",
-    "saint-ann": "St. Ann’s Bay",
-    "saint-catherine": "Spanish Town",
-    "saint-elizabeth": "Black River",
-    "saint-james": "Montego Bay",
-    "saint-mary": "Port Maria",
-    "saint-thomas": "Morant Bay",
-    "trelawny": "Falmouth",
+    "clarendon": "May Pen", "hanover": "Lucea", "kingston": "Kingston", "manchester": "Mandeville",
+    "portland": "Port Antonio", "saint-andrew": "Half Way Tree", "saint-ann": "St. Ann’s Bay",
+    "saint-catherine": "Spanish Town", "saint-elizabeth": "Black River", "saint-james": "Montego Bay",
+    "saint-mary": "Port Maria", "saint-thomas": "Morant Bay", "trelawny": "Falmouth",
     "westmoreland": "Savanna-la-Mar"
   };
   const ALL_PARISHES = Object.keys(PARISH_TOWNS);
@@ -300,11 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       "kingston": [
         {name:"Pegasus Kingston (3 nights, 2A/0K)",price:540,source:"Hotel",img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg",type:"inland"},
-        {name:"Blue Mountain Coffee Tour",price:95,source:"Tour",img:"/img_0039.jpeg",type:"inland"}
+        {name:"Blue Mountain Coffee Tour",price:95,source:"Tour",img:"/IMG_0039.jpeg",type:"inland"}
       ],
       "default": [
-        {name:"Local Guesthouse",price:120,source:"Budget",img:"/img_0039.jpeg",type:"inland"},
-        {name:"Airbnb Villa",price:280,source:"Private",img:"/img_0039.jpeg",type:"coastal"}
+        {name:"Local Guesthouse",price:120,source:"Budget",img:"/IMG_0039.jpeg",type:"inland"},
+        {name:"Airbnb Villa",price:280,source:"Private",img:"/IMG_0039.jpeg",type:"coastal"}
       ]
     },
     transport: {
@@ -316,8 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "saint-james": [{name:"Rick’s Café Sunset",price:65},{name:"YS Falls + Black River",price:110},{name:"Negril Beach Day",price:50}],
       "kingston": [{name:"Bob Marley Museum",price:30},{name:"Devon House + Jerk",price:45},{name:"Blue Mountain Coffee Tour",price:95}],
       "default": [{name:"Local Market Tour",price:35},{name:"Nature Walk",price:20}]
-    }
-  };
+    },
     flights: {
       "Kingston, Jamaica": [
         {airline:"Caribbean Airlines", code:"BW123", price:85, arrive:"2025-06-15", depart:"2025-06-20"},
@@ -330,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {airline:"Caribbean Air", code:"CA999", price:299, arrive:"2025-06-15", depart:"2025-06-20"}
       ]
     }
+  };
 
   let state = { 
     from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, 
@@ -337,6 +367,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   let total = 0;
   let tonConnectUI;
+  let currentStep = 0;
+  const totalSteps = 9;
 
   try {
     tonConnectUI = new window.TonConnectUI({
@@ -345,7 +377,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   } catch(e) { console.warn("TON Connect not loaded"); }
 
-  const updateCalc = () => {
+  const updateCalc = (animate = false) => {
+    const prevTotal = total;
     total = 0;
     if (state.stay) {
       const base = state.stay.price * state.nights;
@@ -355,14 +388,39 @@ document.addEventListener('DOMContentLoaded', () => {
     state.transport.forEach(t => total += t.price);
     state.tours.forEach(t => total += t.price);
     if (state.flight) total += state.flight.price;
-    document.getElementById('liveTotal').textContent = total.toFixed(2);
+
+    const el = document.getElementById('liveTotal');
+    el.textContent = total.toFixed(2);
+    if (animate && total !== prevTotal) {
+      el.parentElement.classList.add('animate');
+      setTimeout(() => el.parentElement.classList.remove('animate'), 600);
+    }
+  };
+
+  const updateProgress = () => {
+    const prog = document.getElementById('progress');
+    prog.innerHTML = '';
+    for (let i = 0; i < totalSteps; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      if (i === currentStep) dot.classList.add('active');
+      prog.appendChild(dot);
+    }
   };
 
   const next = n => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     const target = n === 9 ? document.getElementById('summary') : document.getElementById(n === 2.5 ? 'step25' : 'step' + n);
-    if (target) target.classList.add('active');
-    updateCalc();
+    if (target) {
+      target.classList.add('active');
+      currentStep = n;
+      updateProgress();
+      updateCalc(true);
+    }
+  };
+
+  const back = () => {
+    if (currentStep > 0) next(currentStep - 1);
   };
 
   const calcNightsFromDates = () => {
@@ -373,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (diff > 0) {
         state.nights = diff;
         document.getElementById('nightCount').textContent = diff;
-        updateCalc();
+        updateCalc(true);
       }
     }
   };
@@ -416,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
           c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
           card.classList.add('selected');
           state.stay = {...item, fee: Math.round(item.price * 0.05)};
-          updateCalc();
+          updateCalc(true);
         };
         c.appendChild(card);
       });
@@ -434,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('selected');
         if (card.classList.contains('selected')) state.transport.push(t);
         else state.transport = state.transport.filter(x => x.name !== t.name);
-        updateCalc();
+        updateCalc(true);
       };
       c.appendChild(card);
     });
@@ -451,31 +509,32 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('selected');
         if (card.classList.contains('selected')) state.tours.push(t);
         else state.tours = state.tours.filter(x => x.name !== t.name);
-        updateCalc();
+        updateCalc(true);
       };
       c.appendChild(card);
     });
   };
-const loadFlights = () => {
-  const c = document.getElementById('flight-options'); c.innerHTML = '';
-  const opts = LIVE_DATA.flights[state.from] || LIVE_DATA.flights.default;
-  opts.forEach(f => {
-    const card = document.createElement('div');
-    card.className = 'option-card';
-    card.innerHTML = `
-      <div class="info">
-        <div class="name">${f.airline} • ${f.code}</div>
-        <div class="price">$${f.price} roundtrip</div>
-      </div>
-    `;
-    card.onclick = () => {
-      document.querySelectorAll('#flight-options .option-card').forEach(x => x.classList.remove('selected'));
-      card.classList.add('selected');
-      state.flight = f;
-    };
-    c.appendChild(card);
-  });
-};
+
+  const loadFlights = () => {
+    const c = document.getElementById('flight-options'); c.innerHTML = '';
+    const opts = LIVE_DATA.flights[state.from] || LIVE_DATA.flights.default;
+    opts.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.innerHTML = `
+        <div class="info">
+          <div class="name">${f.airline} • ${f.code}</div>
+          <div class="price">$${f.price} roundtrip</div>
+        </div>
+      `;
+      card.onclick = () => {
+        document.querySelectorAll('#flight-options .option-card').forEach(x => x.classList.remove('selected'));
+        card.classList.add('selected');
+        state.flight = f;
+      };
+      c.appendChild(card);
+    });
+  };
 
   const showSummary = () => {
     const div = document.getElementById('summary-items'); div.innerHTML = '';
@@ -522,37 +581,31 @@ const loadFlights = () => {
     }
   };
 
-  // EVENT LISTENERS
-// EVENT LISTENERS — ORDER FIXED
-document.getElementById('step1').addEventListener('click', e => {
-  const card = e.target.closest('.option-card');
-  if (card) {
-    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    state.isLocal = card.dataset.value === 'no';
-    next(2);
-    if (state.isLocal) renderParishes();
-  }
-});
+  // EVENT LISTENERS — CRITICAL ORDER
+  document.getElementById('step1').addEventListener('click', e => {
+    const card = e.target.closest('.option-card');
+    if (card) {
+      document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.isLocal = card.dataset.value === 'no';
+      next(2);
+      if (state.isLocal) renderParishes();
+    }
+  });
 
-document.getElementById('startBtn').addEventListener('click', () => {
-  next(1);
-  setTimeout(() => {
-    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
-    if (yesCard) yesCard.click(); // ← NOW WORKS
-  }, 100);
-});
-
+  document.getElementById('startBtn').addEventListener('click', () => {
+    console.log("Start button clicked → going to step 1");
+    next(1);
+    setTimeout(() => {
+      const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+      if (yesCard) yesCard.click();
+    }, 100);
+  });
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
     if (!state.from) return alert("Choose your city!");
-    if (!state.isLocal) {
-      loadFlights();
-      next(2.5);
-    } else {
-      next(3);
-    }
+    if (!state.isLocal) { loadFlights(); next(2.5); } else { next(3); }
   };
 
   document.getElementById('step25').addEventListener('click', e => {
@@ -565,22 +618,20 @@ document.getElementById('startBtn').addEventListener('click', () => {
   });
 
   document.getElementById('btnFlight').onclick = () => {
-    const arriveInput = document.getElementById('arriveDate');
-    const departInput = document.getElementById('departDate');
     if (state.flight) {
-      arriveInput.value = state.flight.arrive;
-      departInput.value = state.flight.depart;
+      document.getElementById('arriveDate').value = state.flight.arrive;
+      document.getElementById('departDate').value = state.flight.depart;
       calcNightsFromDates();
     }
     next(3);
   };
 
   ['adults','kids'].forEach(id => {
-    document.getElementById(id).onchange = e => { state[id] = +e.target.value; updateCalc(); };
+    document.getElementById(id).onchange = e => { state[id] = +e.target.value; updateCalc(true); };
   });
 
-  document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); } };
-  document.getElementById('plus').onclick = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
+  document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(true); } };
+  document.getElementById('plus').onclick = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(true); };
 
   document.getElementById('departDate').addEventListener('change', calcNightsFromDates);
 
@@ -621,6 +672,15 @@ document.getElementById('startBtn').addEventListener('click', () => {
       card.classList.add('selected');
     }
   });
+
+  // BACK BUTTONS
+  document.querySelectorAll('.btn.back').forEach(btn => {
+    btn.onclick = back;
+  });
+  document.getElementById('backSummary').onclick = () => next(8);
+
+  // INIT
+  updateProgress();
 });
 </script>
 </body>
