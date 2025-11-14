@@ -9,47 +9,44 @@
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     :root {
-      --green: #009B48; --gold: #FFD700; --black: #000; --dark: #0a0a0a;
+      --green: #009B48; --gold: #FFD700; --black: #000;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background: #000;
+      background: #000 url('IMG_0039.jpeg') center/cover no-repeat fixed;
       color: #fff;
       min-height: 100dvh;
       overflow-x: hidden;
-      background-image: url('IMG_0039.jpeg'), linear-gradient(135deg, #001a00, #003300);
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
       position: relative;
     }
     .overlay {
       position: fixed; inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(0,155,72,0.65));
-      backdrop-filter: blur(3px);
+      background: linear-gradient(135deg, rgba(0,0,0,0.88), rgba(0,155,72,0.68));
+      backdrop-filter: blur(4px);
       z-index: 1;
     }
 
-    /* AI-GENERATED SILKY FLOWING FLAG */
+    /* W3C-COMPLIANT JAMAICAN FLAG SVG - 12% LARGER & WAVING */
     .flag {
-      position: fixed; top: 12px; left: 12px; width: 80px; height: 55px;
-      background: 
-        radial-gradient(circle at 30% 50%, #fff3, transparent 60%),
-        linear-gradient(45deg, #000 0%, #000 25%, var(--gold) 25%, var(--gold) 50%, #000 50%, #000 75%, var(--green) 75%, var(--green) 100%);
-      border-radius: 10px; box-shadow: 0 0 25px rgba(255,215,0,0.9), 0 0 40px rgba(0,150,72,0.6);
-      animation: flow 3s infinite ease-in-out, shine 2s infinite; z-index: 10;
+      position: fixed; top: 14px; left: 14px; 
+      width: 90px; height: 62px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23000000"/><path fill="%23FFD700" d="M0,0 L1200,800 L1200,0 Z M0,800 L1200,0 L0,0 Z"/><path fill="%23009448" d="M600,400 m-200,0 a200,200 0 1,0 400,0 a200,200 0 1,0 -400,0" transform="translate(600,400) scale(0.75)"/></svg>') center/cover;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255,215,0,0.9), 0 0 50px rgba(0,150,72,0.7);
+      animation: wave 2.5s infinite ease-in-out, glow 2s infinite;
+      z-index: 10;
       transform-origin: left center;
     }
-    @keyframes flow {
+    @keyframes wave {
       0%,100% { transform: translateY(0) skewY(0) scaleX(1); }
-      25% { transform: translateY(-3px) skewY(1deg) scaleX(1.02); }
-      50% { transform: translateY(0) skewY(-1deg) scaleX(1.01); }
-      75% { transform: translateY(-2px) skewY(0.5deg) scaleX(1.02); }
+      25% { transform: translateY(-4px) skewY(1.5deg) scaleX(1.03); }
+      50% { transform: translateY(0) skewY(-1deg) scaleX(1.015); }
+      75% { transform: translateY(-3px) skewY(0.8deg) scaleX(1.03); }
     }
-    @keyframes shine {
+    @keyframes glow {
       0%,100% { filter: brightness(1); }
-      50% { filter: brightness(1.3) saturate(1.2); }
+      50% { filter: brightness(1.35) saturate(1.25); }
     }
 
     .container {
@@ -58,84 +55,88 @@
       display: flex; flex-direction: column; align-items: center;
       min-height: 100dvh; justify-content: flex-start;
     }
+
+    .header {
+      text-align: center; margin: 2.2rem 0 0.5rem; width: 100%;
+    }
     .logo {
-      font-size: clamp(2.8rem, 11vw, 4.5rem); font-weight: 900;
+      font-size: clamp(3rem, 12vw, 5rem); font-weight: 900;
       background: linear-gradient(45deg, #fff, var(--gold), #FFEDAB);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-align: center; margin: 1.8rem 0 0.6rem;
-      letter-spacing: -1.5px; text-shadow: 0 0 10px rgba(255,215,0,0.4);
-    }
-    .msg {
-      font-size: 1.45rem; font-weight: 600; text-align: center;
-      max-width: 90%; margin: 0.6rem 0 1.6rem; line-height: 1.45;
+      letter-spacing: -2px; text-shadow: 0 0 12px rgba(255,215,0,0.5);
     }
     .calc {
-      position: fixed; top: 70px; right: 16px; z-index: 11;
-      background: rgba(0,0,0,0.7); border: 2px solid var(--gold);
-      border-radius: 16px; padding: 8px 12px;
-      font-weight: 700; font-size: 1.1rem; color: var(--gold);
-      backdrop-filter: blur(8px);
+      margin-top: 0.5rem;
+      background: rgba(0,0,0,0.75); border: 2.5px solid var(--gold);
+      border-radius: 18px; padding: 9px 14px;
+      font-weight: 700; font-size: 1.15rem; color: var(--gold);
+      backdrop-filter: blur(10px); display: inline-block;
+    }
+
+    .msg {
+      font-size: 1.5rem; font-weight: 600; text-align: center;
+      max-width: 90%; margin: 0.6rem 0 1.6rem; line-height: 1.45;
     }
     .btn {
-      width: 88dvw; max-width: 360px; padding: 1.3rem;
-      border-radius: 18px; font-size: 1.35rem; font-weight: 700;
-      border: none; cursor: pointer; margin: 0.7rem 0;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-      transition: all .2s; text-align: center;
+      width: 88dvw; max-width: 360px; padding: 1.4rem;
+      border-radius: 20px; font-size: 1.4rem; font-weight: 700;
+      border: none; cursor: pointer; margin: 0.8rem 0;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+      transition: all .2s;
     }
     .btn.gold { background: var(--gold); color: #000; }
     .btn.green { background: var(--green); color: #fff; border: 3px solid var(--gold); }
-    .btn:active { transform: scale(0.95); }
+    .btn:active { transform: scale(0.94); }
 
     .step { display: none; width: 100%; animation: fade 0.5s ease-out; }
     .step.active { display: block; }
-    @keyframes fade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: none; } }
+    @keyframes fade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
 
     .option-card {
-      background: rgba(255,255,255,0.14); border: 2px solid transparent;
-      border-radius: 18px; padding: 1.1rem; margin: 0.9rem 0;
+      background: rgba(255,255,255,0.15); border: 2px solid transparent;
+      border-radius: 20px; padding: 1.2rem; margin: 1rem 0;
       display: flex; align-items: center; cursor: pointer;
-      transition: all .25s; backdrop-filter: blur(10px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all .28s; backdrop-filter: blur(12px);
+      box-shadow: 0 5px 18px rgba(0,0,0,0.35);
     }
-    .option-card:hover { border-color: var(--gold); transform: translateY(-3px); }
-    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.18); }
-    .option-card img { width: 76px; height: 76px; object-fit: cover; border-radius: 12px; margin-right: 14px; }
+    .option-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.2); }
+    .option-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 14px; margin-right: 16px; }
     .option-card .info { flex: 1; }
-    .option-card .name { font-weight: 700; font-size: 1.15rem; }
-    .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.25rem; }
+    .option-card .name { font-weight: 700; font-size: 1.2rem; }
+    .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.3rem; }
 
     input, select {
-      width: 88dvw; max-width: 340px; padding: 18px 16px;
-      border-radius: 18px; background: rgba(255,255,255,0.12);
-      border: 2px solid #444; color: #fff; font-size: 1.2rem;
-      margin: 1rem 0; backdrop-filter: blur(8px);
+      width: 88dvw; max-width: 340px; padding: 19px 16px;
+      border-radius: 20px; background: rgba(255,255,255,0.14);
+      border: 2px solid #555; color: #fff; font-size: 1.25rem;
+      margin: 1rem 0; backdrop-filter: blur(10px);
     }
 
     .occupancy {
-      display: flex; gap: 12px; justify-content: center; margin: 1rem 0;
+      display: flex; gap: 14px; justify-content: center; margin: 1rem 0;
     }
     .occupancy select {
-      width: 42dvw; max-width: 160px; padding: 14px; font-size: 1.1rem;
+      width: 42dvw; max-width: 160px; padding: 15px; font-size: 1.15rem;
     }
 
     .nights {
-      display: flex; align-items: center; gap: 12px; margin: 1rem 0;
-      font-size: 1.2rem; font-weight: 700;
+      display: flex; align-items: center; gap: 14px; margin: 1.2rem 0;
+      font-size: 1.3rem; font-weight: 700;
     }
     .nights button {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--gold); color: #000; font-size: 1.5rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--gold); color: #000; font-size: 1.6rem;
       border: none; cursor: pointer;
     }
 
     #summary-items .item {
-      display: flex; justify-content: space-between; padding: 0.9rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.25); font-size: 1.15rem;
+      display: flex; justify-content: space-between; padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.3); font-size: 1.2rem;
     }
-    .total { font-size: 1.8rem; font-weight: 700; color: var(--gold); text-align: center; margin: 1.8rem 0; }
+    .total { font-size: 1.9rem; font-weight: 700; color: var(--gold); text-align: center; margin: 2rem 0; }
 
-    .trust { text-align: center; font-size: 0.95rem; color: #bbb; margin-top: 1.2rem; }
+    .trust { text-align: center; font-size: 0.98rem; color: #ccc; margin-top: 1.3rem; }
     .trust a { color: var(--gold); text-decoration: none; }
 
     @media (min-width: 400px) {
@@ -147,10 +148,12 @@
 <body>
   <div class="overlay"></div>
   <div class="flag"></div>
-  <div class="calc">Total: $<span id="liveTotal">0</span></div>
 
   <div class="container">
-    <h1 class="logo">YAAD<br>VIBE</h1>
+    <div class="header">
+      <h1 class="logo">YAAD<br>VIBE</h1>
+      <div class="calc">Total: $<span id="liveTotal">0.00</span></div>
+    </div>
 
     <!-- STEP 0 -->
     <div id="step0" class="step active">
@@ -179,10 +182,6 @@
         <option>New York, USA</option>
         <option>London, UK</option>
         <option>Toronto, Canada</option>
-        <option>Paris, France</option>
-        <option>Tokyo, Japan</option>
-        <option>Sydney, Australia</option>
-        <option>Berlin, Germany</option>
         <option>Kingston, Jamaica</option>
         <option>Montego Bay, Jamaica</option>
       </select>
@@ -252,7 +251,7 @@
     <!-- STEP 8 -->
     <div id="step8" class="step">
       <p class="msg">Add tours (optional)</p>
-      <div id="tour-options"></div>
+     : <div id="tour-options"></div>
       <button class="btn green" id="btnTours">Show My Package</button>
     </div>
 
@@ -260,9 +259,9 @@
     <div id="summary" class="step">
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
-      <div class="total">Total: $<span id="total">0</span></div>
+      <div class="total">Total: $<span id="total">0.00</span></div>
       <button class="btn gold" id="btnPay">Pay with TON Wallet</button>
-      <div id="qr-area" style="margin:1.5rem 0;"></div>
+      <div id="qr-area" style="margin:2rem 0; text-align:center;"></div>
     </div>
   </div>
 
@@ -284,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
     "trelawny": "Falmouth",
     "westmoreland": "Savanna-la-Mar (Sav)"
   };
-
   const ALL_PARISHES = Object.keys(PARISH_TOWNS);
 
   const LIVE_DATA = {
@@ -296,12 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
       "kingston": [
         {name:"Jewel Grande • Moonrise Suite",price:580,source:"Premium",img:"IMG_0039.jpeg",type:"coastal"},
         {name:"Pegasus Kingston",price:180,source:"Hotel",img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg",type:"inland"}
-      ],
-      "st-thomas": [
-        {name:"GoldenEye • Lagoon Cottage",price:920,source:"Iconic",img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3f/2c/goldeneye.jpg?w=1200",type:"coastal"}
-      ],
-      "st-ann": [
-        {name:"Sandals Dunn’s River",price:720,source:"All-Inclusive",img:"https://www.sandals.com/blog/wp-content/uploads/2023/05/Sandals-Dunns-River-Exterior.jpg",type:"coastal"}
       ],
       "default": [
         {name:"Local Guesthouse",price:120,source:"Budget",img:"IMG_0039.jpeg",type:"inland"},
@@ -325,7 +317,15 @@ document.addEventListener('DOMContentLoaded', () => {
     transport:[], tours:[], nights:1, adults:2, kids:0, isLocal: false 
   };
   let total = 0;
-  const tonConnectUI = new TON_CONNECT.UI();
+  let tonConnectUI;
+
+  // TON CONNECT INIT
+  try {
+    tonConnectUI = new window.TonConnectUI({
+      manifestUrl: 'https://yaadvibe.com/tonconnect-manifest.json',
+      buttonRootId: null
+    });
+  } catch(e) { console.warn("TON Connect not loaded"); }
 
   const updateCalc = () => {
     total = 0;
@@ -441,23 +441,24 @@ document.addEventListener('DOMContentLoaded', () => {
     next(9);
   };
 
-  // TON Connect Payment
+  // PAYMENT
   document.getElementById('btnPay').onclick = async () => {
     if (total === 0) return alert("Add items first!");
+    if (!tonConnectUI) return alert("TON Wallet not available");
+
     try {
       const tx = {
         validUntil: Math.floor(Date.now() / 1000) + 300,
         messages: [{
           address: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c",
-          amount: (total * 1e9).toString(), // TON in nano
+          amount: String(Math.round(total * 1e9)),
           payload: btoa(JSON.stringify(state))
         }]
       };
       const result = await tonConnectUI.sendTransaction(tx);
       alert("Payment sent! Tx: " + result.boc);
       new QRCode(document.getElementById("qr-area"), {
-        text: result.boc,
-        width: 180, height: 180,
+        text: result.boc, width: 200, height: 200,
         colorDark: "#FFD700", colorLight: "#000"
       });
     } catch (e) {
@@ -465,8 +466,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // === EVENT LISTENERS ===
-  document.getElementById('startBtn').onclick = () => next(1);
+  // EVENT LISTENERS
+  document.getElementById('startBtn').addEventListener('click', () => next(1));
 
   document.getElementById('step1').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
@@ -484,8 +485,9 @@ document.addEventListener('DOMContentLoaded', () => {
     next(3);
   };
 
-  document.getElementById('adults').onchange = e => { state.adults = +e.target.value; updateCalc(); };
-  document.getElementById('kids').onchange = e => { state.kids = +e.target.value; updateCalc(); };
+  ['adults','kids'].forEach(id => {
+    document.getElementById(id).onchange = e => { state[id] = +e.target.value; updateCalc(); };
+  });
 
   document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); } };
   document.getElementById('plus').onclick = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
