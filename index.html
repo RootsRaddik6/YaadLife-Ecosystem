@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title>YaadVibe 1Drop</title>
+  <title>1Drop YaadVibe</title>
   <script src="https://cdn.jsdelivr.org/npm/qrcode.js@1.4.4/lib/qrcode.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -14,10 +14,8 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      body {
-  background: #000 url('IMG_0039.jpeg') center/cover no-repeat fixed; 
-  background-image: url('IMG_0039.jpeg'), linear-gradient(#000, #000); 
-}
+      background: #000 url('/img_0039.jpeg') center/cover no-repeat fixed;
+      background-image: url('/img_0039.jpeg'), linear-gradient(180deg, #000 0%, #111 100%);
       color: #fff;
       min-height: 100dvh;
       overflow-x: hidden;
@@ -30,26 +28,21 @@
       z-index: 1;
     }
 
-    /* W3C-VALID JAMAICAN FLAG - 12% LARGER, REALISTIC WAVE */
+    /* REALISTIC FLOWING JAMAICAN FLAG - APNG BASE64 */
     .flag {
       position: fixed; top: 16px; left: 16px; 
-      width: 100px; height: 68px; /* +12% from 80x55 */
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23000000"/><path fill="%23FFD700" d="M0,0 H1200 V800 H0 Z M0,400 L600,0 L1200,400 L600,800 Z"/><path fill="%23009448" d="M0,400 L600,0 L1200,400 L600,800 Z" transform="translate(600,400) scale(0.8)"/></svg>') center/cover;
+      width: 100px; height: 68px;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAkCAYAAAB2e0l2AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8tOYCRsRySc5btfURLSNdGLCAeLHcERoFhRhtRsdS/FzsLssAAAwOxlXG3l0p4AAAABJRU5ErkJggg==') center/contain no-repeat;
+      background-size: 300% 100%;
       border-radius: 14px;
       box-shadow: 0 0 35px rgba(255,215,0,0.95), 0 0 55px rgba(0,150,72,0.75);
-      animation: wave 2.8s infinite ease-in-out, glow 2.2s infinite;
+      animation: waveFlow 3.2s infinite ease-in-out;
       z-index: 10;
       transform-origin: left center;
     }
-    @keyframes wave {
-      0%,100% { transform: translateY(0) skewY(0) scaleX(1); }
-      25% { transform: translateY(-5px) skewY(1.8deg) scaleX(1.035); }
-      50% { transform: translateY(0) skewY(-1.2deg) scaleX(1.018); }
-      75% { transform: translateY(-4px) skewY(1deg) scaleX(1.035); }
-    }
-    @keyframes glow {
-      0%,100% { filter: brightness(1); }
-      50% { filter: brightness(1.38) saturate(1.28); }
+    @keyframes waveFlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .container {
@@ -126,6 +119,7 @@
     .nights {
       display: flex; align-items: center; gap: 16px; margin: 1.3rem 0;
       font-size: 1.35rem; font-weight: 700;
+      flex-wrap: wrap; justify-content: center;
     }
     .nights button {
       width: 48px; height: 48px; border-radius: 50%;
@@ -146,9 +140,10 @@
       .btn, input, select { width: 350px; }
       .occupancy select { width: 165px; }
     }
-.header > * { width: 100%; text-align: center; }
-.container > * { max-width: 380px; width: 100%; margin-left: auto; margin-right: auto; }
-.nights { flex-wrap: wrap; justify-content: center; }
+
+    /* ALIGNMENT FIXES */
+    .header > * { width: 100%; text-align: center; }
+    .container > * { max-width: 380px; width: 100%; margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
@@ -192,6 +187,16 @@
         <option>Montego Bay, Jamaica</option>
       </select>
       <button class="btn green" id="btn2">Next</button>
+    </div>
+
+    <!-- STEP 2.5: FLIGHT BOOKING -->
+    <div id="step25" class="step">
+      <p class="msg">Book your flight?</p>
+      <div class="option-card" data-flight="skip">
+        <div class="info"><div class="name">No, I’ll book later</div></div>
+      </div>
+      <div id="flight-options"></div>
+      <button class="btn green" id="btnFlight">Next to Dates</button>
     </div>
 
     <!-- STEP 3 -->
@@ -282,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "saint-andrew": "Half Way Tree",
     "saint-ann": "St. Ann’s Bay",
     "saint-catherine": "Spanish Town",
-    "saint-elizabeth": "Black River" "Treasure Beach",
+    "saint-elizabeth": "Black River",
     "saint-james": "Montego Bay",
     "saint-mary": "Port Maria",
     "saint-thomas": "Morant Bay",
@@ -299,11 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       "kingston": [
         {name:"Pegasus Kingston (3 nights, 2A/0K)",price:540,source:"Hotel",img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg",type:"inland"},
-        {name:"Blue Mountain Coffee Tour",price:95,source:"Tour",img:"IMG_0039.jpeg",type:"inland"}
+        {name:"Blue Mountain Coffee Tour",price:95,source:"Tour",img:"/img_0039.jpeg",type:"inland"}
       ],
       "default": [
-        {name:"Local Guesthouse",price:120,source:"Budget",img:"IMG_0039.jpeg",type:"inland"},
-        {name:"Airbnb Villa",price:280,source:"Private",img:"IMG_0039.jpeg",type:"coastal"}
+        {name:"Local Guesthouse",price:120,source:"Budget",img:"/img_0039.jpeg",type:"inland"},
+        {name:"Airbnb Villa",price:280,source:"Private",img:"/img_0039.jpeg",type:"coastal"}
       ]
     },
     transport: {
@@ -318,9 +323,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const FLIGHT_DATA = {
+    "Miami, USA": [
+      {airline:"American", code:"AA123", price:380, arrive:"2025-06-10", depart:"2025-06-17"},
+      {airline:"JetBlue", code:"B6123", price:340, arrive:"2025-06-11", depart:"2025-06-18"}
+    ],
+    "New York, USA": [
+      {airline:"Delta", code:"DL789", price:420, arrive:"2025-06-12", depart:"2025-06-19"}
+    ],
+    "default": [
+      {airline:"Caribbean Air", code:"CA999", price:299, arrive:"2025-06-15", depart:"2025-06-20"}
+    ]
+  };
+
   let state = { 
     from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, 
-    transport:[], tours:[], nights:1, adults:2, kids:0, isLocal: false 
+    transport:[], tours:[], nights:1, adults:2, kids:0, isLocal: false, flight: null 
   };
   let total = 0;
   let tonConnectUI;
@@ -341,14 +359,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     state.transport.forEach(t => total += t.price);
     state.tours.forEach(t => total += t.price);
+    if (state.flight) total += state.flight.price;
     document.getElementById('liveTotal').textContent = total.toFixed(2);
   };
 
   const next = n => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    const target = n === 9 ? document.getElementById('summary') : document.getElementById('step' + n);
+    const target = n === 9 ? document.getElementById('summary') : document.getElementById(n === 2.5 ? 'step25' : 'step' + n);
     if (target) target.classList.add('active');
     updateCalc();
+  };
+
+  const calcNightsFromDates = () => {
+    const arrive = document.getElementById('arriveDate').value;
+    const depart = document.getElementById('departDate').value;
+    if (arrive && depart) {
+      const diff = (new Date(depart) - new Date(arrive)) / 86400000;
+      if (diff > 0) {
+        state.nights = diff;
+        document.getElementById('nightCount').textContent = diff;
+        updateCalc();
+      }
+    }
   };
 
   const renderParishes = () => {
@@ -379,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'option-card';
         card.innerHTML = `
-          <img src="${item.img}" onerror="this.src='IMG_0039.jpeg'" alt="${item.name}">
+          <img src="${item.img}" onerror="this.src='/img_0039.jpeg'" alt="${item.name}">
           <div class="info">
             <div class="name">${item.name}</div>
             <div class="price">$${item.price}${item.source === 'Tour' ? '' : '/night'}</div>
@@ -430,6 +462,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const loadFlights = () => {
+    const c = document.getElementById('flight-options'); c.innerHTML = '';
+    const opts = FLIGHT_DATA[state.from] || FLIGHT_DATA.default;
+    opts.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.innerHTML = `
+        <div class="info">
+          <div class="name">${f.airline} • ${f.code}</div>
+          <div class="price">$${f.price} roundtrip</div>
+        </div>
+      `;
+      card.onclick = () => {
+        document.querySelectorAll('#flight-options .option-card').forEach(x => x.classList.remove('selected'));
+        card.classList.add('selected');
+        state.flight = f;
+      };
+      c.appendChild(card);
+    });
+  };
+
   const showSummary = () => {
     const div = document.getElementById('summary-items'); div.innerHTML = '';
     const add = (label, price, fee = 0) => {
@@ -442,6 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     state.transport.forEach(t => add(t.name, t.price));
     state.tours.forEach(t => add(t.name, t.price));
+    if (state.flight) add(`${state.flight.airline} Flight`, state.flight.price);
     document.getElementById('total').textContent = total.toFixed(2);
     next(9);
   };
@@ -451,19 +505,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (total === 0) return alert("Add items first!");
     if (!tonConnectUI) return alert("TON Wallet not available");
 
+    const finalTotal = total;
+    const payload = { ...state, total: finalTotal };
+
     try {
       const tx = {
         validUntil: Math.floor(Date.now() / 1000) + 300,
         messages: [{
           address: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c",
-          amount: String(Math.round(total * 1e9)),
-          payload: btoa(JSON.stringify(state))
+          amount: String(Math.round(finalTotal * 1e9)),
+          payload: btoa(JSON.stringify(payload))
         }]
       };
       const result = await tonConnectUI.sendTransaction(tx);
-      alert("Payment sent! Tx: " + result.boc);
+      alert(`Payment sent! Total: $${finalTotal.toFixed(2)}\nTx: ${result.boc}`);
       new QRCode(document.getElementById("qr-area"), {
-        text: result.boc, width: 220, height: 220,
+        text: result.boc, width: 240, height: 240,
         colorDark: "#FFD700", colorLight: "#000"
       });
     } catch (e) {
@@ -481,13 +538,38 @@ document.addEventListener('DOMContentLoaded', () => {
       card.classList.add('selected');
       state.isLocal = card.dataset.value === 'no';
       next(state.isLocal ? 4 : 2);
-          if (state.isLocal) renderParishes();  
+      if (state.isLocal) renderParishes();
     }
   });
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
     if (!state.from) return alert("Choose your city!");
+    if (!state.isLocal) {
+      loadFlights();
+      next(2.5);
+    } else {
+      next(3);
+    }
+  };
+
+  document.getElementById('step25').addEventListener('click', e => {
+    const card = e.target.closest('.option-card');
+    if (card && card.dataset.flight === 'skip') {
+      document.querySelectorAll('#step25 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.flight = null;
+    }
+  });
+
+  document.getElementById('btnFlight').onclick = () => {
+    const arriveInput = document.getElementById('arriveDate');
+    const departInput = document.getElementById('departDate');
+    if (state.flight) {
+      arriveInput.value = state.flight.arrive;
+      departInput.value = state.flight.depart;
+      calcNightsFromDates();
+    }
     next(3);
   };
 
@@ -497,6 +579,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); } };
   document.getElementById('plus').onclick = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
+
+  document.getElementById('departDate').addEventListener('change', calcNightsFromDates);
 
   document.getElementById('btn3').onclick = () => {
     state.arrive = document.getElementById('arriveDate').value;
