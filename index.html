@@ -14,7 +14,10 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background: #000 url('IMG_0039.jpeg') center/cover no-repeat fixed;
+      body {
+  background: #000 url('img_0039.jpeg') center/cover no-repeat fixed; 
+  background-image: url('img_0039.jpeg'), linear-gradient(#000, #000); 
+}
       color: #fff;
       min-height: 100dvh;
       overflow-x: hidden;
@@ -475,6 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.classList.add('selected');
       state.isLocal = card.dataset.value === 'no';
       next(state.isLocal ? 4 : 2);
+          if (state.isLocal) renderParishes();  
     }
   });
 
