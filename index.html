@@ -21,13 +21,12 @@
       overflow-x: hidden;
       position: relative;
     }
-    .overlay {
-      position: fixed; inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.88), rgba(0,155,72,0.68));
-      backdrop-filter: blur(4px);
-      z-index: 1;
-    }
-
+.overlay {
+  position: fixed; inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.58), rgba(0,155,72,0.38)); /* ← 0.88 → 0.58, 0.68 → 0.38 */
+  backdrop-filter: blur(4px);
+  z-index: 1;
+}
     /* REALISTIC FLOWING JAMAICAN FLAG - APNG BASE64 */
     .flag {
       position: fixed; top: 16px; left: 16px; 
