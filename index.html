@@ -3,28 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>YAAD LIFE</title>
+<title>1Drop YaadLife</title>
 <script src="https://unpkg.com/@walletconnect/modal@2"></script>
 <style>
   :root{--gold:#FFD700;--green:#009B48;--dark:#0a0a0a}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:url('https://yaadlife.booorldwide.com/cdn/moonrise-montego.jpg') center/cover fixed;color:#fff;font-family:system-ui;min-height:100dvh;display:flex;flex-direction:column}
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(3px)}
-  .c{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 1rem 6rem}
-  h1{font-size:clamp(4.8rem,13vw,9rem);font-weight:900;background:linear-gradient(var(--gold),#FFEDAB);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .motto{font-size:1.6rem;font-weight:600;opacity:0.92;margin:2rem 0 3rem}
-  .btn{width:88dvw;max-width:380px;margin:1.2rem auto;padding:1.6rem;border-radius:22px;font-size:1.9rem;font-weight:900;border:none;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,0.6);transition:.2s}
+  body{background:url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/7e/8f/caption.jpg?w=1200&h=-1&s=1') center/cover fixed;color:#fff;font-family:-apple-system,system-ui,sans-serif;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(2px)}
+  .c{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;text-align:center}
+  h1{font-size:clamp(5.5rem,15vw,11rem);font-weight:900;background:linear-gradient(var(--gold),#FFEDAB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:0.9}
+  .motto{font-size:1.8rem;font-weight:700;margin:2.5rem 0 4.5rem;opacity:0.96;letter-spacing:1px}
+  .btn{width:88dvw;max-width:380px;margin:1.4rem auto;padding:1.7rem;border-radius:24px;font-size:1.95rem;font-weight:900;border:none;cursor:pointer;box-shadow:0 16px 50px rgba(0,0,0,0.7);transition:all .25s}
   .gold{background:var(--gold);color:#000}
   .dark{background:var(--dark);color:var(--gold)}
-  .green{background:var(--green);color:#fff;border:4px solid var(--gold)}
-  .btn:active{transform:scale(0.96)}
-  #journey{max-width:420px;width:100%;margin:1rem 0;overflow-y:auto;padding-bottom:2rem}
-  .stay{background:var(--green);border:4px solid var(--gold);padding:1.2rem;margin:1rem;border-radius:16px;overflow:hidden}
-  .stay img{width:100%;height:150px;object-fit:cover;border-radius:12px;margin-bottom:10px}
-  .panel{position:fixed;bottom:0;left:0;right:0;max-height:38vh;background:rgba(0,155,72,0.98);border-top:4px solid var(--gold);padding:1rem 1.2rem;border-radius:28px 28px 0 0;z-index:20;transform:translateY(100%);transition:transform .35s}
+  .green{background:var(--green);color:#fff;border:5px solid var(--gold)}
+  .btn:active{transform:scale(0.95)}
+  #journey{max-width:420px;width:100%;margin:2rem 0;overflow-y:auto;padding-bottom:8rem}
+  .stay{background:var(--green);border:5px solid var(--gold);padding:1.3rem;margin:1rem;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+  .stay img{width:100%;height:160px;object-fit:cover;border-radius:14px;margin-bottom:10px}
+  .panel{position:fixed;bottom:0;left:0;right:0;max-height:24vh;background:rgba(0,155,72,0.98);border-top:5px solid var(--gold);padding:0.8rem 1rem;border-radius:30px 30px 0 0;z-index:30;transform:translateY(100%);transition:transform .35s cubic-bezier(0.23,1,0.32,1)}
   .panel.active{transform:translateY(0)}
-  .close{float:right;font-size:2.4rem;background:none;border:none;color:#fff;cursor:pointer}
-  .num{width:68px;height:68px;line-height:68px;font-size:2.4rem;background:var(--dark);color:var(--gold);border-radius:50%;margin:0 12px;display:inline-block}
+  .close{position:absolute;top:8px;right:12px;font-size:2.2rem;background:none;border:none;color:#fff;cursor:pointer}
+  .num{width:54px;height:54px;line-height:54px;font-size:1.9rem;background:var(--dark);color:var(--gold);border-radius:50%;margin:0 10px}
+  .panel h2{font-size:1.4rem;margin:0.4rem 0}
+  .panel div{font-size:1.1rem;line-height:2.2}
+  .panel .btn{margin-top:0.8rem !important;font-size:1.5rem !important;padding:1rem !important}
 </style>
 </head>
 <body>
@@ -34,35 +37,33 @@
   <p class="motto">One Love One Jamaica</p>
   <div id="journey"></div>
   <button id="primary" class="btn gold">BOOK YAAD</button>
-  <button id="mint" class="btn dark">Konnet to Yaad + MINT</button>
+  <button id="mint" class="btn dark">Konnet Yaad + MINT</button>
   <button id="add" class="btn green hidden">Next Yaad?</button>
 </div>
 
-<!-- v10 Floating Panel – How Much a Go? -->
+<!-- Tiny floating calculator — under 25% screen -->
 <div id="peoplePanel" class="panel">
   <button class="close" onclick="document.getElementById('peoplePanel').classList.remove('active')">×</button>
-  <h2 style="text-align:center;font-size:1.7rem;margin:0.5rem 0">How Much a Go?</h2>
-  <div style="text-align:center">
-    Big People − <button onclick="adj('a',-1)">−</button> <b id="a" class="num">1</b> <button onclick="adj('a',1)">+</button><br><br>
-    Pickney − <button onclick="adj('c',-1)">−</button> <b id="c" class="num">0</b> <button onclick="adj('c',1)">+</button><br><br>
-    Baby − <button onclick="adj('i',-1)">−</button> <b id="i" class="num">0</b> <button onclick="adj('i',1)">+</button><br><br>
+  <h2>How Much a Go?</h2>
+  <div>
+    Big People − <button onclick="adj('a',-1)">−</button> <b id="a" class="num">1</b> <button onclick="adj('a',1)">+</button><br>
+    Pickney − <button onclick="adj('c',-1)">−</button> <b id="c" class="num">0</b> <button onclick="adj('c',1)">+</button><br>
+    Baby − <button onclick="adj('i',-1)">−</button> <b id="i" class="num">0</b> <button onclick="adj('i',1)">+</button><br>
     <select id="pets"><option>No</option><option>Dog</option><option>Cat</option><option>Both</option></select>
   </div>
-  <button class="btn gold" style="margin-top:1rem" onclick="savePeople()">LOCK IN & BOOK</button>
+  <button class="btn gold" onclick="savePeople()">LOCK IN & BOOK</button>
 </div>
 
 <script>
   let traveller = {a:1,c:0,i:0,pets:"No"};
   let stays = [], stage = 0;
   const labels = ["Look Drive?","Wa yuh a go do?","Nyammin’s","Vybes","PAY FI DI YAAD"];
-  const images = ["pegasus","van","dunns","scotchies","ricks"];
-  const baseItems = [
-    "Jamaica Pegasus • Town • 3 nights",
-    "Private Van (fits X)",
-    "Dunn’s River (family package)",
-    "Scotchie’s Jerk (pickney seats)",
-    "Rick’s Café Sunset Vybes"
+  const realImages = [
+    "https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg?k=...","https://cf.bstatic.com/xdata/images/hotel/max1280x900/295811234.jpg?k=...",
+    "https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221418.jpg?k=...","https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221419.jpg?k=...",
+    "https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221420.jpg?k=..."
   ];
+  const items = ["Jamaica Pegasus • Town • 3 nights","Private Van (fits X)","Dunn’s River Falls","Scotchie’s Jerk","Rick’s Café Sunset Vybes"];
 
   function adj(t,d){
     if(t==='a'?traveller.a+d>=1:traveller[t]+d>=0){
@@ -75,7 +76,7 @@
     traveller.pets = document.getElementById("pets").value;
     document.getElementById("peoplePanel").classList.remove("active");
     document.getElementById("add").classList.remove("hidden");
-    document.getElementById("primary").textContent = labels[0];
+    document.getElementById("primary").textContent = "Where Yuh Deh Stay?";
   }
 
   function calcPrice(base){
@@ -89,8 +90,8 @@
   function update(){
     document.getElementById("journey").innerHTML = stays.map((item,i)=>`
       <div class="stay">
-        <img src="https://yaadlife.booorldwide.com/cdn/${images[i]||'generic'}.jpg">
-        <div style="font-weight:900">${item} • $${calcPrice(i===0?280:220)} USD</div>
+        <img src="${realImages[i] || 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/7e/8f/caption.jpg?w=1200&h=-1&s=1'}">
+        <div style="font-weight:900">${item.replace("X",traveller.a+traveller.c+(traveller.pets!=="No"?" + pets":""))} • $${calcPrice(i===0?280:220)} USD</div>
       </div>
     `).join("");
   }
@@ -100,24 +101,21 @@
       document.getElementById("peoplePanel").classList.add("active");
     } else if(stage < 4){
       stage++;
-      let text = baseItems[stage];
-      if(stage===1) text = text.replace("X",traveller.a+traveller.c+(traveller.pets!=="No"?" + pets":""));
-      stays.push(text);
+      stays.push(items[stage]);
       document.getElementById("primary").textContent = labels[stage];
       update();
     } else {
-      const total = stays.reduce((a,s,i)=>a + calcPrice(i===0?280:220),0);
-      document.getElementById("primary").textContent = `PAY FI DI YAAD → $${total} USD`;
+      alert("Wa Gwaan — Your YaadLife Soulbound Token is minting now. Welcome home forever.");
     }
   };
 
   document.getElementById("add").onclick = () => {
-    stays.push("Next Yaad");
+    stays.push("Next Yaad • $${calcPrice(220)} USD");
     update();
   };
 
   document.getElementById("mint").onclick = () => {
-    new WalletConnect.Modal({projectId:"YOUR_ID_HERE"}).open();
+    new WalletConnect.Modal({projectId:"YOUR_PROJECT_ID"}).open();
   };
 
   update();
