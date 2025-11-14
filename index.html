@@ -523,7 +523,14 @@ const loadFlights = () => {
   };
 
   // EVENT LISTENERS
-  document.getElementById('startBtn').addEventListener('click', () => next(1));
+document.getElementById('startBtn').addEventListener('click', () => {
+  next(1);
+  // Auto-select "Yes" and go to Step 2
+  setTimeout(() => {
+    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+    if (yesCard) yesCard.click();
+  }, 100);
+});
 document.getElementById('step1').addEventListener('click', e => {
   const card = e.target.closest('.option-card');
   if (card) {
