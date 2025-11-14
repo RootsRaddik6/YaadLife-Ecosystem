@@ -6,6 +6,7 @@
   <title>YaadVibe 1Drop</title>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     :root {
       --green: #009B48; --gold: #FFD700; --black: #000; --dark: #0a0a0a;
@@ -105,7 +106,7 @@
     .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.25rem; }
 
     input, select {
-      width: 88dvw; max-width: 340px; padding: 18px 16px; /* 50% bigger */
+      width: 88dvw; max-width: 340px; padding: 18px 16px;
       border-radius: 18px; background: rgba(255,255,255,0.12);
       border: 2px solid #444; color: #fff; font-size: 1.2rem;
       margin: 1rem 0; backdrop-filter: blur(8px);
@@ -184,7 +185,6 @@
         <option>Berlin, Germany</option>
         <option>Kingston, Jamaica</option>
         <option>Montego Bay, Jamaica</option>
-        <!-- Add 100+ more -->
       </select>
       <button class="btn green" id="btn2">Next</button>
     </div>
@@ -261,18 +261,31 @@
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
       <div class="total">Total: $<span id="total">0</span></div>
-      <button class="btn gold" id="btnPay">Pay with Wallet</button>
-      <div id="qr-area"></div>
+      <button class="btn gold" id="btnPay">Pay with TON Wallet</button>
+      <div id="qr-area" style="margin:1.5rem 0;"></div>
     </div>
   </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const ALL_PARISHES = [
-    "clarendon", "hanover", "kingston", "manchester", "portland",
-    "saint-andrew", "saint-ann", "saint-catherine", "saint-elizabeth",
-    "saint-james", "saint-mary", "saint-thomas", "trelawny", "westmoreland"
-  ];
+  const PARISH_TOWNS = {
+    "clarendon": "May Pen (Capital)",
+    "hanover": "Lucea (Capital)",
+    "kingston": "Kingston (Town)",
+    "manchester": "Mandeville (Capital)",
+    "portland": "Port Antonio (Capital)",
+    "saint-andrew": "Half Way Tree",
+    "saint-ann": "St. Ann’s Bay",
+    "saint-catherine": "Spanish Town (Capital)",
+    "saint-elizabeth": "Black River (Capital)",
+    "saint-james": "Montego Bay (MoBay)",
+    "saint-mary": "Port Maria",
+    "saint-thomas": "Morant Bay",
+    "trelawny": "Falmouth",
+    "westmoreland": "Savanna-la-Mar (Sav)"
+  };
+
+  const ALL_PARISHES = Object.keys(PARISH_TOWNS);
 
   const LIVE_DATA = {
     accommodations: {
@@ -309,9 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let state = { 
     from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, 
-    transport:[], tours:[], nights:1, adults:2, kids:0 
+    transport:[], tours:[], nights:1, adults:2, kids:0, isLocal: false 
   };
   let total = 0;
+  const tonConnectUI = new TON_CONNECT.UI();
 
   const updateCalc = () => {
     total = 0;
@@ -335,9 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const renderParishes = () => {
     const c = document.getElementById('parish-options'); c.innerHTML = '';
     ALL_PARISHES.forEach(p => {
+      const display = `${p.replace(/-/g,' ').replace(/\b\w/g, l => l.toUpperCase())} (${PARISH_TOWNS[p]})`;
       const card = document.createElement('div');
       card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${p.replace(/-/g,' ').replace(/\b\w/g, l => l.toUpperCase())}</div></div>`;
+      card.innerHTML = `<div class="info"><div class="name">${display}</div></div>`;
       card.onclick = () => {
         c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
         card.classList.add('selected');
@@ -426,6 +441,30 @@ document.addEventListener('DOMContentLoaded', () => {
     next(9);
   };
 
+  // TON Connect Payment
+  document.getElementById('btnPay').onclick = async () => {
+    if (total === 0) return alert("Add items first!");
+    try {
+      const tx = {
+        validUntil: Math.floor(Date.now() / 1000) + 300,
+        messages: [{
+          address: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c",
+          amount: (total * 1e9).toString(), // TON in nano
+          payload: btoa(JSON.stringify(state))
+        }]
+      };
+      const result = await tonConnectUI.sendTransaction(tx);
+      alert("Payment sent! Tx: " + result.boc);
+      new QRCode(document.getElementById("qr-area"), {
+        text: result.boc,
+        width: 180, height: 180,
+        colorDark: "#FFD700", colorLight: "#000"
+      });
+    } catch (e) {
+      alert("Payment failed: " + e.message);
+    }
+  };
+
   // === EVENT LISTENERS ===
   document.getElementById('startBtn').onclick = () => next(1);
 
@@ -434,7 +473,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (card) {
       document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
-      next(card.dataset.value === 'yes' ? 2 : 4);
+      state.isLocal = card.dataset.value === 'no';
+      next(state.isLocal ? 4 : 2);
     }
   });
 
