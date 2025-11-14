@@ -322,19 +322,18 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": [{name:"Local Market Tour",price:35},{name:"Nature Walk",price:20}]
     }
   };
-
-  const FLIGHT_DATA = {
-    "Miami, USA": [
-      {airline:"American", code:"AA123", price:380, arrive:"2025-06-10", depart:"2025-06-17"},
-      {airline:"JetBlue", code:"B6123", price:340, arrive:"2025-06-11", depart:"2025-06-18"}
-    ],
-    "New York, USA": [
-      {airline:"Delta", code:"DL789", price:420, arrive:"2025-06-12", depart:"2025-06-19"}
-    ],
-    "default": [
-      {airline:"Caribbean Air", code:"CA999", price:299, arrive:"2025-06-15", depart:"2025-06-20"}
-    ]
-  };
+    flights: {
+      "Kingston, Jamaica": [
+        {airline:"Caribbean Airlines", code:"BW123", price:85, arrive:"2025-06-15", depart:"2025-06-20"},
+        {airline:"Fly Jamaica", code:"FJ456", price:72, arrive:"2025-06-16", depart:"2025-06-21"}
+      ],
+      "Montego Bay, Jamaica": [
+        {airline:"InterCaribbean", code:"JY789", price:68, arrive:"2025-06-17", depart:"2025-06-22"}
+      ],
+      "default": [
+        {airline:"Caribbean Air", code:"CA999", price:299, arrive:"2025-06-15", depart:"2025-06-20"}
+      ]
+    }
 
   let state = { 
     from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, 
@@ -461,27 +460,26 @@ document.addEventListener('DOMContentLoaded', () => {
       c.appendChild(card);
     });
   };
-
-  const loadFlights = () => {
-    const c = document.getElementById('flight-options'); c.innerHTML = '';
-    const opts = FLIGHT_DATA[state.from] || FLIGHT_DATA.default;
-    opts.forEach(f => {
-      const card = document.createElement('div');
-      card.className = 'option-card';
-      card.innerHTML = `
-        <div class="info">
-          <div class="name">${f.airline} • ${f.code}</div>
-          <div class="price">$${f.price} roundtrip</div>
-        </div>
-      `;
-      card.onclick = () => {
-        document.querySelectorAll('#flight-options .option-card').forEach(x => x.classList.remove('selected'));
-        card.classList.add('selected');
-        state.flight = f;
-      };
-      c.appendChild(card);
-    });
-  };
+const loadFlights = () => {
+  const c = document.getElementById('flight-options'); c.innerHTML = '';
+  const opts = LIVE_DATA.flights[state.from] || LIVE_DATA.flights.default;
+  opts.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = `
+      <div class="info">
+        <div class="name">${f.airline} • ${f.code}</div>
+        <div class="price">$${f.price} roundtrip</div>
+      </div>
+    `;
+    card.onclick = () => {
+      document.querySelectorAll('#flight-options .option-card').forEach(x => x.classList.remove('selected'));
+      card.classList.add('selected');
+      state.flight = f;
+    };
+    c.appendChild(card);
+  });
+};
 
   const showSummary = () => {
     const div = document.getElementById('summary-items'); div.innerHTML = '';
@@ -530,17 +528,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // EVENT LISTENERS
   document.getElementById('startBtn').addEventListener('click', () => next(1));
-
-  document.getElementById('step1').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-    if (card) {
-      document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      state.isLocal = card.dataset.value === 'no';
-      next(state.isLocal ? 4 : 2);
-      if (state.isLocal) renderParishes();
-    }
-  });
+document.getElementById('step1').addEventListener('click', e => {
+  const card = e.target.closest('.option-card');
+  if (card) {
+    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.isLocal = card.dataset.value === 'no';
+    next(2);  // ← ALL GO TO STEP 2
+    if (state.isLocal) renderParishes();
+  }
+});
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
