@@ -523,24 +523,26 @@ const loadFlights = () => {
   };
 
   // EVENT LISTENERS
-document.getElementById('startBtn').addEventListener('click', () => {
-  next(1);
-  // Auto-select "Yes" and go to Step 2
-  setTimeout(() => {
-    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
-    if (yesCard) yesCard.click();
-  }, 100);
-});
+// EVENT LISTENERS — ORDER FIXED
 document.getElementById('step1').addEventListener('click', e => {
   const card = e.target.closest('.option-card');
   if (card) {
     document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     state.isLocal = card.dataset.value === 'no';
-    next(2);  // ← ALL GO TO STEP 2
+    next(2);
     if (state.isLocal) renderParishes();
   }
 });
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  next(1);
+  setTimeout(() => {
+    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+    if (yesCard) yesCard.click(); // ← NOW WORKS
+  }, 100);
+});
+
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
