@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>YaadVibe 1Drop</title>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
-  <script src="https://unpkg.com/@solana/web3.js@1.78.0/lib/index.iife.min.js"></script>
-  <script src="https://unpkg.com/@solana/wallet-adapter-web3@0.1.0/dist/index.iife.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --green: #009B48; --gold: #FFD700; --black: #000; --dark: #0a0a0a; --gray: #555;
+      --green: #009B48; --gold: #FFD700; --black: #000; --dark: #0a0a0a;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -19,7 +17,7 @@
       color: #fff;
       min-height: 100dvh;
       overflow-x: hidden;
-      background-image: url('IMG_0039.jpeg');
+      background-image: url('IMG_0039.jpeg'), linear-gradient(135deg, #001a00, #003300);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -31,16 +29,28 @@
       backdrop-filter: blur(3px);
       z-index: 1;
     }
+
+    /* AI-GENERATED SILKY FLOWING FLAG */
     .flag {
-      position: fixed; top: 12px; left: 12px; width: 64px; height: 44px;
-      background: linear-gradient(45deg, #000 0%, #000 25%, var(--gold) 25%, var(--gold) 50%, #000 50%, #000 75%, var(--green) 75%, var(--green) 100%);
-      border-radius: 8px; box-shadow: 0 0 20px rgba(255,215,0,0.8);
-      animation: wave 2egna5s infinite ease-in-out; z-index: 10;
+      position: fixed; top: 12px; left: 12px; width: 80px; height: 55px;
+      background: 
+        radial-gradient(circle at 30% 50%, #fff3, transparent 60%),
+        linear-gradient(45deg, #000 0%, #000 25%, var(--gold) 25%, var(--gold) 50%, #000 50%, #000 75%, var(--green) 75%, var(--green) 100%);
+      border-radius: 10px; box-shadow: 0 0 25px rgba(255,215,0,0.9), 0 0 40px rgba(0,150,72,0.6);
+      animation: flow 3s infinite ease-in-out, shine 2s infinite; z-index: 10;
+      transform-origin: left center;
     }
-    @keyframes wave {
-      0%,100% { transform: rotate(0deg) skewY(0); }
-      50% { transform: rotate(3deg) skewY(1.5deg); }
+    @keyframes flow {
+      0%,100% { transform: translateY(0) skewY(0) scaleX(1); }
+      25% { transform: translateY(-3px) skewY(1deg) scaleX(1.02); }
+      50% { transform: translateY(0) skewY(-1deg) scaleX(1.01); }
+      75% { transform: translateY(-2px) skewY(0.5deg) scaleX(1.02); }
     }
+    @keyframes shine {
+      0%,100% { filter: brightness(1); }
+      50% { filter: brightness(1.3) saturate(1.2); }
+    }
+
     .container {
       position: relative; z-index: 2;
       max-width: 100%; padding: 1rem;
@@ -74,7 +84,6 @@
     }
     .btn.gold { background: var(--gold); color: #000; }
     .btn.green { background: var(--green); color: #fff; border: 3px solid var(--gold); }
-    .btn.dark { background: var(--dark); color: var(--gold); border: 3px solid var(--gold); }
     .btn:active { transform: scale(0.95); }
 
     .step { display: none; width: 100%; animation: fade 0.5s ease-out; }
@@ -94,13 +103,19 @@
     .option-card .info { flex: 1; }
     .option-card .name { font-weight: 700; font-size: 1.15rem; }
     .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.25rem; }
-    .option-card .source { font-size: 0.88rem; color: #ddd; }
 
-    input[type="date"] {
-      width: 88dvw; max-width: 340px; padding: 14px;
-      border-radius: 16px; background: rgba(255,255,255,0.12);
-      border: 2px solid #444; color: #fff; font-size: 1.1rem;
+    input, select {
+      width: 88dvw; max-width: 340px; padding: 18px 16px; /* 50% bigger */
+      border-radius: 18px; background: rgba(255,255,255,0.12);
+      border: 2px solid #444; color: #fff; font-size: 1.2rem;
       margin: 1rem 0; backdrop-filter: blur(8px);
+    }
+
+    .occupancy {
+      display: flex; gap: 12px; justify-content: center; margin: 1rem 0;
+    }
+    .occupancy select {
+      width: 42dvw; max-width: 160px; padding: 14px; font-size: 1.1rem;
     }
 
     .nights {
@@ -119,15 +134,12 @@
     }
     .total { font-size: 1.8rem; font-weight: 700; color: var(--gold); text-align: center; margin: 1.8rem 0; }
 
-    .qr-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 22px; }
-    .qr-item { background: rgba(255,255,255,0.12); padding: 12px; border-radius: 14px; text-align: center; }
-    .qr-item p { font-size: 0.85rem; margin-top: 8px; color: #ccc; }
-
     .trust { text-align: center; font-size: 0.95rem; color: #bbb; margin-top: 1.2rem; }
     .trust a { color: var(--gold); text-decoration: none; }
 
     @media (min-width: 400px) {
-      .btn, input { width: 340px; }
+      .btn, input, select { width: 340px; }
+      .occupancy select { width: 160px; }
     }
   </style>
 </head>
@@ -160,14 +172,42 @@
     <!-- STEP 2 -->
     <div id="step2" class="step">
       <p class="msg">Where are you traveling from?</p>
-      <input type="text" id="fromCity" placeholder="e.g. Miami, USA">
+      <select id="fromCity">
+        <option value="">Select City</option>
+        <option>Miami, USA</option>
+        <option>New York, USA</option>
+        <option>London, UK</option>
+        <option>Toronto, Canada</option>
+        <option>Paris, France</option>
+        <option>Tokyo, Japan</option>
+        <option>Sydney, Australia</option>
+        <option>Berlin, Germany</option>
+        <option>Kingston, Jamaica</option>
+        <option>Montego Bay, Jamaica</option>
+        <!-- Add 100+ more -->
+      </select>
       <button class="btn green" id="btn2">Next</button>
     </div>
 
     <!-- STEP 3 -->
     <div id="step3" class="step">
-      <p class="msg">When will you arrive?</p>
+      <p class="msg">Arrival & Departure</p>
       <input type="date" id="arriveDate">
+      <input type="date" id="departDate">
+      <div class="occupancy">
+        <select id="adults">
+          <option value="1">1 Adult</option>
+          <option value="2" selected>2 Adults</option>
+          <option value="3">3 Adults</option>
+          <option value="4">4 Adults</option>
+        </select>
+        <select id="kids">
+          <option value="0" selected>0 Kids</option>
+          <option value="1">1 Kid</option>
+          <option value="2">2 Kids</option>
+          <option value="3">3 Kids</option>
+        </select>
+      </div>
       <div class="nights">
         <button id="minus">-</button>
         <span id="nightCount">1</span> night(s)
@@ -187,11 +227,9 @@
     <div id="step5" class="step">
       <p class="msg">What vibe — Inland or Coastal?</p>
       <div class="option-card" data-value="coastal">
-        <img src="https://lh3.googleusercontent.com/p/AF1QipO0zN8i5s9x8i2K9v7v8v8v8v8v8v8v8v8v8v8=w500-h500-k-no" alt="Coastal">
         <div class="info"><div class="name">Coastal</div></div>
       </div>
       <div class="option-card" data-value="inland">
-        <img src="https://lh3.googleusercontent.com/p/AF1QipN0zN8i5s9x8i2K9v7v8v8v8v8v8v8v8v8v8v8=w500-h500-k-no" alt="Inland">
         <div class="info"><div class="name">Inland</div></div>
       </div>
       <button class="btn green" id="btnVibe">Next → Choose Stay</button>
@@ -240,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     accommodations: {
       "st-james": [
         {name:"Round Hill • Villa 10",price:680,source:"Luxury",img:"https://www.roundhill.com/wp-content/uploads/2023/06/Round-Hill-Villa-Exterior.jpg",type:"coastal"},
-        {name:"Iberostar Rose Hall",price:420,source:"Resort",img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3f/2c/goldeneye.jpg?w=1200",type:"coastal"}
+        {name:"Iberostar Rose Hall",price:420,source:"Resort",img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3g.jpg?w=1200",type:"coastal"}
       ],
       "kingston": [
         {name:"Jewel Grande • Moonrise Suite",price:580,source:"Premium",img:"IMG_0039.jpeg",type:"coastal"},
@@ -251,23 +289,37 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       "st-ann": [
         {name:"Sandals Dunn’s River",price:720,source:"All-Inclusive",img:"https://www.sandals.com/blog/wp-content/uploads/2023/05/Sandals-Dunns-River-Exterior.jpg",type:"coastal"}
+      ],
+      "default": [
+        {name:"Local Guesthouse",price:120,source:"Budget",img:"IMG_0039.jpeg",type:"inland"},
+        {name:"Airbnb Villa",price:280,source:"Private",img:"IMG_0039.jpeg",type:"coastal"}
       ]
     },
     transport: {
       "st-james": [{name:"Private Transfer MBJ → Round Hill",price:120},{name:"Knutsford Express",price:45},{name:"Local Taxi",price:80}],
-      "kingston": [{name:"Lynk Airport → City",price:25},{name:"JUTC Bus",price:2},{name:"Private Driver",price:80}]
+      "kingston": [{name:"Lynk Airport → City",price:25},{name:"JUTC Bus",price:2},{name:"Private Driver",price:80}],
+      "default": [{name:"Local Taxi",price:60},{name:"Route Taxi",price:5}]
     },
     tours: {
       "st-james": [{name:"Rick’s Café Sunset",price:65},{name:"YS Falls + Black River",price:110},{name:"Negril Beach Day",price:50}],
-      "kingston": [{name:"Bob Marley Museum",price:30},{name:"Devon House + Jerk",price:45},{name:"Blue Mountain Coffee Tour",price:95}]
+      "kingston": [{name:"Bob Marley Museum",price:30},{name:"Devon House + Jerk",price:45},{name:"Blue Mountain Coffee Tour",price:95}],
+      "default": [{name:"Local Market Tour",price:35},{name:"Nature Walk",price:20}]
     }
   };
 
-  let state = { from:'', arrive:'', parish:'', vibe:'', stay:null, transport:[], tours:[], nights:1 };
+  let state = { 
+    from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, 
+    transport:[], tours:[], nights:1, adults:2, kids:0 
+  };
   let total = 0;
+
   const updateCalc = () => {
     total = 0;
-    if (state.stay) total += state.stay.price * state.nights + Math.round(state.stay.price * state.nights * 0.05);
+    if (state.stay) {
+      const base = state.stay.price * state.nights;
+      const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
+      total += base + occupancyFee + Math.round(base * 0.05);
+    }
     state.transport.forEach(t => total += t.price);
     state.tours.forEach(t => total += t.price);
     document.getElementById('liveTotal').textContent = total.toFixed(2);
@@ -301,12 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
     c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
     setTimeout(() => {
       c.innerHTML = '';
-      const items = LIVE_DATA.accommodations[state.parish] || [];
+      const items = LIVE_DATA.accommodations[state.parish] || LIVE_DATA.accommodations.default;
       const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
-      if (!filtered.length) {
-        c.innerHTML = '<p style="text-align:center">More coming soon!</p>';
-        return;
-      }
       filtered.forEach(item => {
         const card = document.createElement('div');
         card.className = 'option-card';
@@ -314,7 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="${item.img}" onerror="this.src='IMG_0039.jpeg'" alt="${item.name}">
           <div class="info">
             <div class="name">${item.name}</div>
-            <div class="source">${item.source}</div>
             <div class="price">$${item.price}/night</div>
           </div>
         `;
@@ -331,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadTransport = () => {
     const c = document.getElementById('transport-options'); c.innerHTML = '';
-    const opts = LIVE_DATA.transport[state.parish] || LIVE_DATA.transport.kingston || [];
+    const opts = LIVE_DATA.transport[state.parish] || LIVE_DATA.transport.default;
     opts.forEach(t => {
       const card = document.createElement('div');
       card.className = 'option-card';
@@ -348,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadTours = () => {
     const c = document.getElementById('tour-options'); c.innerHTML = '';
-    const opts = LIVE_DATA.tours[state.parish] || LIVE_DATA.tours.kingston;
+    const opts = LIVE_DATA.tours[state.parish] || LIVE_DATA.tours.default;
     opts.forEach(t => {
       const card = document.createElement('div');
       card.className = 'option-card';
@@ -368,38 +415,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const add = (label, price, fee = 0) => {
       div.innerHTML += `<div class="item"><span>${label}</span><span>$${price}${fee ? ` + <strong>$${fee}</strong> fee` : ''}</span></div>`;
     };
-    if (state.stay) add(`${state.stay.name} (${state.nights} nights)`, state.stay.price * state.nights, Math.round(state.stay.price * state.nights * 0.05));
+    if (state.stay) {
+      const base = state.stay.price * state.nights;
+      const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
+      add(`${state.stay.name} (${state.nights} nights, ${state.adults}A/${state.kids}K)`, base + occupancyFee, Math.round(base * 0.05));
+    }
     state.transport.forEach(t => add(t.name, t.price));
     state.tours.forEach(t => add(t.name, t.price));
     document.getElementById('total').textContent = total.toFixed(2);
     next(9);
-  };
-
-  const payNow = async () => {
-    if (total === 0) return alert('Add items!');
-    if (!window.solana?.isPhantom) return alert('Install Phantom Wallet!');
-    try {
-      const resp = await window.solana.connect();
-      const pubkey = resp.publicKey.toString();
-      alert(`Connected: ${pubkey.slice(0,6)}...${pubkey.slice(-4)}`);
-      alert(`Paid $${total} USDC to YaadVibe! SBT Minting...`);
-      const sbt = { id: Date.now(), user: pubkey, package: {...state, total}, timestamp: new Date().toISOString() };
-      const blob = new Blob([JSON.stringify(sbt, null, 2)], {type: 'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `yaadvibe-sbt-${sbt.id}.json`; a.click();
-
-      const qrArea = document.getElementById('qr-area');
-      qrArea.innerHTML = '<p style="text-align:center;color:var(--gold);font-weight:700;margin:1.2rem 0">SBT Minted on Solana!</p><div class="qr-grid"></div>';
-      const items = [`Wallet: ${pubkey.slice(0,8)}...`, `Total: $${total}`];
-      items.forEach(txt => {
-        const d = document.createElement('div'); d.className = 'qr-item';
-        const q = document.createElement('div');
-        new QRCode(q, {text: txt, width: 110, height: 110, colorDark: "#000", colorLight: "#fff"});
-        d.appendChild(q);
-        d.innerHTML += `<p>${txt}</p>`;
-        qrArea.querySelector('.qr-grid').appendChild(d);
-      });
-    } catch (e) { alert('Payment failed'); }
   };
 
   // === EVENT LISTENERS ===
@@ -415,20 +439,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('btn2').onclick = () => {
-    state.from = document.getElementById('fromCity').value.trim() || "Earth";
+    state.from = document.getElementById('fromCity').value;
+    if (!state.from) return alert("Choose your city!");
     next(3);
   };
 
-  document.getElementById('minus').onclick = () => { 
-    if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); } 
-  };
-  document.getElementById('plus').onclick = () => { 
-    state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); 
-  };
+  document.getElementById('adults').onchange = e => { state.adults = +e.target.value; updateCalc(); };
+  document.getElementById('kids').onchange = e => { state.kids = +e.target.value; updateCalc(); };
+
+  document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); } };
+  document.getElementById('plus').onclick = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
 
   document.getElementById('btn3').onclick = () => {
     state.arrive = document.getElementById('arriveDate').value;
-    if (!state.arrive) return alert("Pick arrival date!");
+    state.depart = document.getElementById('departDate').value;
+    if (!state.arrive || !state.depart) return alert("Pick both dates!");
     next(4);
     renderParishes();
   };
@@ -454,9 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('btnTransport').onclick = () => { loadTours(); next(8); };
   document.getElementById('btnTours').onclick = showSummary;
-  document.getElementById('btnPay').onclick = payNow;
 
-  // Vibe selection
   document.getElementById('step5').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
     if (card) {
