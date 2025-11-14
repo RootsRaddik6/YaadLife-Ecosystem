@@ -8,103 +8,109 @@
 <style>
   :root{--gold:#FFD700;--green:#009B48;--dark:#0a0a0a}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#000;color:#fff;font-family:-apple-system,system-ui,sans-serif;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(4px)}
-  .c{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;text-align:center;max-width:420px;margin:0 auto;width:100%}
-  h1{font-size:clamp(5.5rem,15vw,11rem);font-weight:900;background:linear-gradient(45deg,var(--gold),#fff,#FFEDAB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:0.9;text-shadow:0 4px 20px rgba(0,0,0,0.7)}
-  .motto{font-size:1.9rem;font-weight:700;margin:2.8rem 0 4rem;opacity:0.96;letter-spacing:1.5px}
-  .btn{width:88dvw;max-width:380px;margin:1.4rem auto;padding:1.8rem;border-radius:28px;font-size:2rem;font-weight:900;border:none;cursor:pointer;box-shadow:0 18px 50px rgba(0,0,0,0.7);transition:all .3s}
+  body{background:var(--dark);color:#fff;font-family:-apple-system,system-ui,sans-serif;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+  .c{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;text-align:center;max-width:420px;margin:0 auto;width:100%;gap:2rem}
+  h1{font-size:clamp(6rem,16vw,12rem);font-weight:900;background:linear-gradient(45deg,#fff,var(--gold),#FFEDAB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:0.88;letter-spacing:-4px}
+  .motto{font-size:1.9rem;font-weight:700;letter-spacing:1.5px}
+  .btn{width:88dvw;max-width:380px;padding:1.9rem;border-radius:30px;font-size:2.1rem;font-weight:900;border:none;cursor:pointer;box-shadow:0 20px 50px rgba(0,0,0,0.8);transition:all .3s;user-select:none}
   .gold{background:var(--gold);color:#000}
-  .dark{background:var(--dark);color:var(--gold)}
-  .green{background:var(--green);color:#fff;border:6px solid var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.5);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(255,215,0,0.5)}50%{box-shadow:0 0 50px rgba(255,215,0,0.9)}}
+  .dark{background:var(--dark);color:var(--gold);border:3px solid var(--gold)}
+  .green{background:var(--green);color:#fff;border:6px solid var(--gold);box-shadow:0 0 40px rgba(255,215,0,0.6);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(255,215,0,0.6)}50%{box-shadow:0 0 60px rgba(255,215,0,1)}}
   .btn:active{transform:scale(0.94)}
-  #journey{max-width:420px;width:100%;margin:2rem 0;overflow-y:auto;padding-bottom:10rem}
+  .lynk{color:var(--gold);font-size:1.5rem;font-weight:700;margin-top:1rem}
+  #journey{width:100%;margin:1rem 0;overflow-y:auto;padding-bottom:12rem}
   .stay{background:var(--green);border:5px solid var(--gold);padding:1.4rem;margin:1rem;border-radius:20px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.7);animation:slideUp .6s ease-out}
-  @keyframes slideUp{from{transform:translateY(50px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
   .stay img{width:100%;height:180px;object-fit:cover;border-radius:16px;margin-bottom:12px}
-  .panel{position:fixed;bottom:0;left:0;right:0;max-height:85vh;background:rgba(0,155,72,0.98);border-top:6px solid var(--gold);padding:1.2rem;border-radius:36px 36px 0 0;z-index:30;transform:translateY(100%);transition:transform .4s cubic-bezier(0.23,1,0.32,1)}
+  .panel{position:fixed;bottom:0;left:0;right:0;background:rgba(0,155,72,0.99);border-top:6px solid var(--gold);padding:1.5rem;border-radius:36px 36px 0 0;z-index:30;transform:translateY(100%);transition:transform .4s cubic-bezier(0.23,1,0.32,1)}
   .panel.active{transform:translateY(0)}
-  .close{position:absolute;top:10px;right:14px;font-size:2.6rem;background:none;border:none;color:#fff;cursor:pointer}
-  .num{width:60px;height:60px;line-height:60px;font-size:2.1rem;background:var(--dark);color:var(--gold);border-radius:50%;margin:0 12px}
-  .lynk{color:var(--gold);font-size:1.4rem;margin-top:1rem;font-weight:700}
+  .close{position:absolute;top:10px;right:16px;font-size:2.8rem;background:none;border:none;color:#fff;cursor:pointer}
+  .num{width:64px;height:64px;line-height:64px;font-size:2.2rem;background:var(--dark);color:var(--gold);border-radius:50%;margin:0 14px;font-weight:900}
 </style>
 </head>
 <body>
-<div class="overlay"></div>
+
 <div class="c">
   <h1>YAAD<br>VIBE</h1>
   <p class="motto">One Love One Jamaica</p>
+  
   <div id="journey"></div>
+  
   <button id="primary" class="btn gold">BOOK YAAD</button>
   <button id="mint" class="btn dark">Konnet Wallet + MINT SBT</button>
   <button id="add" class="btn green hidden">Next Yaad?</button>
-  <div class="lynk">Instant payout → Lynk @Rootsraddik</div>
+  
+  <div class="lynk">Instant payout Jamaica Lynk</div>
 </div>
 
 <!-- People Panel -->
 <div id="peoplePanel" class="panel">
-  <button class="close">×</button>
-  <h2>How Much a Go?</h2>
-  <div style="padding:1rem 0;line-height:2.8;font-size:1.3rem">
+  <button class="close" onclick="closePanel()">×</button>
+  <h2 style="font-size:2rem;margin-bottom:1rem">How Much a Go?</h2>
+  <div style="line-height:3;font-size:1.4rem">
     Big People − <button onclick="adj('a',-1)">−</button> <b id="a" class="num">1</b> <button onclick="adj('a',1)">+</button><br>
     Pickney − <button onclick="adj('c',-1)">−</button> <b id="c" class="num">0</b> <button onclick="adj('c',1)">+</button><br>
     Baby − <button onclick="adj('i',-1)">−</button> <b id="i" class="num">0</b> <button onclick="adj('i',1)">+</button><br>
-    <select id="pets"><option>No</option><option>Dog</option><option>Cat</option><option>Both</option></select>
+    <select id="pets" style="margin-top:1rem;padding:12px;font-size:1.3rem;width:100%;border-radius:12px;background:var(--dark);color:var(--gold)">
+      <option>No</option><option>Dog</option><option>Cat</option><option>Both</option>
+    </select>
   </div>
-  <button class="btn gold" onclick="savePeople()">LOCK IN & BOOK</button>
+  <button class="btn gold" style="margin-top:2rem" onclick="savePeople()">LOCK IN & BOOK</button>
 </div>
 
 <script type="module">
   import { WalletConnectModal } from 'https://unpkg.com/@walletconnect/modal@2/dist/index.js';
 
-  const PROJECT_ID = "YOUR_WALLETCONNECT_PROJECT_ID_HERE";
-  const LYNK_HANDLE = "@Rootsraddik";
+  const PROJECT_ID = "YOUR_PROJECT_ID_HERE";
+  const LYNK = "Jamaica Lynk";
 
   let traveller = {a:1, c:0, i:0, pets:"No"};
   let stays = [], stage = 0;
 
-  const sacredStays = [
-    {name:"Jamaica Pegasus • Kingston", price:480, img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg"},
-    {name:"Round Hill • Montego Bay", price:680, img:"https://www.roundhill.com/wp-content/uploads/2023/06/Round-Hill-Villa-Exterior.jpg"},
-    {name:"GoldenEye • Oracabessa", price:920, img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3f/2c/goldeneye.jpg?w=1200"},
+  const sacred = [
+    {name:"Jewel Grande • Moonrise", price:580, img:"https://via.placeholder.com/800x600/001100/FFD700?text=Moonrise+Jewel+Grande"},
+    {name:"GoldenEye • Lagoon Cottage", price:920, img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3f/2c/goldeneye.jpg?w=1200"},
     {name:"The Caves • Negril", price:780, img:"https://www.thecaveshotel.com/wp-content/uploads/2023/05/The-Caves-Negril-Jamaica.jpg"},
-    {name:"Jewel Grande • Moonrise Suite", price:580, img:"https://via.placeholder.com/800x600/001100/FFD700?text=Moonrise+Jewel+Grande+Soon"}
+    {name:"Round Hill • Villa 10", price:680, img:"https://www.roundhill.com/wp-content/uploads/2023/06/Round-Hill-Villa-Exterior.jpg"},
+    {name:"Pegasus • Kingston Suite", price:480, img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg"}
   ];
 
-  const labels = ["Choose Yaad","Transport","Activities","Nyammin’s","Vybes","MINT & PAY DIRECT"];
-
   function adj(t,d){
-    if(t==='a'?traveller.a+d>=1:traveller[t]+d>=0){
-      traveller[t]+=d;
+    if(t==='a' ? traveller.a+d >=1 : traveller[t]+d >=0){
+      traveller[t] += d;
       document.getElementById(t).textContent = traveller[t];
     }
   }
 
+  function closePanel(){
+    document.getElementById("peoplePanel").classList.remove("active");
+  }
+
   function savePeople(){
     traveller.pets = document.getElementById("pets").value;
-    document.getElementById("peoplePanel").classList.remove("active");
-    document.getElementById("primary").textContent = labels[0];
+    closePanel();
+    document.getElementById("primary").textContent = "Choose Yaad Stay";
     document.getElementById("add").classList.remove("hidden");
   }
 
   function calcPrice(base){
     let p = base;
-    if(traveller.a>2) p += 85*(traveller.a-2);
-    if(traveller.c>0) p += 45*traveller.c;
+    if(traveller.a>2) p += 90*(traveller.a-2);
+    if(traveller.c>0) p += 50*traveller.c;
     if(traveller.i>0) p += 20*traveller.i;
-    if(traveller.pets!=="No") p += 100;
+    if(traveller.pets!=="No") p += 120;
     return p;
   }
 
   function update(){
-    document.getElementById("journey").innerHTML = stays.map((s,i)=>`
+    document.getElementById("journey").innerHTML = stays.map(s=>`
       <div class="stay">
         <img src="${s.img}">
-        <div style="font-weight:900;font-size:1.4rem;margin-top:8px">
+        <div style="font-weight:900;font-size:1.5rem;margin-top:8px">
           ${s.name}<br>
-          <span style="color:var(--gold);font-size:1.6rem">$${calcPrice(s.price)} USD</span><br>
-          <small style="opacity:0.9">→ ${LYNK_HANDLE} gets paid instant JMD</small>
+          <span style="color:var(--gold);font-size:1.8rem">$${calcPrice(s.price)} USD</span><br>
+          <small style="opacity:0.9">→ ${LYNK} instant payout</small>
         </div>
       </div>
     `).join("");
@@ -113,45 +119,34 @@
   document.getElementById("primary").onclick = () => {
     if(stays.length===0){
       document.getElementById("peoplePanel").classList.add("active");
-    } else if(stage < labels.length-1){
+    } else if(stage < 5){
       stage++;
-      const stay = sacredStays[stage-1] || sacredStays[Math.floor(Math.random()*sacredStays.length)];
-      stays.push({...stay});
-      document.getElementById("primary").textContent = labels[stage];
-      update();
-      if(stage === labels.length-1){
-        document.getElementById("primary").textContent = "MINT SBT + PAY LYNK";
+      const stay = sacred[stage-1] || sacred[Math.floor(Math.random()*sacred.length)];
+      stays.push(stay);
+      document.getElementById("primary").textContent = ["Transport","Activities","Nyam","Vybes","MINT SBT + PAY"][stage-1] || "MINT SBT + PAY";
+      if(stage===5){
+        document.getElementById("primary").textContent = "MINT & SEND TO LYNK";
         document.getElementById("primary").classList.add("green");
       }
-    } else {
-      document.getElementById("mint").click();
+      update();
     }
   };
 
   document.getElementById("add").onclick = () => {
-    const extra = sacredStays[Math.floor(Math.random()*sacredStays.length)];
+    const extra = sacred[Math.floor(Math.random()*sacred.length)];
     stays.push({name:"Extra Night • "+extra.name, price:220, img:extra.img});
     update();
   };
 
-  // WalletConnect + Mint
   let modal;
   document.getElementById("mint").onclick = async () => {
-    if(!modal){
-      modal = new WalletConnectModal({
-        projectId: PROJECT_ID,
-        themeMode: "dark",
-        themeVariables: {"--wcm-background-color":"#009B48","--wcm-accent-color":"#FFD700"}
-      });
-    }
+    if(!modal) modal = new WalletConnectModal({projectId: PROJECT_ID, themeMode:"dark"});
     try {
-      await modal.connect().then(({approval})=>approval());
-      alert(`YAADVIBE SOULBOUND MINTED!\n${LYNK_HANDLE} just got paid direct JMD\nWelcome home forever`);
-      // Plug real contract later
-    } catch(e){ console.log(e); }
+      await modal.connect().then(x=>x.approval());
+      alert("YAADVIBE MINTED!\nJamaica Lynk just got paid\nRebuild stronger Jamaica");
+    } catch(e) { console.log(e); }
   };
 
-  document.querySelector(".close").onclick = () => document.getElementById("peoplePanel").classList.remove("active");
   update();
 </script>
 </body>
