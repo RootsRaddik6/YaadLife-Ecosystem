@@ -27,18 +27,15 @@
   backdrop-filter: blur(4px);
   z-index: 1;
 }
-    /* REALISTIC FLOWING JAMAICAN FLAG - APNG BASE64 */
-    .flag {
-      position: fixed; top: 16px; left: 16px; 
-      width: 100px; height: 68px;
-      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAkCAYAAAB2e0l2AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8tOYCRsRySc5btfURLSNdGLCAeLHcERoFhRhtRsdS/FzsLssAAAwOxlXG3l0p4AAAABJRU5ErkJggg==') center/contain no-repeat;
-      background-size: 300% 100%;
-      border-radius: 14px;
-      box-shadow: 0 0 35px rgba(255,215,0,0.95), 0 0 55px rgba(0,150,72,0.75);
-      animation: waveFlow 3.2s infinite ease-in-out;
-      z-index: 10;
-      transform-origin: left center;
-    }
+.flag {
+  position: fixed; top: 16px; left: 16px;
+  width: 100px; height: 68px;
+  background: url('/flag1.png') center/cover no-repeat;
+  animation: waveFlow 3s ease-in-out infinite;
+  z-index: 10;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
     @keyframes waveFlow {
       0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
