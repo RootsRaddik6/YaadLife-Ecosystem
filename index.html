@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>YaadVibe 1Drop</title>
-  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.org/npm/qrcode.js@1.4.4/lib/qrcode.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
@@ -27,26 +27,26 @@
       z-index: 1;
     }
 
-    /* W3C-COMPLIANT JAMAICAN FLAG SVG - 12% LARGER & WAVING */
+    /* W3C-VALID JAMAICAN FLAG - 12% LARGER, REALISTIC WAVE */
     .flag {
-      position: fixed; top: 14px; left: 14px; 
-      width: 90px; height: 62px;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23000000"/><path fill="%23FFD700" d="M0,0 L1200,800 L1200,0 Z M0,800 L1200,0 L0,0 Z"/><path fill="%23009448" d="M600,400 m-200,0 a200,200 0 1,0 400,0 a200,200 0 1,0 -400,0" transform="translate(600,400) scale(0.75)"/></svg>') center/cover;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(255,215,0,0.9), 0 0 50px rgba(0,150,72,0.7);
-      animation: wave 2.5s infinite ease-in-out, glow 2s infinite;
+      position: fixed; top: 16px; left: 16px; 
+      width: 100px; height: 68px; /* +12% from 80x55 */
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23000000"/><path fill="%23FFD700" d="M0,0 H1200 V800 H0 Z M0,400 L600,0 L1200,400 L600,800 Z"/><path fill="%23009448" d="M0,400 L600,0 L1200,400 L600,800 Z" transform="translate(600,400) scale(0.8)"/></svg>') center/cover;
+      border-radius: 14px;
+      box-shadow: 0 0 35px rgba(255,215,0,0.95), 0 0 55px rgba(0,150,72,0.75);
+      animation: wave 2.8s infinite ease-in-out, glow 2.2s infinite;
       z-index: 10;
       transform-origin: left center;
     }
     @keyframes wave {
       0%,100% { transform: translateY(0) skewY(0) scaleX(1); }
-      25% { transform: translateY(-4px) skewY(1.5deg) scaleX(1.03); }
-      50% { transform: translateY(0) skewY(-1deg) scaleX(1.015); }
-      75% { transform: translateY(-3px) skewY(0.8deg) scaleX(1.03); }
+      25% { transform: translateY(-5px) skewY(1.8deg) scaleX(1.035); }
+      50% { transform: translateY(0) skewY(-1.2deg) scaleX(1.018); }
+      75% { transform: translateY(-4px) skewY(1deg) scaleX(1.035); }
     }
     @keyframes glow {
       0%,100% { filter: brightness(1); }
-      50% { filter: brightness(1.35) saturate(1.25); }
+      50% { filter: brightness(1.38) saturate(1.28); }
     }
 
     .container {
@@ -57,91 +57,91 @@
     }
 
     .header {
-      text-align: center; margin: 2.2rem 0 0.5rem; width: 100%;
+      text-align: center; margin: 2.5rem 0 0.8rem; width: 100%;
     }
     .logo {
-      font-size: clamp(3rem, 12vw, 5rem); font-weight: 900;
+      font-size: clamp(3.2rem, 13vw, 5.5rem); font-weight: 900;
       background: linear-gradient(45deg, #fff, var(--gold), #FFEDAB);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: -2px; text-shadow: 0 0 12px rgba(255,215,0,0.5);
+      letter-spacing: -2.5px; text-shadow: 0 0 14px rgba(255,215,0,0.55);
     }
     .calc {
-      margin-top: 0.5rem;
-      background: rgba(0,0,0,0.75); border: 2.5px solid var(--gold);
-      border-radius: 18px; padding: 9px 14px;
-      font-weight: 700; font-size: 1.15rem; color: var(--gold);
-      backdrop-filter: blur(10px); display: inline-block;
+      margin-top: 0.6rem;
+      background: rgba(0,0,0,0.78); border: 3px solid var(--gold);
+      border-radius: 20px; padding: 10px 16px;
+      font-weight: 700; font-size: 1.2rem; color: var(--gold);
+      backdrop-filter: blur(12px); display: inline-block;
     }
 
     .msg {
-      font-size: 1.5rem; font-weight: 600; text-align: center;
-      max-width: 90%; margin: 0.6rem 0 1.6rem; line-height: 1.45;
+      font-size: 1.55rem; font-weight: 600; text-align: center;
+      max-width: 90%; margin: 0.7rem 0 1.7rem; line-height: 1.48;
     }
     .btn {
-      width: 88dvw; max-width: 360px; padding: 1.4rem;
-      border-radius: 20px; font-size: 1.4rem; font-weight: 700;
-      border: none; cursor: pointer; margin: 0.8rem 0;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.6);
-      transition: all .2s;
+      width: 88dvw; max-width: 370px; padding: 1.45rem;
+      border-radius: 22px; font-size: 1.45rem; font-weight: 700;
+      border: none; cursor: pointer; margin: 0.9rem 0;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.65);
+      transition: all .22s;
     }
     .btn.gold { background: var(--gold); color: #000; }
-    .btn.green { background: var(--green); color: #fff; border: 3px solid var(--gold); }
-    .btn:active { transform: scale(0.94); }
+    .btn.green { background: var(--green); color: #fff; border: 3.5px solid var(--gold); }
+    .btn:active { transform: scale(0.93); }
 
-    .step { display: none; width: 100%; animation: fade 0.5s ease-out; }
+    .step { display: none; width: 100%; animation: fade 0.55s ease-out; }
     .step.active { display: block; }
-    @keyframes fade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+    @keyframes fade { from { opacity: 0; transform: translateY(35px); } to { opacity: 1; transform: none; } }
 
     .option-card {
-      background: rgba(255,255,255,0.15); border: 2px solid transparent;
-      border-radius: 20px; padding: 1.2rem; margin: 1rem 0;
+      background: rgba(255,255,255,0.16); border: 2.5px solid transparent;
+      border-radius: 22px; padding: 1.3rem; margin: 1.1rem 0;
       display: flex; align-items: center; cursor: pointer;
-      transition: all .28s; backdrop-filter: blur(12px);
-      box-shadow: 0 5px 18px rgba(0,0,0,0.35);
+      transition: all .3s; backdrop-filter: blur(14px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.38);
     }
-    .option-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.2); }
-    .option-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 14px; margin-right: 16px; }
+    .option-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.22); }
+    .option-card img { width: 84px; height: 84px; object-fit: cover; border-radius: 16px; margin-right: 18px; }
     .option-card .info { flex: 1; }
-    .option-card .name { font-weight: 700; font-size: 1.2rem; }
-    .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.3rem; }
+    .option-card .name { font-weight: 700; font-size: 1.25rem; }
+    .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.35rem; }
 
     input, select {
-      width: 88dvw; max-width: 340px; padding: 19px 16px;
-      border-radius: 20px; background: rgba(255,255,255,0.14);
-      border: 2px solid #555; color: #fff; font-size: 1.25rem;
-      margin: 1rem 0; backdrop-filter: blur(10px);
+      width: 88dvw; max-width: 350px; padding: 20px 17px;
+      border-radius: 22px; background: rgba(255,255,255,0.15);
+      border: 2.5px solid #666; color: #fff; font-size: 1.3rem;
+      margin: 1.1rem 0; backdrop-filter: blur(11px);
     }
 
     .occupancy {
-      display: flex; gap: 14px; justify-content: center; margin: 1rem 0;
+      display: flex; gap: 16px; justify-content: center; margin: 1.1rem 0;
     }
     .occupancy select {
-      width: 42dvw; max-width: 160px; padding: 15px; font-size: 1.15rem;
+      width: 42dvw; max-width: 165px; padding: 16px; font-size: 1.2rem;
     }
 
     .nights {
-      display: flex; align-items: center; gap: 14px; margin: 1.2rem 0;
-      font-size: 1.3rem; font-weight: 700;
+      display: flex; align-items: center; gap: 16px; margin: 1.3rem 0;
+      font-size: 1.35rem; font-weight: 700;
     }
     .nights button {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--gold); color: #000; font-size: 1.6rem;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--gold); color: #000; font-size: 1.7rem;
       border: none; cursor: pointer;
     }
 
     #summary-items .item {
-      display: flex; justify-content: space-between; padding: 1rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.3); font-size: 1.2rem;
+      display: flex; justify-content: space-between; padding: 1.1rem 0;
+      border-bottom: 1.5px solid rgba(255,255,255,0.32); font-size: 1.25rem;
     }
-    .total { font-size: 1.9rem; font-weight: 700; color: var(--gold); text-align: center; margin: 2rem 0; }
+    .total { font-size: 2rem; font-weight: 700; color: var(--gold); text-align: center; margin: 2.2rem 0; }
 
-    .trust { text-align: center; font-size: 0.98rem; color: #ccc; margin-top: 1.3rem; }
+    .trust { text-align: center; font-size: 1rem; color: #ddd; margin-top: 1.4rem; }
     .trust a { color: var(--gold); text-decoration: none; }
 
     @media (min-width: 400px) {
-      .btn, input, select { width: 340px; }
-      .occupancy select { width: 160px; }
+      .btn, input, select { width: 350px; }
+      .occupancy select { width: 165px; }
     }
   </style>
 </head>
@@ -219,7 +219,7 @@
     <div id="step4" class="step">
       <p class="msg">What parish will you stay in?</p>
       <div id="parish-options"></div>
-      <button class="btn green" id="parishNext" style="display:none">Next → Choose Vibe</button>
+      <button class="btn green" id="parishNext" style="display:none">Next to Choose Vibe</button>
     </div>
 
     <!-- STEP 5 -->
@@ -231,27 +231,27 @@
       <div class="option-card" data-value="inland">
         <div class="info"><div class="name">Inland</div></div>
       </div>
-      <button class="btn green" id="btnVibe">Next → Choose Stay</button>
+      <button class="btn green" id="btnVibe">Next to Choose Stay</button>
     </div>
 
     <!-- STEP 6 -->
     <div id="step6" class="step">
       <p class="msg">Choose your stay</p>
       <div id="stay-options"></div>
-      <button class="btn green" id="btnStay">Next → Transport</button>
+      <button class="btn green" id="btnStay">Next to Transport</button>
     </div>
 
     <!-- STEP 7 -->
     <div id="step7" class="step">
       <p class="msg">Need a ride? (optional)</p>
       <div id="transport-options"></div>
-      <button class="btn green" id="btnTransport">Next → Tours</button>
+      <button class="btn green" id="btnTransport">Next to Tours</button>
     </div>
 
     <!-- STEP 8 -->
     <div id="step8" class="step">
       <p class="msg">Add tours (optional)</p>
-     : <div id="tour-options"></div>
+      <div id="tour-options"></div>
       <button class="btn green" id="btnTours">Show My Package</button>
     </div>
 
@@ -261,7 +261,7 @@
       <div id="summary-items"></div>
       <div class="total">Total: $<span id="total">0.00</span></div>
       <button class="btn gold" id="btnPay">Pay with TON Wallet</button>
-      <div id="qr-area" style="margin:2rem 0; text-align:center;"></div>
+      <div id="qr-area" style="margin:2.2rem 0; text-align:center;"></div>
     </div>
   </div>
 
@@ -287,13 +287,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const LIVE_DATA = {
     accommodations: {
-      "st-james": [
+      "saint-james": [
         {name:"Round Hill • Villa 10",price:680,source:"Luxury",img:"https://www.roundhill.com/wp-content/uploads/2023/06/Round-Hill-Villa-Exterior.jpg",type:"coastal"},
         {name:"Iberostar Rose Hall",price:420,source:"Resort",img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3g.jpg?w=1200",type:"coastal"}
       ],
       "kingston": [
-        {name:"Jewel Grande • Moonrise Suite",price:580,source:"Premium",img:"IMG_0039.jpeg",type:"coastal"},
-        {name:"Pegasus Kingston",price:180,source:"Hotel",img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg",type:"inland"}
+        {name:"Pegasus Kingston (3 nights, 2A/0K)",price:540,source:"Hotel",img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg",type:"inland"},
+        {name:"Blue Mountain Coffee Tour",price:95,source:"Tour",img:"IMG_0039.jpeg",type:"inland"}
       ],
       "default": [
         {name:"Local Guesthouse",price:120,source:"Budget",img:"IMG_0039.jpeg",type:"inland"},
@@ -301,12 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     transport: {
-      "st-james": [{name:"Private Transfer MBJ → Round Hill",price:120},{name:"Knutsford Express",price:45},{name:"Local Taxi",price:80}],
-      "kingston": [{name:"Lynk Airport → City",price:25},{name:"JUTC Bus",price:2},{name:"Private Driver",price:80}],
+      "saint-james": [{name:"Private Transfer MBJ to Round Hill",price:120},{name:"Knutsford Express",price:45},{name:"Local Taxi",price:80}],
+      "kingston": [{name:"Lynk Airport to City",price:25},{name:"JUTC Bus",price:2},{name:"Private Driver",price:80}],
       "default": [{name:"Local Taxi",price:60},{name:"Route Taxi",price:5}]
     },
     tours: {
-      "st-james": [{name:"Rick’s Café Sunset",price:65},{name:"YS Falls + Black River",price:110},{name:"Negril Beach Day",price:50}],
+      "saint-james": [{name:"Rick’s Café Sunset",price:65},{name:"YS Falls + Black River",price:110},{name:"Negril Beach Day",price:50}],
       "kingston": [{name:"Bob Marley Museum",price:30},{name:"Devon House + Jerk",price:45},{name:"Blue Mountain Coffee Tour",price:95}],
       "default": [{name:"Local Market Tour",price:35},{name:"Nature Walk",price:20}]
     }
@@ -319,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let total = 0;
   let tonConnectUI;
 
-  // TON CONNECT INIT
   try {
     tonConnectUI = new window.TonConnectUI({
       manifestUrl: 'https://yaadvibe.com/tonconnect-manifest.json',
@@ -377,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="${item.img}" onerror="this.src='IMG_0039.jpeg'" alt="${item.name}">
           <div class="info">
             <div class="name">${item.name}</div>
-            <div class="price">$${item.price}/night</div>
+            <div class="price">$${item.price}${item.source === 'Tour' ? '' : '/night'}</div>
           </div>
         `;
         card.onclick = () => {
@@ -458,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await tonConnectUI.sendTransaction(tx);
       alert("Payment sent! Tx: " + result.boc);
       new QRCode(document.getElementById("qr-area"), {
-        text: result.boc, width: 200, height: 200,
+        text: result.boc, width: 220, height: 220,
         colorDark: "#FFD700", colorLight: "#000"
       });
     } catch (e) {
