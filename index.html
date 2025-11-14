@@ -28,16 +28,21 @@
   z-index: 1;
   pointer-events: none;
 }
-    .flag {
-      position: fixed; top: 16px; left: 16px;
-      width: 100px; height: 68px;
-      background: url('/IMG_0454.jpeg') center/cover no-repeat;
-      animation: waveFlow 3s ease-in-out infinite;
-      z-index: 10;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      pointer-events: none;
-    }
+   .flag {
+  position: fixed; top: 16px; left: 16px;
+  width: 100px; height: 68px;
+  background: url('/IMG_0454.jpeg') center/cover no-repeat;
+  mask-image: url('/flag-mask.png');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  animation: waveFlow 3s ease-in-out infinite;
+  z-index: 10;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  pointer-events: none;
+  background-color: #000;
+}
     .flag::after {
       content: "1Drop"; font-weight: 900; font-size: 1.2rem;
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
