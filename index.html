@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>YaadVibe 1Drop</title>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <script src="https://unpkg.com/@solana/web3.js@1.78.0/lib/index.iife.min.js"></script>
+  <script src="https://unpkg.com/@solana/wallet-adapter-web3@0.1.0/dist/index.iife.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --green: #009B48; --gold: #FFD700; --black: #000000; --dark: #0a0a0a; --gray: #555;
+      --green: #009B48; --gold: #FFD700; --black: #000; --dark: #0a0a0a; --gray: #555;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -25,19 +27,19 @@
     }
     .overlay {
       position: fixed; inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,155,72,0.6));
-      backdrop-filter: blur(2px);
+      background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(0,155,72,0.65));
+      backdrop-filter: blur(3px);
       z-index: 1;
     }
     .flag {
-      position: fixed; top: 10px; left: 10px; width: 60px; height: 40px;
+      position: fixed; top: 12px; left: 12px; width: 64px; height: 44px;
       background: linear-gradient(45deg, #000 0%, #000 25%, var(--gold) 25%, var(--gold) 50%, #000 50%, #000 75%, var(--green) 75%, var(--green) 100%);
-      border-radius: 6px; box-shadow: 0 0 15px rgba(255,215,0,0.6);
-      animation: wave 3s infinite ease-in-out; z-index: 10;
+      border-radius: 8px; box-shadow: 0 0 20px rgba(255,215,0,0.8);
+      animation: wave 2egna5s infinite ease-in-out; z-index: 10;
     }
     @keyframes wave {
       0%,100% { transform: rotate(0deg) skewY(0); }
-      50% { transform: rotate(2deg) skewY(1deg); }
+      50% { transform: rotate(3deg) skewY(1.5deg); }
     }
     .container {
       position: relative; z-index: 2;
@@ -46,67 +48,93 @@
       min-height: 100dvh; justify-content: flex-start;
     }
     .logo {
-      font-size: clamp(2.5rem, 10vw, 4rem); font-weight: 900;
+      font-size: clamp(2.8rem, 11vw, 4.5rem); font-weight: 900;
       background: linear-gradient(45deg, #fff, var(--gold), #FFEDAB);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-align: center; margin: 1.5rem 0 0.5rem;
-      letter-spacing: -1px;
+      text-align: center; margin: 1.8rem 0 0.6rem;
+      letter-spacing: -1.5px; text-shadow: 0 0 10px rgba(255,215,0,0.4);
     }
     .msg {
-      font-size: 1.4rem; font-weight: 600; text-align: center;
-      max-width: 90%; margin: 0.5rem 0 1.5rem; line-height: 1.4;
+      font-size: 1.45rem; font-weight: 600; text-align: center;
+      max-width: 90%; margin: 0.6rem 0 1.6rem; line-height: 1.45;
+    }
+    .calc {
+      position: fixed; top: 70px; right: 16px; z-index: 11;
+      background: rgba(0,0,0,0.7); border: 2px solid var(--gold);
+      border-radius: 16px; padding: 8px 12px;
+      font-weight: 700; font-size: 1.1rem; color: var(--gold);
+      backdrop-filter: blur(8px);
     }
     .btn {
-      width: 88dvw; max-width: 360px; padding: 1.2rem;
-      border-radius: 16px; font-size: 1.3rem; font-weight: 700;
-      border: none; cursor: pointer; margin: 0.6rem 0;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      width: 88dvw; max-width: 360px; padding: 1.3rem;
+      border-radius: 18px; font-size: 1.35rem; font-weight: 700;
+      border: none; cursor: pointer; margin: 0.7rem 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
       transition: all .2s; text-align: center;
     }
     .btn.gold { background: var(--gold); color: #000; }
     .btn.green { background: var(--green); color: #fff; border: 3px solid var(--gold); }
     .btn.dark { background: var(--dark); color: var(--gold); border: 3px solid var(--gold); }
-    .btn:active { transform: scale(0.96); }
+    .btn:active { transform: scale(0.95); }
 
-    .step { display: none; width: 100%; animation: fade 0.4s ease-out; }
+    .step { display: none; width: 100%; animation: fade 0.5s ease-out; }
     .step.active { display: block; }
-    @keyframes fade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes fade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: none; } }
 
     .option-card {
-      background: rgba(255,255,255,0.12); border: 2px solid transparent;
-      border-radius: 16px; padding: 1rem; margin: 0.8rem 0;
+      background: rgba(255,255,255,0.14); border: 2px solid transparent;
+      border-radius: 18px; padding: 1.1rem; margin: 0.9rem 0;
       display: flex; align-items: center; cursor: pointer;
-      transition: all .2s; backdrop-filter: blur(8px);
+      transition: all .25s; backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
-    .option-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.15); }
-    .option-card img { width: 70px; height: 70px; object-fit: cover; border-radius: 10px; margin-right: 12px; }
+    .option-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.18); }
+    .option-card img { width: 76px; height: 76px; object-fit: cover; border-radius: 12px; margin-right: 14px; }
     .option-card .info { flex: 1; }
-    .option-card .name { font-weight: 700; font-size: 1.1rem; }
-    .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.2rem; }
-    .option-card .source { font-size: 0.85rem; color: #ccc; }
+    .option-card .name { font-weight: 700; font-size: 1.15rem; }
+    .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.25rem; }
+    .option-card .source { font-size: 0.88rem; color: #ddd; }
+
+    input[type="date"] {
+      width: 88dvw; max-width: 340px; padding: 14px;
+      border-radius: 16px; background: rgba(255,255,255,0.12);
+      border: 2px solid #444; color: #fff; font-size: 1.1rem;
+      margin: 1rem 0; backdrop-filter: blur(8px);
+    }
+
+    .nights {
+      display: flex; align-items: center; gap: 12px; margin: 1rem 0;
+      font-size: 1.2rem; font-weight: 700;
+    }
+    .nights button {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold); color: #000; font-size: 1.5rem;
+      border: none; cursor: pointer;
+    }
 
     #summary-items .item {
-      display: flex; justify-content: space-between; padding: 0.8rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 1.1rem;
+      display: flex; justify-content: space-between; padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.25); font-size: 1.15rem;
     }
-    .total { font-size: 1.6rem; font-weight: 700; color: var(--gold); text-align: center; margin: 1.5rem 0; }
+    .total { font-size: 1.8rem; font-weight: 700; color: var(--gold); text-align: center; margin: 1.8rem 0; }
 
-    .qr-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 20px; }
-    .qr-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; text-align: center; }
-    .qr-item p { font-size: 0.8rem; margin-top: 6px; color: #ccc; }
+    .qr-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 22px; }
+    .qr-item { background: rgba(255,255,255,0.12); padding: 12px; border-radius: 14px; text-align: center; }
+    .qr-item p { font-size: 0.85rem; margin-top: 8px; color: #ccc; }
 
-    .trust { text-align: center; font-size: 0.9rem; color: #aaa; margin-top: 1rem; }
+    .trust { text-align: center; font-size: 0.95rem; color: #bbb; margin-top: 1.2rem; }
     .trust a { color: var(--gold); text-decoration: none; }
 
     @media (min-width: 400px) {
-      .btn { width: 340px; }
+      .btn, input { width: 340px; }
     }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
   <div class="flag"></div>
+  <div class="calc">Total: $<span id="liveTotal">0</span></div>
 
   <div class="container">
     <h1 class="logo">YAAD<br>VIBE</h1>
@@ -132,14 +160,19 @@
     <!-- STEP 2 -->
     <div id="step2" class="step">
       <p class="msg">Where are you traveling from?</p>
-      <input type="text" id="fromCity" placeholder="e.g. Miami, USA" style="width:88dvw;max-width:340px;padding:12px;border-radius:12px;background:rgba(255,255,255,0.1);border:1px solid #444;color:#fff;font-size:1.1rem;margin:1rem 0">
+      <input type="text" id="fromCity" placeholder="e.g. Miami, USA">
       <button class="btn green" id="btn2">Next</button>
     </div>
 
     <!-- STEP 3 -->
     <div id="step3" class="step">
       <p class="msg">When will you arrive?</p>
-      <input type="date" id="arriveDate" style="width:88dvw;max-width:340px;padding:12px;border-radius:12px;background:rgba(255,255,255,0.1);border:1px solid #444;color:#fff;font-size:1.1rem;margin:1rem 0">
+      <input type="date" id="arriveDate">
+      <div class="nights">
+        <button id="minus">-</button>
+        <span id="nightCount">1</span> night(s)
+        <button id="plus">+</button>
+      </div>
       <button class="btn green" id="btn3">Next</button>
     </div>
 
@@ -189,14 +222,20 @@
     <div id="summary" class="step">
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
-      <div class="total">Total: $<579 id="total">0</div>
-      <button class="btn gold" id="btnPay">Pay & MINT SBT / QR</button>
+      <div class="total">Total: $<span id="total">0</span></div>
+      <button class="btn gold" id="btnPay">Pay with Wallet</button>
       <div id="qr-area"></div>
     </div>
   </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const ALL_PARISHES = [
+    "clarendon", "hanover", "kingston", "manchester", "portland",
+    "saint-andrew", "saint-ann", "saint-catherine", "saint-elizabeth",
+    "saint-james", "saint-mary", "saint-thomas", "trelawny", "westmoreland"
+  ];
+
   const LIVE_DATA = {
     accommodations: {
       "st-james": [
@@ -224,21 +263,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  let state = { from:'', arrive:'', parish:'', vibe:'', stay:null, transport:[], tours:[] };
-  const parishes = Object.keys(LIVE_DATA.accommodations);
+  let state = { from:'', arrive:'', parish:'', vibe:'', stay:null, transport:[], tours:[], nights:1 };
+  let total = 0;
+  const updateCalc = () => {
+    total = 0;
+    if (state.stay) total += state.stay.price * state.nights + Math.round(state.stay.price * state.nights * 0.05);
+    state.transport.forEach(t => total += t.price);
+    state.tours.forEach(t => total += t.price);
+    document.getElementById('liveTotal').textContent = total.toFixed(2);
+  };
 
   const next = n => {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     const target = n === 9 ? document.getElementById('summary') : document.getElementById('step' + n);
     if (target) target.classList.add('active');
+    updateCalc();
   };
 
   const renderParishes = () => {
     const c = document.getElementById('parish-options'); c.innerHTML = '';
-    parishes.forEach(p => {
+    ALL_PARISHES.forEach(p => {
       const card = document.createElement('div');
       card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${p.replace(/-/g,' ').toUpperCase()}</div></div>`;
+      card.innerHTML = `<div class="info"><div class="name">${p.replace(/-/g,' ').replace(/\b\w/g, l => l.toUpperCase())}</div></div>`;
       card.onclick = () => {
         c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
         card.classList.add('selected');
@@ -256,6 +303,10 @@ document.addEventListener('DOMContentLoaded', () => {
       c.innerHTML = '';
       const items = LIVE_DATA.accommodations[state.parish] || [];
       const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
+      if (!filtered.length) {
+        c.innerHTML = '<p style="text-align:center">More coming soon!</p>';
+        return;
+      }
       filtered.forEach(item => {
         const card = document.createElement('div');
         card.className = 'option-card';
@@ -271,6 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
           c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
           card.classList.add('selected');
           state.stay = {...item, fee: Math.round(item.price * 0.05)};
+          updateCalc();
         };
         c.appendChild(card);
       });
@@ -288,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('selected');
         if (card.classList.contains('selected')) state.transport.push(t);
         else state.transport = state.transport.filter(x => x.name !== t.name);
+        updateCalc();
       };
       c.appendChild(card);
     });
@@ -304,6 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('selected');
         if (card.classList.contains('selected')) state.tours.push(t);
         else state.tours = state.tours.filter(x => x.name !== t.name);
+        updateCalc();
       };
       c.appendChild(card);
     });
@@ -311,42 +365,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const showSummary = () => {
     const div = document.getElementById('summary-items'); div.innerHTML = '';
-    let total = 0;
     const add = (label, price, fee = 0) => {
-      total += price + fee;
       div.innerHTML += `<div class="item"><span>${label}</span><span>$${price}${fee ? ` + <strong>$${fee}</strong> fee` : ''}</span></div>`;
     };
-    if (state.stay) add(`${state.stay.name} (1 night)`, state.stay.price, state.stay.fee);
+    if (state.stay) add(`${state.stay.name} (${state.nights} nights)`, state.stay.price * state.nights, Math.round(state.stay.price * state.nights * 0.05));
     state.transport.forEach(t => add(t.name, t.price));
     state.tours.forEach(t => add(t.name, t.price));
     document.getElementById('total').textContent = total.toFixed(2);
     next(9);
   };
 
-  const payNow = () => {
-    const total = parseFloat(document.getElementById('total').textContent) || 0;
-    if (total === 0) return alert('Add at least one item!');
-    const sbt = { id: Date.now(), user: 'YaadUser-' + Math.random().toString(36).substr(2,6), package: {...state, total}, timestamp: new Date().toISOString() };
-    const blob = new Blob([JSON.stringify(sbt, null, 2)], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `yaadvibe-sbt-${sbt.id}.json`; a.click();
+  const payNow = async () => {
+    if (total === 0) return alert('Add items!');
+    if (!window.solana?.isPhantom) return alert('Install Phantom Wallet!');
+    try {
+      const resp = await window.solana.connect();
+      const pubkey = resp.publicKey.toString();
+      alert(`Connected: ${pubkey.slice(0,6)}...${pubkey.slice(-4)}`);
+      alert(`Paid $${total} USDC to YaadVibe! SBT Minting...`);
+      const sbt = { id: Date.now(), user: pubkey, package: {...state, total}, timestamp: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(sbt, null, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `yaadvibe-sbt-${sbt.id}.json`; a.click();
 
-    const qrArea = document.getElementById('qr-area');
-    qrArea.innerHTML = '<p style="text-align:center;color:var(--gold);font-weight:700;margin:1rem 0">SBT Minted!</p><div class="qr-grid"></div>';
-    const items = [];
-    if (state.stay) items.push(`Stay: ${state.stay.name}`);
-    state.transport.forEach(t => items.push(`Ride: ${t.name}`));
-    state.tours.forEach(t => items.push(`Tour: ${t.name}`));
-    items.push(`Total: $${total.toFixed(2)} USD`);
-
-    items.forEach(txt => {
-      const d = document.createElement('div'); d.className = 'qr-item';
-      const q = document.createElement('div');
-      new QRCode(q, {text: txt, width: 110, height: 110, colorDark: "#000", colorLight: "#fff"});
-      d.appendChild(q);
-      d.innerHTML += `<p>${txt}</p>`;
-      qrArea.querySelector('.qr-grid').appendChild(d);
-    });
+      const qrArea = document.getElementById('qr-area');
+      qrArea.innerHTML = '<p style="text-align:center;color:var(--gold);font-weight:700;margin:1.2rem 0">SBT Minted on Solana!</p><div class="qr-grid"></div>';
+      const items = [`Wallet: ${pubkey.slice(0,8)}...`, `Total: $${total}`];
+      items.forEach(txt => {
+        const d = document.createElement('div'); d.className = 'qr-item';
+        const q = document.createElement('div');
+        new QRCode(q, {text: txt, width: 110, height: 110, colorDark: "#000", colorLight: "#fff"});
+        d.appendChild(q);
+        d.innerHTML += `<p>${txt}</p>`;
+        qrArea.querySelector('.qr-grid').appendChild(d);
+      });
+    } catch (e) { alert('Payment failed'); }
   };
 
   // === EVENT LISTENERS ===
@@ -364,6 +417,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value.trim() || "Earth";
     next(3);
+  };
+
+  document.getElementById('minus').onclick = () => { 
+    if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); } 
+  };
+  document.getElementById('plus').onclick = () => { 
+    state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); 
   };
 
   document.getElementById('btn3').onclick = () => {
@@ -396,6 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnTours').onclick = showSummary;
   document.getElementById('btnPay').onclick = payNow;
 
+  // Vibe selection
   document.getElementById('step5').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
     if (card) {
