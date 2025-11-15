@@ -6,7 +6,7 @@
   <title>1Drop YaadVibe</title>
   <script src="https://cdn.jsdelivr.org/npm/qrcode.js@1.4.4/lib/qrcode.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Changa:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <!-- WalletConnect -->
+  <!-- WalletConnect + TON -->
   <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
@@ -40,10 +40,21 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       pointer-events: none;
     }
-    @keyframes waveFlow { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(2deg) scale(1.02); } }
+    @keyframes waveFlow {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(2deg) scale(1.02); }
+    }
 
-    .container { position: relative; z-index: 2; max-width: 100%; padding: 1rem; display: flex; flex-direction: column; align-items: center; min-height: 100dvh; justify-content: flex-start; }
-    .header { text-align: center; margin: 2.5rem 0 0.8rem; width: 100%; }
+    .container {
+      position: relative; z-index: 2;
+      max-width: 100%; padding: 1rem;
+      display: flex; flex-direction: column; align-items: center;
+      min-height: 100dvh; justify-content: flex-start;
+    }
+
+    .header {
+      text-align: center; margin: 2.5rem 0 0.8rem; width: 100%;
+    }
     .logo {
       font-family: 'Changa', sans-serif;
       font-size: clamp(3.2rem, 13vw, 5.5rem); font-weight: 700;
@@ -52,21 +63,45 @@
       letter-spacing: -2.5px;
       animation: irieGlow 3s ease-in-out infinite;
     }
-    @keyframes irieGlow { 0%, 100% { filter: drop-shadow(0 0 8px var(--gold)); } 50% { filter: drop-shadow(0 0 20px var(--red)); } }
-
-    .calc { margin-top: 0.6rem; background: rgba(0,0,0,0.78); border: 3px solid var(--gold); border-radius: 20px; padding: 10px 16px; font-weight: 700; font-size: 1.2rem; color: var(--gold); backdrop-filter: blur(12px); display: inline-block; transition: transform 0.3s ease; }
+    @keyframes irieGlow {
+      0%, 100% { filter: drop-shadow(0 0 8px var(--gold)); }
+      50% { filter: drop-shadow(0 0 20px var(--red)); }
+    }
+    .calc {
+      margin-top: 0.6rem;
+      background: rgba(0,0,0,0.78); border: 3px solid var(--gold);
+      border-radius: 20px; padding: 10px 16px;
+      font-weight: 700; font-size: 1.2rem; color: var(--gold);
+      backdrop-filter: blur(12px); display: inline-block;
+      transition: transform 0.3s ease;
+    }
     .calc.animate { animation: countUp 0.6s ease-out; }
     @keyframes countUp { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
-    .msg { font-size: 1.55rem; font-weight: 600; text-align: center; max-width: 90%; margin: 0.7rem 0 1.7rem; line-height: 1.48; }
-    .btn { width: 88dvw; max-width: 370px; padding: 1.45rem; border-radius: 22px; font-size: 1.45rem; font-weight: 700; border: none; cursor: pointer; margin: 0.9rem 0; box-shadow: 0 14px 30px rgba(0,0,0,0.65); transition: all .22s; }
+    .msg {
+      font-size: 1.55rem; font-weight: 600; text-align: center;
+      max-width: 90%; margin: 0.7rem 0 1.7rem; line-height: 1.48;
+    }
+    .btn {
+      width: 88dvw; max-width: 370px; padding: 1.45rem;
+      border-radius: 22px; font-size: 1.45rem; font-weight: 700;
+      border: none; cursor: pointer; margin: 0.9rem 0;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.65);
+      transition: all .22s;
+    }
     .btn.gold { background: var(--gold); color: #000; }
     .btn.green { background: var(--green); color: #fff; border: 3.5px solid var(--gold); }
     .btn.back { background: rgba(255,255,255,0.2); border: 2px solid #666; font-size: 1.2rem; padding: 0.8rem; }
     .btn:active { transform: scale(0.93); }
 
-    .progress { display: flex; justify-content: center; gap: 8px; margin: 1rem 0; }
-    .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: all 0.3s; }
+    .progress {
+      display: flex; justify-content: center; gap: 8px; margin: 1rem 0;
+    }
+    .progress-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+    }
     .progress-dot.active { background: var(--gold); transform: scale(1.3); }
 
     .step { display: none; width: 100%; animation: fade 0.55s ease-out; }
@@ -81,11 +116,50 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.38);
     }
     .option-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-    .option-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.22); box-shadow: 0 0 20px rgba(255,215,0,0.4); transform: scale(1.02); }
+    .option-card.selected { 
+      border-color: var(--gold); 
+      background: rgba(255,215,0,0.22);
+      box-shadow: 0 0 20px rgba(255,215,0,0.4);
+      transform: scale(1.02);
+    }
     .option-card img { width: 84px; height: 84px; object-fit: cover; border-radius: 16px; margin-right: 18px; }
     .option-card .info { flex: 1; }
     .option-card .name { font-weight: 700; font-size: 1.25rem; }
     .option-card .price { color: var(--gold); font-weight: 700; font-size: 1.35rem; }
+
+    input, select {
+      width: 88dvw; max-width: 350px; padding: 20px 17px;
+      border-radius: 22px; background: rgba(255,255,255,0.15);
+      border: 2.5px solid #666; color: #fff; font-size: 1.3rem;
+      margin: 1.1rem 0; backdrop-filter: blur(11px);
+    }
+
+    .occupancy {
+      display: flex; gap: 16px; justify-content: center; margin: 1.1rem 0;
+    }
+    .occupancy select {
+      width: 42dvw; max-width: 165px; padding: 16px; font-size: 1.2rem;
+    }
+
+    .nights {
+      display: flex; align-items: center; gap: 16px; margin: 1.3rem 0;
+      font-size: 1.35rem; font-weight: 700;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .nights button {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--gold); color: #000; font-size: 1.7rem;
+      border: none; cursor: pointer;
+    }
+
+    #summary-items .item {
+      display: flex; justify-content: space-between; padding: 1.1rem 0;
+      border-bottom: 1.5px solid rgba(255,255,255,0.32); font-size: 1.25rem;
+    }
+    .total { font-size: 2rem; font-weight: 700; color: var(--gold); text-align: center; margin: 2.2rem 0; }
+
+    .trust { text-align: center; font-size: 1rem; color: #ddd; margin-top: 1.4rem; }
+    .trust a { color: var(--gold); text-decoration: none; }
 
     .no-fee {
       background: rgba(0,155,72,0.35); padding: 14px; border-radius: 18px; margin: 1.2rem 0;
@@ -93,7 +167,12 @@
       font-weight: 600;
     }
 
-    @media (min-width: 400px) { .btn, input, select { width: 350px; } }
+    @media (min-width: 400px) {
+      .btn, input, select { width: 350px; }
+      .occupancy select { width: 165px; }
+    }
+
+    .header > * { width: 100%; text-align: center; }
     .container > * { max-width: 380px; width: 100%; margin-left: auto; margin-right: auto; }
   </style>
 </head>
@@ -115,7 +194,116 @@
       <div class="trust">Trusted by 500+ travelers • <a href="#">Read reviews</a></div>
     </div>
 
-    <!-- ... [Steps 1–8: unchanged] ... -->
+    <!-- STEP 1 -->
+    <div id="step1" class="step">
+      <p class="msg">Are you traveling to Jamaica?</p>
+      <div class="option-card selected" data-value="yes">
+        <div class="info"><div class="name">Yes, from abroad</div></div>
+      </div>
+      <div class="option-card" data-value="no">
+        <div class="info"><div class="name">No, I'm local</div></div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="step">
+      <button class="btn back" id="back2">Back</button>
+      <p class="msg">Where are you traveling from?</p>
+      <select id="fromCity">
+        <option value="">Select City</option>
+        <option>Miami, USA</option>
+        <option>New York, USA</option>
+        <option>London, UK</option>
+        <option>Toronto, Canada</option>
+        <option>Kingston, Jamaica</option>
+        <option>Montego Bay, Jamaica</option>
+      </select>
+      <button class="btn green" id="btn2">Next</button>
+    </div>
+
+    <!-- STEP 2.5: FLIGHT BOOKING -->
+    <div id="step25" class="step">
+      <button class="btn back" id="back25">Back</button>
+      <p class="msg">Book your flight?</p>
+      <div class="option-card" data-flight="skip">
+        <div class="info"><div class="name">No, I’ll book later</div></div>
+      </div>
+      <div id="flight-options"></div>
+      <button class="btn green" id="btnFlight">Next to Dates</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" class="step">
+      <button class="btn back" id="back3">Back</button>
+      <p class="msg">Arrival & Departure</p>
+      <input type="date" id="arriveDate">
+      <input type="date" id="departDate">
+      <div class="occupancy">
+        <select id="adults">
+          <option value="1">1 Adult</option>
+          <option value="2" selected>2 Adults</option>
+          <option value="3">3 Adults</option>
+          <option value="4">4 Adults</option>
+        </select>
+        <select id="kids">
+          <option value="0" selected>0 Kids</option>
+          <option value="1">1 Kid</option>
+          <option value="2">2 Kids</option>
+          <option value="3">3 Kids</option>
+        </select>
+      </div>
+      <div class="nights">
+        <button id="minus">-</button>
+        <span id="nightCount">1</span> night(s)
+        <button id="plus">+</button>
+      </div>
+      <button class="btn green" id="btn3">Next</button>
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="step4" class="step">
+      <button class="btn back" id="back4">Back</button>
+      <p class="msg">What parish will you stay in?</p>
+      <div id="parish-options"></div>
+      <button class="btn green" id="parishNext" style="display:none">Next to Choose Vibe</button>
+    </div>
+
+    <!-- STEP 5 -->
+    <div id="step5" class="step">
+      <button class="btn back" id="back5">Back</button>
+      <p class="msg">What vibe — Inland or Coastal?</p>
+      <div class="option-card" data-value="coastal">
+        <div class="info"><div class="name">Coastal</div></div>
+      </div>
+      <div class="option-card" data-value="inland">
+        <div class="info"><div class="name">Inland</div></div>
+      </div>
+      <button class="btn green" id="btnVibe">Next to Choose Stay</button>
+    </div>
+
+    <!-- STEP 6 -->
+    <div id="step6" class="step">
+      <button class="btn back" id="back6">Back</button>
+      <p class="msg">Choose your stay</p>
+      <div id="stay-options"></div>
+      <button class="btn green" id="btnStay">Next to Transport</button>
+    </div>
+
+    <!-- STEP 7 -->
+    <div id="step7" class="step">
+      <button class="btn back" id="back7">Back</button>
+      <p class="msg">Need a ride? (optional)</p>
+      <div id="transport-options"></div>
+      <button class="btn green" id="btnTransport">Next to Tours</button>
+    </div>
+
+    <!-- STEP 8 -->
+    <div id="step8" class="step">
+      <button class="btn back" id="back8">Back</button>
+      <p class="msg">Add tours (optional)</p>
+      <div id="tour-options"></div>
+      <button class="btn green" id="btnTours">Show My Package</button>
+    </div>
 
     <!-- SUMMARY -->
     <div id="summary" class="step">
@@ -135,14 +323,77 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // === 1DROP CONDUIT: ZERO FEE ===
+  const PARISH_TOWNS = {
+    "clarendon": "May Pen", "hanover": "Lucea", "kingston": "Kingston", "manchester": "Mandeville",
+    "portland": "Port Antonio", "saint-andrew": "Half Way Tree", "saint-ann": "St. Ann’s Bay",
+    "saint-catherine": "Spanish Town", "saint-elizabeth": "Black River", "saint-james": "Montego Bay",
+    "saint-mary": "Port Maria", "saint-thomas": "Morant Bay", "trelawny": "Falmouth",
+    "westmoreland": "Savanna-la-Mar"
+  };
+  const ALL_PARISHES = Object.keys(PARISH_TOWNS);
+
+  const LIVE_DATA = {
+    accommodations: {
+      "saint-james": [
+        {name:"Round Hill • Villa 10",price:680,source:"Luxury",img:"https://www.roundhill.com/wp-content/uploads/2023/06/Round-Hill-Villa-Exterior.jpg",type:"coastal"},
+        {name:"Iberostar Rose Hall",price:420,source:"Resort",img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/2d/3g.jpg?w=1200",type:"coastal"}
+      ],
+      "kingston": [
+        {name:"Pegasus Kingston (3 nights, 2A/0K)",price:540,source:"Hotel",img:"https://cf.bstatic.com/xdata/images/hotel/max1280x900/483221417.jpg",type:"inland"},
+        {name:"Blue Mountain Coffee Tour",price:95,source:"Tour",img:"/IMG_0039.jpeg",type:"inland"}
+      ],
+      "default": [
+        {name:"Local Guesthouse",price:120,source:"Budget",img:"/IMG_0039.jpeg",type:"inland"},
+        {name:"Airbnb Villa",price:280,source:"Private",img:"/IMG_0039.jpeg",type:"coastal"}
+      ]
+    },
+    transport: {
+      "saint-james": [{name:"Private Transfer MBJ to Round Hill",price:120},{name:"Knutsford Express",price:45},{name:"Local Taxi",price:80}],
+      "kingston": [{name:"Lynk Airport to City",price:25},{name:"JUTC Bus",price:2},{name:"Private Driver",price:80}],
+      "default": [{name:"Local Taxi",price:60},{name:"Route Taxi",price:5}]
+    },
+    tours: {
+      "saint-james": [{name:"Rick’s Café Sunset",price:65},{name:"YS Falls + Black River",price:110},{name:"Negril Beach Day",price:50}],
+      "kingston": [{name:"Bob Marley Museum",price:30},{name:"Devon House + Jerk",price:45},{name:"Blue Mountain Coffee Tour",price:95}],
+      "default": [{name:"Local Market Tour",price:35},{name:"Nature Walk",price:20}]
+    },
+    flights: {
+      "Kingston, Jamaica": [
+        {airline:"Caribbean Airlines", code:"BW123", price:85, arrive:"2025-06-15", depart:"2025-06-20"},
+        {airline:"Fly Jamaica", code:"FJ456", price:72, arrive:"2025-06-16", depart:"2025-06-21"}
+      ],
+      "Montego Bay, Jamaica": [
+        {airline:"InterCaribbean", code:"JY789", price:68, arrive:"2025-06-17", depart:"2025-06-22"}
+      ],
+      "default": [
+        {airline:"Caribbean Air", code:"CA999", price:299, arrive:"2025-06-15", depart:"2025-06-20"}
+      ]
+    }
+  };
+
+  let state = { 
+    from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, 
+    transport:[], tours:[], nights:1, adults:2, kids:0, isLocal: false, flight: null 
+  };
+  let total = 0;
+  let tonConnectUI;
+  let currentStep = 0;
+  const totalSteps = 9;
+
+  try {
+    tonConnectUI = new window.TonConnectUI({
+      manifestUrl: 'https://yaadvibe.com/tonconnect-manifest.json',
+      projectId: '2f6896e4f5d74a3dc56f83a0b9aec78d'
+    });
+  } catch(e) { console.warn("TON Connect not loaded"); }
+
   const updateCalc = (animate = false) => {
     const prevTotal = total;
     total = 0;
     if (state.stay) {
       const base = state.stay.price * state.nights;
       const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
-      total += base + occupancyFee; // NO PLATFORM FEE
+      total += base + occupancyFee;
     }
     state.transport.forEach(t => total += t.price);
     state.tours.forEach(t => total += t.price);
@@ -156,28 +407,167 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // === AFFILIATE DEEP LINK ENGINE ===
-  const AFFILIATES = {
-    awin: { id: '2658034', name: 'Booking.com' },
-    cj: { id: '7787960', email: 'korjamltd@gmail.com', name: 'CJ Affiliate' }
+  const updateProgress = () => {
+    const prog = document.getElementById('progress');
+    prog.innerHTML = '';
+    for (let i = 0; i < totalSteps; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      if (i === currentStep) dot.classList.add('active');
+      prog.appendChild(dot);
+    }
+  };
+
+  const next = n => {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const target = n === 9 ? document.getElementById('summary') : document.getElementById(n === 2.5 ? 'step25' : 'step' + n);
+    if (target) {
+      target.classList.add('active');
+      currentStep = n;
+      updateProgress();
+      updateCalc(true);
+    }
+  };
+
+  const back = () => {
+    if (currentStep > 0) next(currentStep - 1);
+  };
+
+  const calcNightsFromDates = () => {
+    const arrive = document.getElementById('arriveDate').value;
+    const depart = document.getElementById('departDate').value;
+    if (arrive && depart) {
+      const diff = (new Date(depart) - new Date(arrive)) / 86400000;
+      if (diff > 0) {
+        state.nights = diff;
+        document.getElementById('nightCount').textContent = diff;
+        updateCalc(true);
+      }
+    }
+  };
+
+  const renderParishes = () => {
+    const c = ------------document.getElementById('parish-options'); c.innerHTML = '';
+    ALL_PARISHES.forEach(p => {
+      const display = `${p.replace(/-/g,' ').replace(/\b\w/g, l => l.toUpperCase())} (${PARISH_TOWNS[p]})`;
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.innerHTML = `<div class="info"><div class="name">${display}</div></div>`;
+      card.onclick = () => {
+        c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
+        card.classList.add('selected');
+        state.parish = p;
+        document.getElementById('parishNext').style.display = 'block';
+      };
+      c.appendChild(card);
+    });
+  };
+
+  const loadStays = () => {
+    const c = document.getElementById('stay-options');
+    c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
+    setTimeout(() => {
+      c.innerHTML = '';
+      const items = LIVE_DATA.accommodations[state.parish] || LIVE_DATA.accommodations.default;
+      const filtered = state.vibe ? items.filter(i => i.type === state.vibe) : items;
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'option-card';
+        card.innerHTML = `
+          <img src="${item.img}" onerror="this.src='/IMG_0039.jpeg'" alt="${item.name}">
+          <div class="info">
+            <div class="name">${item.name}</div>
+            <div class="price">$${item.price}${item.source === 'Tour' ? '' : '/night'}</div>
+          </div>
+        `;
+        card.onclick = () => {
+          c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
+          card.classList.add('selected');
+          state.stay = {...item, fee: 0};
+          updateCalc(true);
+        };
+        c.appendChild(card);
+      });
+    }, 600);
+  };
+
+  const loadTransport = () => {
+    const c = document.getElementById('transport-options'); c.innerHTML = '';
+    const opts = LIVE_DATA.transport[state.parish] || LIVE_DATA.transport.default;
+    opts.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.innerHTML = `<div class="info"><div class="name">${t.name}</div><div class="price">$${t.price}</div></div>`;
+      card.onclick = () => {
+        card.classList.toggle('selected');
+        if (card.classList.contains('selected')) state.transport.push(t);
+        else state.transport = state.transport.filter(x => x.name !== t.name);
+        updateCalc(true);
+      };
+      c.appendChild(card);
+    });
+  };
+
+  const loadTours = () => {
+    const c = document.getElementById('tour-options'); c.innerHTML = '';
+    const opts = LIVE_DATA.tours[state.parish] || LIVE_DATA.tours.default;
+    opts.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.innerHTML = `<div class="info"><div class="name">${t.name}</div><div class="price">$${t.price}</div></div>`;
+      card.onclick = () => {
+        card.classList.toggle('selected');
+        if (card.classList.contains('selected')) state.tours.push(t);
+        else state.tours = state.tours.filter(x => x.name !== t.name);
+        updateCalc(true);
+      };
+      c.appendChild(card);
+    });
+  };
+
+  const loadFlights = () => {
+    const c = document.getElementById('flight-options'); c.innerHTML = '';
+    const opts = LIVE_DATA.flights[state.from] || LIVE_DATA.flights.default;
+    opts.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.innerHTML = `
+        <div class="info">
+          <div class="name">${f.airline} • ${f.code}</div>
+          <div class="price">$${f.price} roundtrip</div>
+        </div>
+      `;
+      card.onclick = () => {
+        document.querySelectorAll('#flight-options .option-card').forEach(x => x.classList.remove('selected'));
+        card.classList.add('selected');
+        state.flight = f;
+      };
+      c.appendChild(card);
+    });
+  };
+
+  const showSummary = () => {
+    const div = document.getElementById('summary-items'); div.innerHTML = '';
+    const add = (label, price) => {
+      div.innerHTML += `<div class="item"><span>${label}</span><span>$${price}</span></div>`;
+    };
+    if (state.stay) {
+      const base = state.stay.price * state.nights;
+      const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
+      add(`${state.stay.name} (${state.nights} nights, ${state.adults}A/${state.kids}K)`, base + occupancyFee);
+    }
+    state.transport.forEach(t => add(t.name, t.price));
+    state.tours.forEach(t => add(t.name, t.price));
+    if (state.flight) add(`${state.flight.airline} Flight`, state.flight.price);
+    document.getElementById('total').textContent = total.toFixed(2);
+    next(9);
   };
 
   const buildAffiliateLink = (stay) => {
-    const base = stay.source === 'Luxury' ? 'https://www.anrdoezrs.net/links/' : 'https://www.booking.com/hotel/jm/';
     const slug = stay.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    return `${base}${slug}.html?aid=${AFFILIATES.awin.id}`;
+    return `https://www.booking.com/hotel/jm/${slug}.html?aid=2658034`;
   };
 
-  // === WALLET CONNECT (LIVE) ===
-  let tonConnectUI;
-  try {
-    tonConnectUI = new window.TonConnectUI({
-      manifestUrl: 'https://yaadvibe.com/tonconnect-manifest.json',
-      projectId: '2f6896e4f5d74a3dc56f83a0b9aec78d' // LIVE
-    });
-  } catch(e) { console.warn("WalletConnect failed"); }
-
-  // === PAYMENT FLOW ===
   document.getElementById('btnPay').onclick = () => {
     if (!state.stay) return alert("Select a stay first!");
     const link = buildAffiliateLink(state.stay);
@@ -187,7 +577,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('btnPayFiat').onclick = document.getElementById('btnPay').onclick;
 
-  // ... [rest of logic: unchanged from CODE 100]
+  // EVENT LISTENERS
+  document.getElementById('step1').addEventListener('click', e => {
+    const card = e.target.closest('.option-card');
+    if (card) {
+      document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.isLocal = card.dataset.value === 'no';
+      next(2);
+      if (state.isLocal) renderParishes();
+    }
+  });
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    next(1);
+    setTimeout(() => {
+      const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+      if (yesCard) yesCard.click();
+    }, 100);
+  });
+
+  document.getElementById('btn2').onclick = () => {
+    state.from = document.getElementById('fromCity').value;
+    if (!state.from) return alert("Choose your city!");
+    if (!state.isLocal) { loadFlights(); next(2.5); } else { next(3); }
+  };
+
+  document.getElementById('step25').addEventListener('click', e => {
+    const card = e.target.closest('.option-card');
+    if (card && card.dataset.flight === 'skip') {
+      document.querySelectorAll('#step25 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.flight = null;
+    }
+  });
+
+  document.getElementById('btnFlight').onclick = () => {
+    if (state.flight) {
+      document.getElementById('arriveDate').value = state.flight.arrive;
+      document.getElementById('departDate').value = state.flight.depart;
+      calcNightsFromDates();
+    }
+    next(3);
+  };
+
+  ['adults','kids'].forEach(id => {
+    document.getElementById(id).onchange = e => { state[id] = +e.target.value; updateCalc(true); };
+  });
+
+  document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(true); } };
+  document.getElementById('plus').onclick = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(true); };
+
+  document.getElementById('departDate').addEventListener('change', calcNightsFromDates);
+
+  document.getElementById('btn3').onclick = () => {
+    state.arrive = document.getElementById('arriveDate').value;
+    state.depart = document.getElementById('departDate').value;
+    if (!state.arrive || !state.depart) return alert("Pick both dates!");
+    next(4);
+    renderParishes();
+  };
+
+  document.getElementById('parishNext').onclick = () => {
+    if (!state.parish) return alert("Choose parish!");
+    next(5);
+  };
+
+  document.getElementById('btnVibe').onclick = () => {
+    const sel = document.querySelector('#step5 .option-card.selected');
+    if (!sel) return alert("Choose vibe!");
+    state.vibe = sel.dataset.value;
+    loadStays();
+    next(6);
+  };
+
+  document.getElementById('btnStay').onclick = () => {
+    if (!state.stay) return alert("Pick stay!");
+    loadTransport();
+    next(7);
+  };
+
+  document.getElementById('btnTransport').onclick = () => { loadTours(); next(8); };
+  document.getElementById('btnTours').onclick = showSummary;
+
+  document.getElementById('step5').addEventListener('click', e => {
+    const card = e.target.closest('.option-card');
+    if (card) {
+      document.querySelectorAll('#step5 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+  });
+
+  document.querySelectorAll('.btn.back').forEach(btn => {
+    btn.onclick = back;
+  });
+  document.getElementById('backSummary').onclick = () => next(8);
+
+  updateProgress();
 });
 </script>
 </body>
