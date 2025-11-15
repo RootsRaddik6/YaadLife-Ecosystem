@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>1Drop YaadVibe</title>
   <script src="https://cdn.jsdelivr.org/npm/qrcode.js@1.4.4/lib/qrcode.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Changa:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <!-- WalletConnect + TON -->
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     :root {
-      --green: #009B48; --gold: #FFD700; --red: #CE1126; --black: #000; --ocean: #0A3D62; --sunset: #FF6B35;
+      --green: #009B48; --gold: #FFD700; --black: #000;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Inter', sans-serif;
       background: #000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;
       background-image: url('/IMG_0039.jpeg'), linear-gradient(135deg, rgba(0,0,0,0.15), rgba(0,155,72,0.25));
       color: #fff;
@@ -23,23 +21,31 @@
       overflow-x: hidden;
       position: relative;
     }
-    .overlay {
-      position: fixed; inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,155,72,0.15));
-      backdrop-filter: blur(3px);
-      z-index: 1;
-      pointer-events: none;
-    }
+  .overlay {
+  position: fixed; inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,155,72,0.15)); /* ← MOONRISE VISIBLE */
+  backdrop-filter: blur(3px);
+  z-index: 1;
+  pointer-events: none;
+}
     .flag {
       position: fixed; top: 16px; left: 16px;
       width: 100px; height: 68px;
-      background: url('/IMG_0454.png') center/contain no-repeat;
+      background: url('/IMG_0454.jpeg') center/cover no-repeat;
       animation: waveFlow 3s ease-in-out infinite;
       z-index: 10;
       border-radius: 4px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       pointer-events: none;
     }
+    .flag::after {
+      content: "JAM"; font-weight: 900; font-size: 1.2rem;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: #fff; text-shadow: 0 0 4px #000; opacity: 0.8;
+      display: none;
+    }
+    .flag:not([style*="url"])::after { display: block; }
+
     @keyframes waveFlow {
       0%, 100% { transform: rotate(0deg) scale(1); }
       50% { transform: rotate(2deg) scale(1.02); }
@@ -56,16 +62,10 @@
       text-align: center; margin: 2.5rem 0 0.8rem; width: 100%;
     }
     .logo {
-      font-family: 'Changa', sans-serif;
-      font-size: clamp(3.2rem, 13vw, 5.5rem); font-weight: 700;
-      background: linear-gradient(45deg, var(--gold), var(--red), var(--green));
+      font-size: clamp(3.2rem, 13vw, 5.5rem); font-weight: 900;
+      background: linear-gradient(45deg, #fff, var(--gold), #FFEDAB);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: -2.5px;
-      animation: irieGlow 3s ease-in-out infinite;
-    }
-    @keyframes irieGlow {
-      0%, 100% { filter: drop-shadow(0 0 8px var(--gold)); }
-      50% { filter: drop-shadow(0 0 20px var(--red)); }
+      letter-spacing: -2.5px; text-shadow: 0 0 14px rgba(255,215,0,0.55);
     }
     .calc {
       margin-top: 0.6rem;
@@ -88,6 +88,7 @@
       border: none; cursor: pointer; margin: 0.9rem 0;
       box-shadow: 0 14px 30px rgba(0,0,0,0.65);
       transition: all .22s;
+      pointer-events: auto !important;
     }
     .btn.gold { background: var(--gold); color: #000; }
     .btn.green { background: var(--green); color: #fff; border: 3.5px solid var(--gold); }
@@ -161,12 +162,6 @@
     .trust { text-align: center; font-size: 1rem; color: #ddd; margin-top: 1.4rem; }
     .trust a { color: var(--gold); text-decoration: none; }
 
-    .no-fee {
-      background: rgba(0,155,72,0.35); padding: 14px; border-radius: 18px; margin: 1.2rem 0;
-      font-size: 0.98rem; text-align: center; color: #fff; border: 1px solid rgba(255,215,0,0.4);
-      font-weight: 600;
-    }
-
     @media (min-width: 400px) {
       .btn, input, select { width: 350px; }
       .occupancy select { width: 165px; }
@@ -182,7 +177,7 @@
 
   <div class="container">
     <div class="header">
-      <h1 class="logo">1DROP<br>YAADVIBE</h1>
+      <h1 class="logo">YAAD<br>VIBE</h1>
       <div class="calc">Total: $<span id="liveTotal">0.00</span></div>
       <div class="progress" id="progress"></div>
     </div>
@@ -309,14 +304,9 @@
     <div id="summary" class="step">
       <button class="btn back" id="backSummary">Back</button>
       <p class="msg">Your YaadVibe Package</p>
-      <div class="no-fee">
-        No 1Drop fee • 100% to host • We earn via affiliate<br>
-        <strong>Jam-Dex = More in dem pocket</strong>
-      </div>
       <div id="summary-items"></div>
       <div class="total">Total: $<span id="total">0.00</span></div>
-      <button class="btn gold" id="btnPay">Pay with Wallet</button>
-      <button class="btn green" id="btnPayFiat" style="margin-top:8px">Pay with Card</button>
+      <button class="btn gold" id="btnPay">Pay with TON Wallet</button>
       <div id="qr-area" style="margin:2.2rem 0; text-align:center;"></div>
     </div>
   </div>
@@ -383,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     tonConnectUI = new window.TonConnectUI({
       manifestUrl: 'https://yaadvibe.com/tonconnect-manifest.json',
-      projectId: '2f6896e4f5d74a3dc56f83a0b9aec78d'
+      buttonRootId: null
     });
   } catch(e) { console.warn("TON Connect not loaded"); }
 
@@ -393,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.stay) {
       const base = state.stay.price * state.nights;
       const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
-      total += base + occupancyFee;
+      total += base + occupancyFee + Math.round(base * 0.05);
     }
     state.transport.forEach(t => total += t.price);
     state.tours.forEach(t => total += t.price);
@@ -447,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const renderParishes = () => {
-    const c = ------------document.getElementById('parish-options'); c.innerHTML = '';
+    const c = document.getElementById('parish-options'); c.innerHTML = '';
     ALL_PARISHES.forEach(p => {
       const display = `${p.replace(/-/g,' ').replace(/\b\w/g, l => l.toUpperCase())} (${PARISH_TOWNS[p]})`;
       const card = document.createElement('div');
@@ -483,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.onclick = () => {
           c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
           card.classList.add('selected');
-          state.stay = {...item, fee: 0};
+          state.stay = {...item, fee: Math.round(item.price * 0.05)};
           updateCalc(true);
         };
         c.appendChild(card);
@@ -548,13 +538,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const showSummary = () => {
     const div = document.getElementById('summary-items'); div.innerHTML = '';
-    const add = (label, price) => {
-      div.innerHTML += `<div class="item"><span>${label}</span><span>$${price}</span></div>`;
+    const add = (label, price, fee = 0) => {
+      div.innerHTML += `<div class="item"><span>${label}</span><span>$${price}${fee ? ` + <strong>$${fee}</strong> fee` : ''}</span></div>`;
     };
     if (state.stay) {
       const base = state.stay.price * state.nights;
       const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
-      add(`${state.stay.name} (${state.nights} nights, ${state.adults}A/${state.kids}K)`, base + occupancyFee);
+      add(`${state.stay.name} (${state.nights} nights, ${state.adults}A/${state.kids}K)`, base + occupancyFee, Math.round(base * 0.05));
     }
     state.transport.forEach(t => add(t.name, t.price));
     state.tours.forEach(t => add(t.name, t.price));
@@ -563,21 +553,35 @@ document.addEventListener('DOMContentLoaded', () => {
     next(9);
   };
 
-  const buildAffiliateLink = (stay) => {
-    const slug = stay.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    return `https://www.booking.com/hotel/jm/${slug}.html?aid=2658034`;
+  // PAYMENT
+  document.getElementById('btnPay').onclick = async () => {
+    if (total === 0) return alert("Add items first!");
+    if (!tonConnectUI) return alert("TON Wallet not available");
+
+    const finalTotal = total;
+    const payload = { ...state, total: finalTotal };
+
+    try {
+      const tx = {
+        validUntil: Math.floor(Date.now() / 1000) + 300,
+        messages: [{
+          address: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c",
+          amount: String(Math.round(finalTotal * 1e9)),
+          payload: btoa(JSON.stringify(payload))
+        }]
+      };
+      const result = await tonConnectUI.sendTransaction(tx);
+      alert(`Payment sent! Total: $${finalTotal.toFixed(2)}\nTx: ${result.boc}`);
+      new QRCode(document.getElementById("qr-area"), {
+        text: result.boc, width: 240, height: 240,
+        colorDark: "#FFD700", colorLight: "#000"
+      });
+    } catch (e) {
+      alert("Payment failed: " + e.message);
+    }
   };
 
-  document.getElementById('btnPay').onclick = () => {
-    if (!state.stay) return alert("Select a stay first!");
-    const link = buildAffiliateLink(state.stay);
-    window.open(link, '_blank');
-    alert("Redirecting to secure booking. You pay host directly. 1Drop earns via affiliate.");
-  };
-
-  document.getElementById('btnPayFiat').onclick = document.getElementById('btnPay').onclick;
-
-  // EVENT LISTENERS
+  // EVENT LISTENERS — CRITICAL ORDER
   document.getElementById('step1').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
     if (card) {
@@ -589,17 +593,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-// REPLACE THE OLD startBtn LISTENER WITH THIS:
-document.getElementById('startBtn')?.addEventListener('click', () => {
-  console.log("Start button clicked → going to step 1");
-  next(1);
-  setTimeout(() => {
-    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
-    if (yesCard && !yesCard.classList.contains('selected')) {
-      yesCard.click();
-    }
-  }, 150);
-});
+  document.getElementById('startBtn').addEventListener('click', () => {
+    console.log("Start button clicked → going to step 1");
+    next(1);
+    setTimeout(() => {
+      const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+      if (yesCard) yesCard.click();
+    }, 100);
+  });
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
@@ -672,11 +673,13 @@ document.getElementById('startBtn')?.addEventListener('click', () => {
     }
   });
 
+  // BACK BUTTONS
   document.querySelectorAll('.btn.back').forEach(btn => {
     btn.onclick = back;
   });
   document.getElementById('backSummary').onclick = () => next(8);
 
+  // INIT
   updateProgress();
 });
 </script>
