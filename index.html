@@ -589,13 +589,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.getElementById('startBtn').addEventListener('click', () => {
-    next(1);
-    setTimeout(() => {
-      const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
-      if (yesCard) yesCard.click();
-    }, 100);
-  });
+// REPLACE THE OLD startBtn LISTENER WITH THIS:
+document.getElementById('startBtn')?.addEventListener('click', () => {
+  console.log("Start button clicked → going to step 1");
+  next(1);
+  setTimeout(() => {
+    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+    if (yesCard && !yesCard.classList.contains('selected')) {
+      yesCard.click();
+    }
+  }, 150);
+});
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
