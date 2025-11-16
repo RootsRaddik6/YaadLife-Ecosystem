@@ -137,8 +137,8 @@
     .btn.green { background: var(--green); color: #fff; border: 3.5px solid var(--gold); }
 .btn.back {
   position: fixed;
-  top: 50px;
-  left: 16px;
+  top: 85px;     /* ← MOVED DOWN */
+  left: 20px;    /* ← SLIGHT RIGHT */
   background: rgba(0,0,0,0.7);
   border: 2.5px solid #FFD700;
   border-radius: 50%;
@@ -151,32 +151,6 @@
   z-index: 100;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-.btn.back:hover {
-  background: #FFD700;
-  transform: scale(1.05);
-}
-.btn.back svg {
-  width: 20px;
-  height: 20px;
-  stroke: #FFD700;
-  stroke-width: 3;
-}
-.btn.back:hover svg {
-  stroke: #000;
-}
-    #startBtn {
-  background: linear-gradient(135deg, #0A3D62, #006400, #004D40);
-  color: #FFD700;
-  font-weight: 900;
-  font-size: 1.3rem;
-  padding: 12px 28px;
-  border-radius: 28px;
-  border: 2.5px solid #FFD700;
-  width: 200px;
-  margin: 1.2rem auto;
-  box-shadow: 0 7px 22px rgba(0,77,64,0.6);
-  cursor: pointer;
 }
     .btn:active { transform: scale(0.93); }
 
