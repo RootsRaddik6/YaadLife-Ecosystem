@@ -781,17 +781,72 @@ if (n === 9) currentStep = 9;   // summary
 }
 
   document.getElementById('startBtn').addEventListener('click', () => {
-    console.log("Start button clicked → going to step 1");
-    next(1);
+   document.getElementById('startBtn').addEventListener('click', () => {
+  console.log("Start button clicked → going to step 1");
+  next(1);
   setTimeout(() => {
-  const yesCard = document.querySelector('#step1.active .option-card[data-value="yes"]');
-  if (yesCard) {
-    yesCard.click();
-    console.log("Auto-clicked 'Yes' → going to Step 2");
-  } else {
-    console.warn("Step 1 not active yet or card missing");
+    const yesCard = document.querySelector('#step1.active .option-card[data-value="yes"]');
+    if (yesCard) {
+      yesCard.click();
+      console.log("Auto-clicked 'Yes' → going to Step 2");
+    } else {
+      console.warn("Step 1 not active yet or card missing");
+    }
+  }, 200);
+});
+
+// STEP 1: "Are you traveling to Jamaica?" → Auto-click "Yes"
+document.getElementById('step1').addEventListener('click', e => {
+  const card = e.target.closest('.option-card');
+  if (card) {
+    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.isLocal = card.dataset.value === 'no';
+
+    setTimeout(() => {
+      next(2);
+      if (state.isLocal) {
+        setTimeout(renderParishes, 100);
+      }
+    }, 150);
   }
-}, 200);
+});
+
+// STEP 2: "Where from?" → Next to Flights or Dates
+document.getElementById('btn2').onclick = () => {
+  state.from = document.getElementById('fromCity').value;
+  if (!state.from) return alert("Choose your city!");
+  if (!state.isLocal) {
+    loadFlights();
+    next(2.5);
+  } else {
+    next(3);
+  }
+};
+
+// STEP 2.5: Flight Booking
+document.getElementById('step25').addEventListener('click', e => {
+  const card = e.target.closest('.option-card');
+  if (card && card.dataset.flight === 'skip') {
+    document.querySelectorAll('#step25 .option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.flight = null;
+  }
+});
+
+document.getElementById('btnFlight').onclick = () => {
+  const selected = document.querySelector('#flight-options .option-card.selected');
+  if (!selected && !state.flight) {
+    alert("Choose a flight or skip");
+    return;
+  }
+  if (state.flight) {
+    document.getElementById('arriveDate').value = state.flight.arrive;
+    document.getElementById('departDate').value = state.flight.depart;
+    calcNightsFromDates();
+  }
+  next(3);
+};
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
