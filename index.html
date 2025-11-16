@@ -166,7 +166,9 @@
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
-}
+  color: transparent; /* HIDE ANY TEXT */
+  font-size: 0; /* SHRINK TEXT TO NOTHING */
+  overflow: hidden; /* CLIP ANY STRAY CONTENT */}
 .btn.back:hover {
   background: rgba(255, 215, 0, 0.2);
   transform: scale(1.08);
