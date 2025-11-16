@@ -190,8 +190,17 @@
     }
     .total { font-size: 2rem; font-weight: 700; color: var(--gold); text-align: center; margin: 2.2rem 0; }
 
-    .trust { text-align: center; font-size: 1rem; color: #ddd; margin-top: 1.4rem; }
-    .trust a { color: var(--gold); text-decoration: none; }
+    .trust {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: #FFD700;
+  z-index: 5;
+  text-align: center;
+}
+.trust a { color: #00CED1; text-decoration: underline; }
 
     @media (min-width: 400px) {
       .btn, input, select { width: 350px; }
