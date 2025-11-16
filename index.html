@@ -613,15 +613,7 @@ const goBack = () => {
   }
 };  
 });
- currentStep = n;
-if (n === 2.5) currentStep = 2; // treat 2.5 as step 2
-if (n === 9) currentStep = 9;   // summary
-
-  const back = () => {
-    if (currentStep > 0) next(currentStep - 1);
-  };
-
-  const calcNightsFromDates = () => {
+ const calcNightsFromDates = () => {
     const arrive = document.getElementById('arriveDate').value;
     const depart = document.getElementById('departDate').value;
     if (arrive && depart) {
