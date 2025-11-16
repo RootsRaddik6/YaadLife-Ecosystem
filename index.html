@@ -62,12 +62,28 @@
     .header {
       text-align: center; margin: 2.5rem 0 0.8rem; width: 100%;
     }
-    .logo {
-      font-size: clamp(3.2rem, 13vw, 5.5rem); font-weight: 900;
-      background: linear-gradient(45deg, #fff, var(--gold), #FFEDAB);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: -2.5px; text-shadow: 0 0 14px rgba(255,215,0,0.55);
-    }
+  .logo {
+  font-family: 'Changa One', cursive;
+  font-size: clamp(4.5rem, 16vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -3px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+.logo span:first-child {
+  background: linear-gradient(135deg, #FF4500, #FF0000, #DC143C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px #FF4500);
+}
+.logo span:last-child {
+  background: linear-gradient(135deg, #FFF8DC, #FFD700, #FFC107);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px #FFD700);
+}
     .calc {
       margin-top: 0.6rem;
       background: rgba(0,0,0,0.78); border: 3px solid var(--gold);
