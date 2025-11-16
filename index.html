@@ -603,14 +603,15 @@ const updateProgress = () => {
     span.textContent = icon;
     span.dataset.step = i;
 
-    // Map currentStep to icon index
-    const isActive = (currentStep === 0 && i === 0) || 
-                     (currentStep === 1 && i === 0) ||
-                     (currentStep >= 2 && stepMap[currentStep - 2] === i + 1);
+  const isActive = i === 
+  (currentStep === 0 ? 0 :
+   currentStep === 1 ? 0 :
+   currentStep === 2.5 ? 1 :
+   currentStep >= 2 ? Math.min(currentStep - 1, 8) : 0);
 
-    const isDone = i < stepMap.findIndex(s => s > currentStep) || 
-                   (currentStep === 9 && i === 8);
-
+const isDone = i < (currentStep === 9 ? 8 : 
+                   currentStep === 2.5 ? 1 :
+                   currentStep >= 2 ? Math.min(currentStep - 1, 8) : 0);
     if (isActive) span.classList.add('active');
     if (isDone && !isActive) span.classList.add('done');
 
