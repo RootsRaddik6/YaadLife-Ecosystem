@@ -23,33 +23,28 @@
     }
   .overlay {
   position: fixed; inset: 0;
-  background: linear-gradient(135deg, rgba(0,0,0,0.04), rgba(0,155,72,0.08)); /* ← REDUCED */
-  backdrop-filter: blur(1.5px); /* ← LIGHTER BLUR */
+  background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,155,72,0.15)); /* ← MOONRISE VISIBLE */
+  backdrop-filter: blur(3px);
   z-index: 1;
   pointer-events: none;
 }
-   .flag {
-  position: fixed; top: 16px; left: 16px;
-  width: 100px; height: 68px;
-  background: url('/IMG_0454.png') center/cover no-repeat;
-  /* REMOVE background-color: #000; */
-  animation: waveFlow 3s ease-in-out infinite;
-  z-index: 10;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  pointer-events: auto;
-  
-  /* NEW: USE CSS MASK TO CUT OUT FLAG SHAPE */
-  -webkit-mask: url('/IMG_0454.png') center/cover no-repeat;
-  mask: url('/IMG_0454.png') center/cover no-repeat;
-  background-color: transparent !important;
-}
-.flag::after {
-  content: "1Drop"; font-weight: 900; font-size: 1.2rem;
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  color: #fff; text-shadow: 0 0 4px #000; opacity: 0.8;
-  z-index: 1;
-}
+    .flag {
+      position: fixed; top: 16px; left: 16px;
+      width: 100px; height: 68px;
+      background: url('/IMG_0454.png') center/cover no-repeat;
+      background-color: #000;
+      animation: waveFlow 3s ease-in-out infinite;
+      z-index: 10;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      pointer-events: auto;
+    }
+    .flag::after {
+      content: "1Drop"; font-weight: 900; font-size: 1.2rem;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: #fff; text-shadow: 0 0 4px #000; opacity: 0.8;
+      display: none;
+    }
     .flag:not([style*="url"])::after { display: block; }
 
     @keyframes waveFlow {
@@ -89,19 +84,26 @@
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 20px #FFD700);
 }
-.logo span {
-  animation: fyahPulse 3s ease-in-out infinite alternate;
+    .logo span {
+  animation: fyahPulse 2.8s ease-in-out infinite alternate;
 }
 @keyframes fyahPulse {
   0% { 
-    filter: drop-shadow(0 0 15px #FF4500); 
+    filter: drop-shadow(0 0 12px #FF4500); 
     transform: scale(1);
   }
   100% { 
-    filter: drop-shadow(0 0 25px #FFD700); 
+    filter: drop-shadow(0 0 28px #FFD700); 
     transform: scale(1.02);
   }
 }
+   .logo span {
+  animation: fyahPulse 3s ease-in-out infinite alternate;
+}
+@keyframes fyahPulse {
+  0% { filter: drop-shadow(0 0 15px #FF4500); }
+  100% { filter: drop-shadow(0 0 25px #FFD700); }
+} 
    .calc {
   position: relative;
   background: rgba(0,0,0,0.85);
@@ -113,7 +115,7 @@
   color: #FFD700;
   max-width: 140px;
   backdrop-filter: blur(14px);
-  box-shadow: 0 3px 16px rgba(255,215,0,0.35), 0 0 12px rgba(255,215,0,0.5) !important;
+  box-shadow: 0 3px 16px rgba(255,215,0,0.35);
   top: 14vh;
   z-index: 3;
   transition: all 0.4s ease;
@@ -148,70 +150,45 @@
     .btn.green { background: var(--green); color: #fff; border: 3.5px solid var(--gold); }
 .btn.back {
   position: fixed;
-  top: 88px; right: 18px; left: auto;
+  top: 88px;           /* ← Aligns with "E" in VIBE */
+  right: 20px;         /* ← Opposite from flag */
+  left: auto;
   background: transparent;
   border: 2.5px solid #FFD700;
   border-radius: 50%;
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   z-index: 9999 !important;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
-  color: transparent; /* HIDE ANY TEXT */
-  font-size: 0; /* SHRINK TEXT TO NOTHING */
-  overflow: hidden; /* CLIP ANY STRAY CONTENT */}
+}
 .btn.back:hover {
   background: rgba(255, 215, 0, 0.2);
   transform: scale(1.08);
 }
 .btn.back svg {
-  width: 20px; height: 20px;
-  stroke: #FFD700; stroke-width: 3.5; fill: none;
+  width: 20px;
+  height: 20px;
+  stroke: #FFD700;
+  stroke-width: 3;
+  fill: none;
 }
     .btn:active { transform: scale(0.93); }
 
     .progress {
       display: flex; justify-content: center; gap: 8px; margin: 1rem 0;
     }
-    .progress {
-  display: flex; justify-content: center; gap: 12px; margin: 1rem 0; flex-wrap: wrap;
-}
-.prog-icon {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  transition: all 0.3s ease;
-  position: relative;
-  backdrop-filter: blur(4px);
-}
-.prog-icon.active {
-  background: var(--gold);
-  color: #000;
-  transform: scale(1.15);
-  box-shadow: 0 0 20px rgba(255,215,0,0.6);
-  animation: pulse 1.5s infinite;
-}
-.prog-icon.done::after {
-  content: 'Check';
-  position: absolute;
-  top: -6px; right: -6px;
-  width: 18px; height: 18px;
-  background: var(--green);
-  color: white;
-  border-radius: 50%;
-  font-size: 12px;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid #000;
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.6); }
-  50% { box-shadow: 0 0 30px rgba(255,215,0,0.9); }
-}
-  
+    .progress-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+    }
+    .progress-dot.active { background: var(--gold); transform: scale(1.3); }
 
     .step { display: none; width: 100%; animation: fade 0.55s ease-out; }
     .step.active { display: block; }
@@ -322,9 +299,12 @@
 
     <!-- STEP 2 -->
     <div id="step2" class="step">
-    <!-- REPLACE THIS ENTIRE BUTTON -->
-<button class="btn back" onclick="goBack()">
+      <button class="btn back" onclick="goBack()">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3" stroke-linejoin="round">
+  <path d="M19 12H5M12 19l-7-7 7-7" />
+</svg>
+</button>
+  <svg viewBox="0 0 24 24" fill="none">
     <path d="M19 12H5M12 19l-7-7 7-7" />
   </svg>
 </button>
@@ -343,12 +323,7 @@
 
     <!-- STEP 2.5: FLIGHT BOOKING -->
     <div id="step25" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back25">Back</button>
       <p class="msg">Book your flight?</p>
       <div class="option-card" data-flight="skip">
         <div class="info"><div class="name">No, I’ll book later</div></div>
@@ -359,12 +334,7 @@
 
     <!-- STEP 3 -->
     <div id="step3" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back3">Back</button>
       <p class="msg">Arrival & Departure</p>
       <input type="date" id="arriveDate">
       <input type="date" id="departDate">
@@ -392,12 +362,7 @@
 
     <!-- STEP 4 -->
     <div id="step4" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back4">Back</button>
       <p class="msg">What parish will you stay in?</p>
       <div id="parish-options"></div>
       <button class="btn green" id="parishNext" style="display:none">Next to Choose Vibe</button>
@@ -405,12 +370,7 @@
 
     <!-- STEP 5 -->
     <div id="step5" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back5">Back</button>
       <p class="msg">What vibe — Inland or Coastal?</p>
       <div class="option-card" data-value="coastal">
         <div class="info"><div class="name">Coastal</div></div>
@@ -423,12 +383,7 @@
 
     <!-- STEP 6 -->
     <div id="step6" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back6">Back</button>
       <p class="msg">Choose your stay</p>
       <div id="stay-options"></div>
       <button class="btn green" id="btnStay">Next to Transport</button>
@@ -436,12 +391,7 @@
 
     <!-- STEP 7 -->
     <div id="step7" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back7">Back</button>
       <p class="msg">Need a ride? (optional)</p>
       <div id="transport-options"></div>
       <button class="btn green" id="btnTransport">Next to Tours</button>
@@ -449,12 +399,7 @@
 
     <!-- STEP 8 -->
     <div id="step8" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="back8">Back</button>
       <p class="msg">Add tours (optional)</p>
       <div id="tour-options"></div>
       <button class="btn green" id="btnTours">Show My Package</button>
@@ -462,12 +407,7 @@
 
     <!-- SUMMARY -->
     <div id="summary" class="step">
-      <button class="btn back" id="backX" onclick="goBack()" aria-label="Go back">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-       stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-</button>
+      <button class="btn back" id="backSummary">Back</button>
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
       <div class="total">Total: $<span id="total">0.00</span></div>
@@ -562,58 +502,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const PROGRESS_ICONS = ['Jamaica', 'Plane', 'Calendar', 'Pin', 'Palm', 'Hotel', 'Taxi', 'Star', 'Money'];
+  const updateProgress = () => {
+    const prog = document.getElementById('progress');
+    prog.innerHTML = '';
+    for (let i = 0; i < totalSteps; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      if (i === currentStep) dot.classList.add('active');
+      prog.appendChild(dot);
+    }
+  };
 
-const updateProgress = () => {
-  const prog = document.getElementById('progress');
-  prog.innerHTML = '';
-  const stepMap = [1, 2, 3, 4, 5, 6, 7, 8, 9]; // maps currentStep → icon index
+  const next = n => {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const target = n === 9 ? document.getElementById('summary') : document.getElementById(n === 2.5 ? 'step25' : 'step' + n);
+    if (target) {
+      target.classList.add('active');
+      currentStep = n;
+      updateProgress();
+      updateCalc(true);
+    }
+  };
 
-  PROGRESS_ICONS.forEach((icon, i) => {
-    const span = document.createElement('span');
-    span.className = 'prog-icon';
-    span.textContent = icon;
-    span.dataset.step = i;
+  const back = () => {
+    if (currentStep > 0) next(currentStep - 1);
+  };
 
-  const isActive = i === 
-  (currentStep === 0 ? 0 :
-   currentStep === 1 ? 0 :
-   currentStep === 2.5 ? 1 :
-   currentStep >= 2 ? Math.min(currentStep - 1, 8) : 0);
-
-const isDone = i < (currentStep === 9 ? 8 : 
-                   currentStep === 2.5 ? 1 :
-                   currentStep >= 2 ? Math.min(currentStep - 1, 8) : 0);
-    if (isActive) span.classList.add('active');
-    if (isDone && !isActive) span.classList.add('done');
-
-    prog.appendChild(span);
-  });
-};
-const next = n => {
-  console.log(`→ Moving to step: ${n}`);
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step0').classList.remove('active');
-
-  const targetId = n === 9 ? 'summary' : (n === 2.5 ? 'step25' : 'step' + n);
-  const target = document.getElementById(targetId);
-  if (target) {
-    target.classList.add('active');
-    currentStep = n;
-    updateProgress();
-    updateCalc(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-};
-
-const goBack = () => {
-  if (currentStep > 0) {
-    const prev = currentStep === 2.5 ? 2 : Math.floor(currentStep) - 1;
-    next(prev);
-  }
-};  
-});
- const calcNightsFromDates = () => {
+  const calcNightsFromDates = () => {
     const arrive = document.getElementById('arriveDate').value;
     const depart = document.getElementById('departDate').value;
     if (arrive && depart) {
@@ -770,70 +685,27 @@ const goBack = () => {
       alert("Payment failed: " + e.message);
     }
   };
-document.getElementById('startBtn').addEventListener('click', () => {
-  console.log("Start button clicked → going to step 1");
-  next(1);
-  setTimeout(() => {
-    const yesCard = document.querySelector('#step1.active .option-card[data-value="yes"]');
-    if (yesCard) {
-      yesCard.click();
-      console.log("Auto-clicked 'Yes' → going to Step 2");
-    }
-  }, 200);
-});
 
-// STEP 1: "Are you traveling to Jamaica?" → Auto-click "Yes"
-document.getElementById('step1').addEventListener('click', e => {
-  const card = e.target.closest('.option-card');
-  if (card) {
-    document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    state.isLocal = card.dataset.value === 'no';
-
-    setTimeout(() => {
+  // EVENT LISTENERS — CRITICAL ORDER
+  document.getElementById('step1').addEventListener('click', e => {
+    const card = e.target.closest('.option-card');
+    if (card) {
+      document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.isLocal = card.dataset.value === 'no';
       next(2);
-      if (state.isLocal) {
-        setTimeout(renderParishes, 100);
-      }
-    }, 150);
-  }
-});
+      if (state.isLocal) renderParishes();
+    }
+  });
 
-// STEP 2: "Where from?" → Next to Flights or Dates
-document.getElementById('btn2').onclick = () => {
-  state.from = document.getElementById('fromCity').value;
-  if (!state.from) return alert("Choose your city!");
-  if (!state.isLocal) {
-    loadFlights();
-    next(2.5);
-  } else {
-    next(3);
-  }
-};
-
-// STEP 2.5: Flight Booking
-document.getElementById('step25').addEventListener('click', e => {
-  const card = e.target.closest('.option-card');
-  if (card && card.dataset.flight === 'skip') {
-    document.querySelectorAll('#step25 .option-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    state.flight = null;
-  }
-});
-
-document.getElementById('btnFlight').onclick = () => {
-  const selected = document.querySelector('#flight-options .option-card.selected');
-  if (!selected && !state.flight) {
-    alert("Choose a flight or skip");
-    return;
-  }
-  if (state.flight) {
-    document.getElementById('arriveDate').value = state.flight.arrive;
-    document.getElementById('departDate').value = state.flight.depart;
-    calcNightsFromDates();
-  }
-  next(3);
-};
+  document.getElementById('startBtn').addEventListener('click', () => {
+    console.log("Start button clicked → going to step 1");
+    next(1);
+    setTimeout(() => {
+      const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+      if (yesCard) yesCard.click();
+    }, 100);
+  });
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
@@ -905,11 +777,16 @@ document.getElementById('btnFlight').onclick = () => {
       card.classList.add('selected');
     }
   });
+
+  // BACK BUTTONS
   document.querySelectorAll('.btn.back').forEach(btn => {
-  btn.onclick = goBack;
-});
-// INIT
+    btn.onclick = back;
+  });
+  document.getElementById('backSummary').onclick = () => next(8);
+
+  // INIT
   updateProgress();
+});
 </script>
 </body>
 </html>
