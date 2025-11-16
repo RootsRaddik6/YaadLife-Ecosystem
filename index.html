@@ -919,14 +919,10 @@ document.getElementById('btnFlight').onclick = () => {
       card.classList.add('selected');
     }
   });
-
-  // BACK BUTTONS
   document.querySelectorAll('.btn.back').forEach(btn => {
-    btn.onclick = back;
-  });
-  document.getElementById('backSummary').onclick = () => next(8);
-
-  // INIT
+  btn.onclick = goBack;
+});
+// INIT
   updateProgress();
 });
 </script>
