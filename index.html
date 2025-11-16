@@ -28,23 +28,28 @@
   z-index: 1;
   pointer-events: none;
 }
-    .flag {
-      position: fixed; top: 16px; left: 16px;
-      width: 100px; height: 68px;
-      background: url('/IMG_0454.png') center/cover no-repeat;
-      background-color: #000;
-      animation: waveFlow 3s ease-in-out infinite;
-      z-index: 10;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      pointer-events: auto;
-    }
-    .flag::after {
-      content: "1Drop"; font-weight: 900; font-size: 1.2rem;
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      color: #fff; text-shadow: 0 0 4px #000; opacity: 0.8;
-      display: none;
-    }
+   .flag {
+  position: fixed; top: 16px; left: 16px;
+  width: 100px; height: 68px;
+  background: url('/IMG_0454.png') center/cover no-repeat;
+  /* REMOVE background-color: #000; */
+  animation: waveFlow 3s ease-in-out infinite;
+  z-index: 10;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  pointer-events: auto;
+  
+  /* NEW: USE CSS MASK TO CUT OUT FLAG SHAPE */
+  -webkit-mask: url('/IMG_0454.png') center/cover no-repeat;
+  mask: url('/IMG_0454.png') center/cover no-repeat;
+  background-color: transparent !important;
+}
+.flag::after {
+  content: "1Drop"; font-weight: 900; font-size: 1.2rem;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  color: #fff; text-shadow: 0 0 4px #000; opacity: 0.8;
+  z-index: 1;
+}
     .flag:not([style*="url"])::after { display: block; }
 
     @keyframes waveFlow {
