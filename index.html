@@ -84,14 +84,28 @@
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 20px #FFD700);
 }
-    .calc {
-      margin-top: 0.6rem;
-      background: rgba(0,0,0,0.78); border: 3px solid var(--gold);
-      border-radius: 20px; padding: 10px 16px;
-      font-weight: 700; font-size: 1.2rem; color: var(--gold);
-      backdrop-filter: blur(12px); display: inline-block;
-      transition: transform 0.3s ease;
-    }
+   .calc {
+  position: relative;
+  background: rgba(0,0,0,0.85);
+  border: 2.5px solid #FFD700;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #FFD700;
+  max-width: 140px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 3px 16px rgba(255,215,0,0.35);
+  top: 14vh;
+  z-index: 3;
+  transition: all 0.4s ease;
+  display: inline-block;
+}
+.calc.expand { 
+  max-width: 260px; 
+  font-size: 1.3rem; 
+  padding: 10px 16px; 
+}
     .calc.animate { animation: countUp 0.6s ease-out; }
     @keyframes countUp { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
