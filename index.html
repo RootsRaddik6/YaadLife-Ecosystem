@@ -590,7 +590,29 @@ const isDone = i < (currentStep === 9 ? 8 :
     prog.appendChild(span);
   });
 };
+const next = n => {
+  console.log(`→ Moving to step: ${n}`);
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step0').classList.remove('active');
 
+  const targetId = n === 9 ? 'summary' : (n === 2.5 ? 'step25' : 'step' + n);
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.classList.add('active');
+    currentStep = n;
+    updateProgress();
+    updateCalc(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
+
+const goBack = () => {
+  if (currentStep > 0) {
+    const prev = currentStep === 2.5 ? 2 : Math.floor(currentStep) - 1;
+    next(prev);
+  }
+};  
+});
  currentStep = n;
 if (n === 2.5) currentStep = 2; // treat 2.5 as step 2
 if (n === 9) currentStep = 9;   // summary
@@ -896,29 +918,6 @@ document.getElementById('btnFlight').onclick = () => {
 });
 // INIT
   updateProgress();
-const next = n => {
-  console.log(`→ Moving to step: ${n}`);
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step0').classList.remove('active');
-
-  const targetId = n === 9 ? 'summary' : (n === 2.5 ? 'step25' : 'step' + n);
-  const target = document.getElementById(targetId);
-  if (target) {
-    target.classList.add('active');
-    currentStep = n;
-    updateProgress();
-    updateCalc(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-};
-
-const goBack = () => {
-  if (currentStep > 0) {
-    const prev = currentStep === 2.5 ? 2 : Math.floor(currentStep) - 1;
-    next(prev);
-  }
-};  
-});
 </script>
 </body>
 </html>
