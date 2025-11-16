@@ -784,26 +784,7 @@ if (n === 9) currentStep = 9;   // summary
       alert("Payment failed: " + e.message);
     }
   };
-
-  // EVENT LISTENERS — CRITICAL ORDER
-  document.getElementById('step1').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-  if (card) {
-  document.querySelectorAll('#step1 .option-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  state.isLocal = card.dataset.value === 'no';
-  
-  // Delay next() to ensure animation completes
-  setTimeout(() => {
-    next(2);
-    if (state.isLocal) {
-      setTimeout(renderParishes, 100); // Wait for Step 2 DOM
-    }
-  }, 150);
-}
-
-  document.getElementById('startBtn').addEventListener('click', () => {
-   document.getElementById('startBtn').addEventListener('click', () => {
+document.getElementById('startBtn').addEventListener('click', () => {
   console.log("Start button clicked → going to step 1");
   next(1);
   setTimeout(() => {
@@ -811,8 +792,6 @@ if (n === 9) currentStep = 9;   // summary
     if (yesCard) {
       yesCard.click();
       console.log("Auto-clicked 'Yes' → going to Step 2");
-    } else {
-      console.warn("Step 1 not active yet or card missing");
     }
   }, 200);
 });
