@@ -778,11 +778,15 @@ if (n === 9) currentStep = 9;   // summary
   document.getElementById('startBtn').addEventListener('click', () => {
     console.log("Start button clicked → going to step 1");
     next(1);
-    setTimeout(() => {
-      const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
-      if (yesCard) yesCard.click();
-    }, 100);
-  });
+  setTimeout(() => {
+  const yesCard = document.querySelector('#step1.active .option-card[data-value="yes"]');
+  if (yesCard) {
+    yesCard.click();
+    console.log("Auto-clicked 'Yes' → going to Step 2");
+  } else {
+    console.warn("Step 1 not active yet or card missing");
+  }
+}, 200);
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
