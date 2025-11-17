@@ -149,7 +149,11 @@
       <p style="margin:1rem 0;font-size:1.3rem;">Nights: <strong><span id="nightCount">1</span></strong></p>
       <button id="minus" class="btn" style="width:auto;display:inline-block;padding:0.8rem 1.2rem;">–</button>
       <button id="plus" class="btn" style="width:auto;display:inline-block;padding:0.8rem 1.2rem;">+</button>
-      <p style="margin:1rem 0;">Adults: <input type="number" id="adults" value="2" min="1" style="width:80px;"></p>
+      <p style="margin:1rem 0;">Adults:
+  <button id="minusAdult" class="btn" style="width:auto;padding:0.6rem 1rem;font-size:1.2rem;">–</button>
+  <strong id="adultCount" style="display:inline-block;width:50px;text-align:center;font-size:1.4rem;">1</strong>
+  <button id="plusAdult" class="btn" style="width:auto;padding:0.6rem 1rem;font-size:1.2rem;">+</button>
+</p>
       <p>Kids: <input type="number" id="kids" value="0" min="0" style="width:80px;"></p>
       <button class="btn gold" id="btn3">Next</button>
     </div>
@@ -393,6 +397,23 @@ const renderParishes = () => {
       next(2);
     }
   });
+  state.adults = 1; // default now 1
+
+document.getElementById('adultCount').textContent = state.adults;
+
+document.getElementById('minusAdult').onclick = () => {
+  if (state.adults > 1) {
+    state.adults--;
+    document.getElementById('adultCount').textContent = state.adults;
+    updateCalc();
+  }
+};
+
+document.getElementById('plusAdult').onclick = () => {
+  state.adults++;
+  document.getElementById('adultCount').textContent = state.adults;
+  updateCalc();
+};
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
@@ -425,23 +446,25 @@ document.getElementById('step25').addEventListener('click', e => {
   document.getElementById('plus').onclick  = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
   document.getElementById('adults').onchange = e => { state.adults = +e.target.value; updateCalc(); };
   document.getElementById('kids').onchange   = e => { state.kids = +e.target.value; updateCalc(); };
-// FIX 3: Improve date handling + auto-calculate nights properly
-  document.getElementById('btn3').onclick = () => {
+document.getElementById('btn3').onclick = () => {
   state.arrive = document.getElementById('arriveDate').value;
   state.depart = document.getElementById('departDate').value;
   
-  if (!state.arrive || !state.depart) return alert("Choose both arrival and departure dates!");
-  
+  if (!state.arrive || !state.depart) return alert("Choose both dates!");
+
   const arrive = new Date(state.arrive);
   const depart = new Date(state.depart);
   if (depart <= arrive) return alert("Departure must be after arrival!");
 
-  const nights = Math.round((depart - arrive) / (1000 * 60 * 60 * 24));
+  const nights = Math.floor((depart - arrive) / (1000 * 60 * 60 * 24));
+  if (nights < 1 || nights > 90) return alert("Stay between 1 and 90 nights");
+
   state.nights = nights;
   document.getElementById('nightCount').textContent = nights;
-  
+  updateCalc();  // ← This was missing before!
+
   next(4);
-  renderParishes(); // This was missing sometimes when going back
+  renderParishes();
 };
 
   document.getElementById('parishNext').onclick = () => { if (!state.parish) return alert("Choose parish!"); next(5); };
