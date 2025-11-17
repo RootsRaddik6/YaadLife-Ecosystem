@@ -334,14 +334,25 @@ const renderParishes = () => {
     if (!state.from) return alert("Choose your city!");
     if (!state.isLocal) { loadFlights(); next(2.5); } else next(3);
   };
-
-  document.getElementById('step25').addEventListener('click', e => {
-    if (e.target.closest('[data-flight="skip"]')) {
-      document.querySelectorAll('#step25 .option-card').forEach(c => c.classList.remove('selected'));
-      e.target.closest('.option-card').classList.add('selected');
-      state.flight = null;
-    }
-  });
+ // FIX 4: Fix flight selection (was only working on "skip")
+document.getElementById('step25').addEventListener('click', e => {
+  const card = e.target.closest('.option-card');
+  if (!card) return;
+  
+  document.querySelectorAll('#step25 .option-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  
+  if (card.dataset.flight === "skip") {
+    state.flight = null;
+  } else {
+    // Find the flight object from LIVE_DATA
+    const clickedFlight = LIVE_DATA.flights.default.find(f => 
+      card.querySelector('.name')?.textContent.includes(f.airline)
+    );
+    state.flight = clickedFlight || null;
+  }
+  updateCalc();
+});
 
   document.getElementById('btnFlight').onclick = () => next(3);
 
