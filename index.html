@@ -349,15 +349,24 @@ const renderParishes = () => {
   document.getElementById('plus').onclick  = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
   document.getElementById('adults').onchange = e => { state.adults = +e.target.value; updateCalc(); };
   document.getElementById('kids').onchange   = e => { state.kids = +e.target.value; updateCalc(); };
-
+// FIX 3: Improve date handling + auto-calculate nights properly
   document.getElementById('btn3').onclick = () => {
-    state.arrive = document.getElementById('arriveDate').value;
-    state.depart = document.getElementById('departDate').value;
-    if (!state.arrive || !state.depart) return alert("Choose both dates!");
-    const nights = Math.round((new Date(state.depart) - new Date(state.arrive)) / 86400000);
-    if (nights > 0) { state.nights = nights; document.getElementById('nightCount').textContent = nights; }
-    next(4); renderParishes();
-  };
+  state.arrive = document.getElementById('arriveDate').value;
+  state.depart = document.getElementById('departDate').value;
+  
+  if (!state.arrive || !state.depart) return alert("Choose both arrival and departure dates!");
+  
+  const arrive = new Date(state.arrive);
+  const depart = new Date(state.depart);
+  if (depart <= arrive) return alert("Departure must be after arrival!");
+
+  const nights = Math.round((depart - arrive) / (1000 * 60 * 60 * 24));
+  state.nights = nights;
+  document.getElementById('nightCount').textContent = nights;
+  
+  next(4);
+  renderParishes(); // This was missing sometimes when going back
+};
 
   document.getElementById('parishNext').onclick = () => { if (!state.parish) return alert("Choose parish!"); next(5); };
 
