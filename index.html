@@ -57,7 +57,25 @@
     .option-card.selected{background:rgba(255,215,0,0.25)!important;border-color:var(--gold)!important;box-shadow:0 0 20px rgba(255,215,0,0.5);}
     #summary-items{background:rgba(0,0,0,0.7);padding:1.5rem;border-radius:16px;margin:1.5rem 0;border:1px solid rgba(255,215,0,0.3);}
     #summary-items div{font-size:1.25rem!important;padding:0.9rem 0!important;color:#fff!important;}
-    .btn.back{position:fixed!important;right:1rem!important;top:auto!important;z-index:9999!important;}
+  /* CLEAN BACK BUTTON - fixed top-right, no interference */
+.btn.back {
+  position: fixed !important;
+  top: 18px !important;
+  right: 16px !important;
+  background: rgba(0,0,0,0.4) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 50% !important;
+  width: 50px !important;
+  height: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+  border: 2px solid rgba(255,215,0,0.5) !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6) !important;
+  transition: all 0.3s !important;
+}
+.btn.back:hover { transform: scale(1.1); }
   </style>
 </head>
 <body>
