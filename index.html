@@ -243,29 +243,36 @@ document.addEventListener('DOMContentLoaded', () => {
 setTimeout(() => 
   document.getElementById('liveTotal').style.animation = 'fyahPulse 0.6s ease-in-out', 10);
   };
-
-  // FIX 5: Make sure parishes reload when going BACK to step 4
-// Add this to your back() function or override back button for step4
-// Or simpler: modify next() to re-render parishes when going to step 4
 const next = n => {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   const id = n===2.5 ? 'step25' : n===9 ? 'summary' : `step${n}`;
   document.getElementById(id).classList.add('active');
   currentStep = n;
   updateProgress();
+
+  // Back button alignment + parish reload
   const logo = document.querySelector('.logo');
-const backBtns = document.querySelectorAll('.btn.back');
-backBtns.forEach(btn => {
+  const backBtns = document.querySelectorAll('.btn.back');
+  backBtns.forEach(btn => {
+    btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`;
+  });
+
+  if (n === 4) renderParishes(); // ← THIS LINE FIXES parishes disappearing when going back
+};
   btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`; // Aligns with bottom of VIBE, minus svg height
 });
   if (n === 4) renderParishes(); // ← THIS LINE FIXES going back
 };
-  const back = () => {const s=[0,1,2,2.5,3,4,5,6,7,8,9];const i=s.indexOf(currentStep);if(i>0)next(s[i-1]);};
- // FIX 6: Better progress icons (use actual emojis that look clean)
+  const back = () => {
+  const s = [0,1,2,2.5,3,4,5,6,7,8,9];
+  const i = s.indexOf(currentStep);
+  if (i > 0) next(s[i-1]);
+};
 const updateProgress = () => {
   const p = document.getElementById('progress');
   p.innerHTML = '';
-  const icons = ['▶️', '🧳', '✈️', '📆', '📍', '🌊', '🛏️', '🚕', '🎟️', '🛒'];
+  const icons = ['▶️','🧳','✈️','📅','📍','🌊','🛏️','🚕','🎟️','🛒'];
+  
   icons.forEach((e, i) => {
     const s = document.createElement('span');
     s.textContent = e;
