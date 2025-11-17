@@ -624,6 +624,51 @@
       // === INIT ===
       updateProgress();
     });
+          // === TIP JAR ===
+      document.getElementById('btnTip').onclick = async () => {
+        if (!tonConnectUI) return alert("TON Wallet not available");
+        try {
+          const tx = {
+            validUntil: Math.floor(Date.now() / 1000) + 300,
+            messages: [{
+              address: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c",
+              amount: "5000000000", // $5 = 5 TON (adjust rate later)
+              payload: btoa(JSON.stringify({ tip: true, from: state.from || "local" }))
+            }]
+          };
+          const result = await tonConnectUI.sendTransaction(tx);
+          alert("Tip sent! Bless up!");
+          new QRCode(document.getElementById("qr-area"), {
+            text: result.boc, width: 200, height: 200,
+            colorDark: "#FFD700", colorLight: "#000"
+          });
+        } catch (e) {
+          alert("Tip failed: " + e.message);
+        }
+      };
+
+      // === FINAL SHOW SUMMARY (ENSURE IT RUNS) ===
+      const showSummary = () => {
+        const div = document.getElementById('summary-items'); div.innerHTML = '';
+        const add = (label, price, fee = 0) => {
+          div.innerHTML += `
+            <div class="item" style="display:flex;justify-content:space-between;padding:0.9rem 0;border-bottom:1px solid rgba(255,255,255,0.25);font-size:1.1rem;">
+              <span>${label}</span>
+              <span style="color:#FFD700;font-weight:700;">$${price}${fee ? ` + <strong>$${fee}</strong>` : ''}</span>
+            </div>`;
+        };
+        if (state.stay) {
+          const base = state.stay.price * state.nights;
+          const occupancyFee = state.adults > 2 ? (state.adults - 2) * 50 : 0;
+          const serviceFee = Math.round(base * 0.05);
+          add(`${state.stay.name} (${state.nights} night${state.nights>1?'s':''})`, base + occupancyFee, serviceFee);
+        }
+        state.transport.forEach(t => add(t.name, t.price));
+        state.tours.forEach(t => add(t.name, t.price));
+        if (state.flight) add(`${state.flight.airline} Flight (Roundtrip)`, state.flight.price);
+        document.getElementById('total').textContent = total.toFixed(2);
+        next(9);
+      };
   </script>
 </body>
 </html>
