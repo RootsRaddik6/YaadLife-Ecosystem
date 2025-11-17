@@ -213,12 +213,22 @@ const next = n => {
   if (n === 4) renderParishes(); // ← THIS LINE FIXES going back
 };
   const back = () => {const s=[0,1,2,2.5,3,4,5,6,7,8,9];const i=s.indexOf(currentStep);if(i>0)next(s[i-1]);};
-
-  const updateProgress = () => {
-    const p=document.getElementById('progress');p.innerHTML='';
-    const icons=['Jamaican flag','Airplane','Calendar','Map','Wave','Hotel','Car','Star','Wallet'];
-    icons.forEach((e,i)=>{const s=document.createElement('span');s.textContent=e;if(i<currentStep)s.style.opacity='1';if(i===currentStep)s.style.transform='scale(1.4)';p.appendChild(s);});
-  };
+ // FIX 6: Better progress icons (use actual emojis that look clean)
+const updateProgress = () => {
+  const p = document.getElementById('progress');
+  p.innerHTML = '';
+  const icons = ['🇯🇲','✈️','📅','🗺️','🌊','🏨','🚐','⭐','💳'];
+  icons.forEach((e, i) => {
+    const s = document.createElement('span');
+    s.textContent = e;
+    s.style.fontSize = '2.2rem';
+    s.style.margin = '0 0.5rem';
+    s.style.opacity = i <= currentStep ? '1' : '0.3';
+    s.style.transition = 'all 0.3s';
+    if (i === currentStep) s.style.transform = 'scale(1.5)';
+    p.appendChild(s);
+  });
+};
 // FIX 2: Replace your entire renderParishes() function with this improved version
 const renderParishes = () => {
   const c = document.getElementById('parish-options');
