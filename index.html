@@ -389,21 +389,6 @@ add(`Service & Booking Fee`, fee);
     document.getElementById('btnTip').style.display = 'block';
     next(9);
   };
-
-  const positionBackButton = () => {
-    const vibe = document.querySelector('.logo span:last-child');
-    const backBtns = document.querySelectorAll('.btn.back');
-    if(!vibe || backBtns.length===0) return;
-    const rect = vibe.getBoundingClientRect();
-    backBtns.forEach(btn=>{
-      btn.style.position = 'fixed';
-      btn.style.right = '1rem';
-      btn.style.top = `${rect.bottom-20}px`;
-      btn.style.transform = 'translateY(-50%)';
-      btn.style.zIndex = '9999';
-    });
-  };
-
   // EVENT LISTENERS
   document.getElementById('startBtn').onclick = () => next(1);
 
