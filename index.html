@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id).classList.add('active');
     currentStep = n;
     updateProgress();
-    setTimeout(positionBackButton, 100);
+    
     if (n === 4) renderParishes();
   };
 
@@ -447,8 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => {e.stopPropagation(); back();});
 
-  document.addEventListener('DOMContentLoaded', positionBackButton);
-  window.addEventListener('resize', positionBackButton);
+  
   updateProgress();
 });
 </script>
