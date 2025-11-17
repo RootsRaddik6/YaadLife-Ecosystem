@@ -360,8 +360,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(state.stay){
       const base = state.stay.price*state.nights;
       const fee = Math.round(base*0.05);
-      add(`${state.stay.name} (${state.nights} nights) + service`,base+fee);
-    }
+      add(`${state.stay.name} (${state.nights} nights)`, base);
+add(`Service & Booking Fee`, fee);
     state.transport.forEach(t=>add(t.name,t.price));
     state.tours.forEach(t=>add(t.name,t.price));
     if(state.flight) add(`${state.flight.airline} Flight`,state.flight.price);
