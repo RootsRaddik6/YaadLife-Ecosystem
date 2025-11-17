@@ -103,6 +103,64 @@
 }
 #summary-items div:last-child { border-bottom: none !important; }
 #summary-items strong { color: #FFD700 !important; font-size: 1.4rem !important; }
+ 
+  /* 1. Make all main action buttons 50% smaller */
+.btn.gold,
+.btn.green,
+#btnPay,
+#btnTip,
+#startBtn {
+  padding: 0.7rem 1rem !important;
+  font-size: 1.1rem !important;
+  margin: 0.7rem 0 !important;
+  border-radius: 16px !important;
+}
+
+/* Special fix for the big Start button */
+#startBtn {
+  padding: 1rem !important;
+  font-size: 1.35rem !important;
+  border-radius: 99px !important;
+}
+
+/* Smaller + / − buttons in step3 */
+#minus, #plus,
+#minusAdult, #plusAdult {
+  padding: 0.5rem 0.9rem !important;
+  font-size: 1.4rem !important;
+  min-width: 50px;
+}
+
+/* 2. Make the back arrow MUCH larger and better centered */
+.btn.back {
+  position: fixed !important;
+  top: 14px !important;
+  right: 14px !important;
+  background: rgba(0,0,0,0.5) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 50% !important;
+  width: 68px !important;        /* slightly bigger circle to fit larger arrow */
+  height: 68px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+  border: 3px solid #FFD700 !important;
+  box-shadow: 0 0 30px rgba(255,215,0,0.8) !important;
+  transition: all 0.3s !important;
+}
+
+.btn.back svg {
+  width: 48px !important;     /* ← this makes the arrow BIGGER */
+  height: 48px !important;
+  stroke-width: 4.5 !important;   /* thicker stroke for more impact */
+}
+
+.btn.back:hover {
+  transform: scale(1.2);
+  background: rgba(255,215,0,0.25) !important;
+  box-shadow: 0 0 40px rgba(255,215,0,1) !important;
+}
   </style>
 </head>
 <body>
