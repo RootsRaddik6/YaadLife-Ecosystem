@@ -84,7 +84,6 @@
   right: 1rem !important;
   top: auto !important;
   bottom: calc(100dvh - 2.5rem) !important;  /* Puts it near bottom-right */
-  transform: translateY(100%) !important;   /* Pulls it up so it sits just above bottom */
   z-index: 9999 !important;
 }
   </style>
@@ -208,7 +207,7 @@
     <button class="btn gold" id="btnPay" style="display:none; font-weight:900; letter-spacing:1px; margin:1.5rem 0;">
   💳 PAY WITH TON WALLET
 </button>
-      <button class="btn green" id="btnTip" style="display:none; transform:scale(0.25); transform-origin:center;">
+      <button class="btn green" id="btnTip" style="display:none; transform:scale(1); transform:scale(1); font-size:1.1rem; padding:0.8rem:">
   🔥Tip 💰🔥
 </button>
       <div id="qr-area" style="margin:2rem 0;"></div>
@@ -227,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tours:{default:[{"name":"Dunn’s River","price":65},{"name":"Blue Hole","price":55}]}
   };
 
-  let state = {from:'',arrive:'',depart:'',parish:'',vibe:'',stay:null,transport:[],tours:[],nights:1,adults:2,kids:0,isLocal:false,flight:null};
+  let state = {from:'',arrive:'',depart:'',parish:'',vibe:'',stay:null,transport:[],tours:[],nights:1,adults:1,kids:0,isLocal:false,flight:null};
   let total = 0;
   let currentStep = 0;
 
@@ -254,7 +253,6 @@ const next = n => {
   const logo = document.querySelector('.logo');
   const backBtns = document.querySelectorAll('.btn.back');
   backBtns.forEach(btn => {
-    btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`;
   });
 
   if (n === 4) renderParishes(); // ← THIS LINE FIXES parishes disappearing when going back
@@ -411,8 +409,6 @@ document.getElementById('adultCount').textContent = state.adults;
 document.getElementById('minusAdult').onclick = () => {
   if (state.adults > 1) {
     state.adults--;
-    document.getElementById('adultCount').textContent = state.adults;
-    updateCalc();
   }
 };
 
@@ -512,7 +508,7 @@ const positionBackButton = () => {
     btn.style.top = `${vibeRect.bottom - 20}px`;  // 20px = half button height
     btn.style.transform = 'translateY(-50%)';
     btn.style.zIndex = '9999';
-  // Perfect back button position beside VIBE
+// Perfect back button position beside VIBE
 const positionBackButton = () => {
   const vibe = document.querySelector('.logo span:last-child');
   const backBtns = document.querySelectorAll('.btn.back');
