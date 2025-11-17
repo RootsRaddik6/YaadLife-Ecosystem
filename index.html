@@ -261,7 +261,10 @@
       <button class="btn green" id="btnTours">Show My Package</button>
     </div>
 
-        <!-- SUMMARY -->
+      <button class="btn green" id="btnTip" style="margin:0.8rem 0; font-size:1.2rem; padding:1rem; display:none;">
+  <span style="font-size:1.4rem;">Tip</span> the Vibe $5
+</button>
+    <!-- SUMMARY -->
     <div id="summary" class="step">
       <button class="btn back">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -500,7 +503,8 @@
         document.getElementById('total').textContent = total.toFixed(2);
         next(9);
       };
-
+      document.getElementById('btnPay').style.display = 'block';
+      document.getElementById('btnTip').style.display = 'block';
       // PAYMENT
       document.getElementById('btnPay').onclick = async () => {
         if (total === 0) return alert("Add items first!");
