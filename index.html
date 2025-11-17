@@ -63,9 +63,25 @@
     .btn.gold{background:var(--gold);color:#000;}
     .btn.green{background:var(--green);color:#fff;}
     input,select{width:100%;padding:1rem;margin:0.6rem 0;border-radius:16px;border:none;background:rgba(255,255,255,0.15);color:#fff;font-size:1.1rem;}
-    .option-card{background:rgba(0,0,0,0.65)!important;backdrop-filter:blur(4px);border:2px solid rgba(255,215,0,0.3);}
-    .option-card.selected{background:rgba(255,215,0,0.25)!important;border-color:var(--gold)!important;box-shadow:0 0 20px rgba(255,215,0,0.5);}
-    #summary-items{background:rgba(0,0,0,0.7);padding:1.5rem;border-radius:16px;margin:1.5rem 0;border:1px solid rgba(255,215,0,0.3);}
+    .option-card {
+  background:rgba(0,0,0,0.65) !important;
+  backdrop-filter:blur(4px);
+  border:2px solid rgba(255,215,0,0.3);
+  border-radius:16px;
+  padding:1.2rem;
+  margin:1rem 0;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  cursor:pointer;                    /* ← this was missing in the second rule */
+  transition:0.3s;
+  border:3px solid transparent;     /* ← keep your original border logic */
+}
+.option-card.selected {
+  background:rgba(255,215,0,0.25) !important;
+  border-color:var(--gold) !important;
+  box-shadow:0 0 20px rgba(255,215,0,0.5);
+} #summary-items{background:rgba(0,0,0,0.7);padding:1.5rem;border-radius:16px;margin:1.5rem 0;border:1px solid rgba(255,215,0,0.3);}
     #summary-items div{font-size:1.25rem!important;padding:0.9rem 0!important;color:#fff!important;}
  #summary-items div {
   display: flex !important;
