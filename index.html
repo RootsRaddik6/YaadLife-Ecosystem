@@ -463,12 +463,11 @@ add(`Service & Booking Fee`, fee);
   document.getElementById('btnStay').onclick = () => {if(!state.stay) return alert("Choose your stay!"); loadTransport(); next(7);};
   document.getElementById('btnTransport').onclick = () => {loadTours(); next(8);};
   document.getElementById('btnTours').onclick = showSummary;
-
   document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => {e.stopPropagation(); back();});
 
-  
-  updateProgress();
-});
+  updateProgress(); 
+
+});   
 </script>
 </body>
 </html>
