@@ -249,13 +249,16 @@ const next = n => {
   currentStep = n;
   updateProgress();
 
+  setTimeout(positionBackButton, 100);  // ← PUT IT HERE (exactly this line)
+
   // Back button alignment + parish reload
   const logo = document.querySelector('.logo');
   const backBtns = document.querySelectorAll('.btn.back');
   backBtns.forEach(btn => {
+    btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`;
   });
 
-  if (n === 4) renderParishes(); // ← THIS LINE FIXES parishes disappearing when going back
+  if (n === 4) renderParishes();
 };
   btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`; // Aligns with bottom of VIBE, minus svg height
 });
