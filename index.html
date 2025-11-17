@@ -677,6 +677,28 @@
   steps.forEach((label, i) => {
     const el = document.createElement('div');
     el.className = 'prog-icon';
+    // === TIP JAR (PLACE THIS AFTER updateProgress() CALL IN INIT) ===
+document.getElementById('btnTip').onclick = async () => {
+  if (!tonConnectUI) return alert("TON Wallet not available");
+  try {
+    const tx = {
+      validUntil: Math.floor(Date.now() / 1000) + 300,
+      messages: [{
+        address: "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c",
+        amount: "5000000000", // $5 TON
+        payload: btoa(JSON.stringify({ tip: true, from: state.from || "local" }))
+      }]
+    };
+    const result = await tonConnectUI.sendTransaction(tx);
+    alert("Tip sent! Bless up!");
+    new QRCode(document.getElementById("qr-area"), {
+      text: result.boc, width: 200, height: 200,
+      colorDark: "#FFD700", colorLight: "#000"
+    });
+  } catch (e) {
+    alert("Tip failed: " + e.message);
+  }
+};
     
     // TINY SVG ICONS
     const svgs = [
