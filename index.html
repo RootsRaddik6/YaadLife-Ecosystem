@@ -256,11 +256,6 @@ const next = n => {
   const backBtns = document.querySelectorAll('.btn.back');
   backBtns.forEach(btn => {
     btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`;
-  });
-
-  if (n === 4) renderParishes();
-};
-  btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`; // Aligns with bottom of VIBE, minus svg height
 });
   if (n === 4) renderParishes(); // ← THIS LINE FIXES going back
 };
@@ -418,8 +413,7 @@ document.getElementById('minusAdult').onclick = () => {
 document.getElementById('plusAdult').onclick = () => {
   state.adults++;
   document.getElementById('adultCount').textContent = state.adults;
-  updateCalc();
-};
+updateCalc();
 
   document.getElementById('btn2').onclick = () => {
     state.from = document.getElementById('fromCity').value;
@@ -450,7 +444,6 @@ document.getElementById('step25').addEventListener('click', e => {
 
   document.getElementById('minus').onclick = () => { if (state.nights > 1) { state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); }};
   document.getElementById('plus').onclick  = () => { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); };
-  document.getElementById('adults').onchange = e => { state.adults = +e.target.value; updateCalc(); };
   document.getElementById('kids').onchange   = e => { state.kids = +e.target.value; updateCalc(); };
 document.getElementById('btn3').onclick = () => {
   state.arrive = document.getElementById('arriveDate').value;
@@ -511,28 +504,12 @@ const positionBackButton = () => {
     btn.style.top = `${vibeRect.bottom - 20}px`;  // 20px = half button height
     btn.style.transform = 'translateY(-50%)';
     btn.style.zIndex = '9999';
-// Perfect back button position beside VIBE
-const positionBackButton = () => {
-  const vibe = document.querySelector('.logo span:last-child');
-  const backBtns = document.querySelectorAll('.btn.back');
-  if (!vibe || backBtns.length === 0) return;
-  
-  const vibeRect = vibe.getBoundingClientRect();
-  backBtns.forEach(btn => {
-    btn.style.position = 'fixed';
-    btn.style.right = '1rem';
-    btn.style.top = `${vibeRect.bottom - 20}px`;  // 20px = half button height
-    btn.style.transform = 'translateY(-50%)';
-    btn.style.zIndex = '9999';
   });
 };
 document.addEventListener('DOMContentLoaded', positionBackButton);
 window.addEventListener('resize', positionBackButton);
+updateProgress();
   });
-};
-  updateProgress();
-  
-});
 </script>
 </body>
 </html>
