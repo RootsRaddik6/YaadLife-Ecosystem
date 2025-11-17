@@ -607,6 +607,14 @@ const renderParishes = () => {
   updateProgress();
   setTimeout(() => document.querySelector('#step1 .option-card[data-value="yes"]')?.click(), 200);
 });
+  // === START BUTTON FIX ===
+document.getElementById('startBtn').addEventListener('click', () => {
+  next(1);
+  setTimeout(() => {
+    const yesCard = document.querySelector('#step1 .option-card[data-value="yes"]');
+    if (yesCard) yesCard.click();
+  }, 200);
+});
 </script>
 </body>
 </html>
