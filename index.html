@@ -622,10 +622,7 @@
         btn.onclick = (e) => { e.stopPropagation(); back(); };
       });
 
-      // === INIT ===
-      updateProgress();
-    });
-          // === TIP JAR ===
+       // === TIP JAR ===
       document.getElementById('btnTip').onclick = async () => {
         if (!tonConnectUI) return alert("TON Wallet not available");
         try {
@@ -670,6 +667,9 @@
         document.getElementById('total').textContent = total.toFixed(2);
         next(9);
       };
+      // === INIT ===
+      updateProgress();
+    });
   </script>
 </body>
 </html>
