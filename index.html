@@ -261,7 +261,7 @@
       <button class="btn green" id="btnTours">Show My Package</button>
     </div>
 
-    <!-- SUMMARY -->
+        <!-- SUMMARY -->
     <div id="summary" class="step">
       <button class="btn back">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -269,13 +269,15 @@
         </svg>
       </button>
       <p class="msg">Your YaadVibe Package</p>
-      <div id="summary-items"></div>
+      <div id="summary-items" style="margin:1.5rem 0;"></div>
       <div class="total">Total: $<span id="total">0.00</span></div>
-      <button class="btn gold" id="btnPay">Pay with TON Wallet</button>
+      <button class="btn gold" id="btnPay" style="margin:1.2rem 0;">Pay with TON Wallet</button>
+      <button class="btn green" id="btnTip" style="margin:0.8rem 0; font-size:1.2rem; padding:1rem;">
+        <span style="font-size:1.4rem;">Tip</span> the Vibe $5
+      </button>
       <div id="qr-area" style="margin:2.2rem 0; text-align:center;"></div>
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // === DATA ===
