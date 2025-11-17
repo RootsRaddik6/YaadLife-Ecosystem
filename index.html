@@ -371,20 +371,19 @@
         if (idx > 0) next(steps[idx - 1]);
       };
 
-      const updateProgress = () => {
+            const updateProgress = () => {
         const icons = document.getElementById('progress');
         icons.innerHTML = '';
-        const steps = ['Flag', 'Plane', 'Calendar', 'Map', 'Wave', 'Hotel', 'Car', 'Star', 'Wallet'];
-        steps.forEach((icon, i) => {
+        const labels = ['Flag', 'Plane', 'Calendar', 'Map', 'Wave', 'Hotel', 'Car', 'Star', 'Wallet'];
+        labels.forEach((label, i) => {
           const el = document.createElement('div');
           el.className = 'prog-icon';
-          el.textContent = icon;
+          el.innerHTML = i < currentStep ? 'Check' : i === currentStep ? label : label;
           if (i < currentStep) el.classList.add('done');
           if (i === currentStep) el.classList.add('active');
           icons.appendChild(el);
         });
       };
-
       const renderParishes = () => {
         const c = document.getElementById('parish-options'); c.innerHTML = '';
         ALL_PARISHES.forEach(p => {
