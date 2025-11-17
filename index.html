@@ -198,8 +198,8 @@
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items" style="margin:2rem 0;font-size:1.2rem;"></div>
       <div class="calculator">Total: $<span id="total">0.00</span></div>
-      <button class="btn gold" id="btnPay" style="display:none; font-weight:900; letter-spacing:1px; margin:1.5rem 0;">
-  PAY WALLETCONNET
+    <button class="btn gold" id="btnPay" style="display:none; font-weight:900; letter-spacing:1px; margin:1.5rem 0;">
+  💳 PAY WITH TON WALLET
 </button>
       <button class="btn green" id="btnTip" style="display:none; transform:scale(0.25); transform-origin:center;">
   🔥Tip 💰🔥
@@ -258,13 +258,12 @@ backBtns.forEach(btn => {
 const updateProgress = () => {
   const p = document.getElementById('progress');
   p.innerHTML = '';
-  const icons = [const icons = ['▶️', '🧳', '✈️', '📆', '📍', '🌊', '🛏️', '🚕', '🎟️', '🛒'];
+  const icons = ['▶️', '🧳', '✈️', '📆', '📍', '🌊', '🛏️', '🚕', '🎟️', '🛒'];
   icons.forEach((e, i) => {
     const s = document.createElement('span');
     s.textContent = e;
-    s.style.margin = '0 0.3rem';
     s.style.fontSize = '2.2rem';
-    s.style.margin = '0 0.5rem';
+    s.style.margin = '0 0.3rem';
     s.style.opacity = i <= currentStep ? '1' : '0.3';
     s.style.transition = 'all 0.3s';
     if (i === currentStep) s.style.transform = 'scale(1.5)';
