@@ -200,7 +200,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('total').textContent=total.toFixed(2);
   };
 
-  const next = n => {document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));const id=n===2.5?'step25':n===9?'summary':`step${n}`;document.getElementById(id).classList.add('active');currentStep=n;updateProgress();};
+  // FIX 5: Make sure parishes reload when going BACK to step 4
+// Add this to your back() function or override back button for step4
+// Or simpler: modify next() to re-render parishes when going to step 4
+const next = n => {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const id = n===2.5 ? 'step25' : n===9 ? 'summary' : `step${n}`;
+  document.getElementById(id).classList.add('active');
+  currentStep = n;
+  updateProgress();
+  
+  if (n === 4) renderParishes(); // ← THIS LINE FIXES going back
+};
   const back = () => {const s=[0,1,2,2.5,3,4,5,6,7,8,9];const i=s.indexOf(currentStep);if(i>0)next(s[i-1]);};
 
   const updateProgress = () => {
