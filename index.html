@@ -79,6 +79,11 @@
   padding: 0.9rem 0 !important;
   color: #fff !important;
 }
+    .btn.back {
+  left: auto !important;
+  right: 1rem !important;
+  top: 4.5rem !important; /* Adjust this value to line up with E – test on phone */
+}
   </style>
 </head>
 <body>
@@ -241,7 +246,11 @@ const next = n => {
   document.getElementById(id).classList.add('active');
   currentStep = n;
   updateProgress();
-  
+  const logo = document.querySelector('.logo');
+const backBtns = document.querySelectorAll('.btn.back');
+backBtns.forEach(btn => {
+  btn.style.top = `${logo.offsetTop + logo.offsetHeight - 20}px`; // Aligns with bottom of VIBE, minus svg height
+});
   if (n === 4) renderParishes(); // ← THIS LINE FIXES going back
 };
   const back = () => {const s=[0,1,2,2.5,3,4,5,6,7,8,9];const i=s.indexOf(currentStep);if(i>0)next(s[i-1]);};
@@ -249,10 +258,11 @@ const next = n => {
 const updateProgress = () => {
   const p = document.getElementById('progress');
   p.innerHTML = '';
-  const icons = ['🇯🇲','✈️','📅','🗺️','🌊','🏨','🚐','⭐','💳'];
+  const icons = [const icons = ['▶️', '🧳', '✈️', '📆', '📍', '🌊', '🛏️', '🚕', '🎟️', '🛒'];
   icons.forEach((e, i) => {
     const s = document.createElement('span');
     s.textContent = e;
+    s.style.margin = '0 0.3rem';
     s.style.fontSize = '2.2rem';
     s.style.margin = '0 0.5rem';
     s.style.opacity = i <= currentStep ? '1' : '0.3';
