@@ -208,18 +208,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const icons=['Jamaican flag','Airplane','Calendar','Map','Wave','Hotel','Car','Star','Wallet'];
     icons.forEach((e,i)=>{const s=document.createElement('span');s.textContent=e;if(i<currentStep)s.style.opacity='1';if(i===currentStep)s.style.transform='scale(1.4)';p.appendChild(s);});
   };
-
-  const renderParishes = () => {const c=document.getElementById('parish-options');c.innerHTML='';ALL_PARISHES.forEach(p=>{const name=p.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());const card=document.createElement('div');card.className='option-card';card.innerHTML=`<div class="info"><div class="name">${name} (${PARISH_TOWNS[p]})</div></div>`;
-      card.onclick = () => {
-        c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
-        card.classList.add('selected');
-        state.parish = p;
-        document.getElementById('parishNext').style.display = 'block';
-      };
-      c.appendChild(card);
-    });
-  };
-
+// FIX 2: Replace your entire renderParishes() function with this improved version
+const renderParishes = () => {
+  const c = document.getElementById('parish-options');
+  if (!c) return;
+  c.innerHTML = '';
+  ALL_PARISHES.forEach(p => {
+    const niceName = p.replace(/-/g, ' ')
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = `<div class="info"><div class="name">${niceName}<br><small style="color:#aaa">${PARISH_TOWNS[p]}</small></div></div>`;
+    card.onclick = () => {
+      c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
+      card.classList.add('selected');
+      state.parish = p;
+      document.getElementById('parishNext').style.display = 'block';
+    };
+    c.appendChild(card);
+  });
+};
   const loadStays = () => {
     const c = document.getElementById('stay-options');
     c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
