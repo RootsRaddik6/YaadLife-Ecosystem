@@ -79,10 +79,13 @@
   padding: 0.9rem 0 !important;
   color: #fff !important;
 }
-    .btn.back {
-  left: auto !important;
+   .btn.back {
+  position: fixed !important;
   right: 1rem !important;
-  top: 4.5rem !important; /* Adjust this value to line up with E – test on phone */
+  top: auto !important;
+  bottom: calc(100dvh - 2.5rem) !important;  /* Puts it near bottom-right */
+  transform: translateY(100%) !important;   /* Pulls it up so it sits just above bottom */
+  z-index: 9999 !important;
 }
   </style>
 </head>
@@ -375,7 +378,7 @@ const renderParishes = () => {
     if (state.flight) add(`${state.flight.airline} Flight`, state.flight.price);
     document.getElementById('btnPay').style.display = 'block';
     document.getElementById('btnTip').style.display = 'block';
-    next(9);
+    next(9); 
   };
 
   // EVENT LISTENERS
@@ -466,8 +469,40 @@ document.getElementById('step25').addEventListener('click', e => {
   document.getElementById('btnTours').onclick = showSummary;
 
   document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => { e.stopPropagation(); back(); });
-
+// Perfect back button position beside VIBE
+const positionBackButton = () => {
+  const vibe = document.querySelector('.logo span:last-child');
+  const backBtns = document.querySelectorAll('.btn.back');
+  if (!vibe || backBtns.length === 0) return;
+  
+  const vibeRect = vibe.getBoundingClientRect();
+  backBtns.forEach(btn => {
+    btn.style.position = 'fixed';
+    btn.style.right = '1rem';
+    btn.style.top = `${vibeRect.bottom - 20}px`;  // 20px = half button height
+    btn.style.transform = 'translateY(-50%)';
+    btn.style.zIndex = '9999';
+  // Perfect back button position beside VIBE
+const positionBackButton = () => {
+  const vibe = document.querySelector('.logo span:last-child');
+  const backBtns = document.querySelectorAll('.btn.back');
+  if (!vibe || backBtns.length === 0) return;
+  
+  const vibeRect = vibe.getBoundingClientRect();
+  backBtns.forEach(btn => {
+    btn.style.position = 'fixed';
+    btn.style.right = '1rem';
+    btn.style.top = `${vibeRect.bottom - 20}px`;  // 20px = half button height
+    btn.style.transform = 'translateY(-50%)';
+    btn.style.zIndex = '9999';
+  });
+};
+document.addEventListener('DOMContentLoaded', positionBackButton);
+window.addEventListener('resize', positionBackButton);
+  });
+};
   updateProgress();
+  
 });
 </script>
 </body>
