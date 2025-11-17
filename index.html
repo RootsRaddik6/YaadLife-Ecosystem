@@ -606,7 +606,9 @@
       };
 
       document.getElementById('btnTransport').onclick = () => { loadTours(); next(8); };
-      document.getElementById('btnTours').onclick = showSummary;
+      document.getElementById('btnTours').onclick = () => {
+  showSummary(); // This now populates full itemized list
+};
 
       document.getElementById('step5').addEventListener('click', e => {
         const card = e.target.closest('.option-card');
