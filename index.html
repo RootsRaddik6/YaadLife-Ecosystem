@@ -374,19 +374,39 @@
         if (idx > 0) next(steps[idx - 1]);
       };
 
-            const updateProgress = () => {
-        const icons = document.getElementById('progress');
-        icons.innerHTML = '';
-        const labels = ['Flag', 'Plane', 'Calendar', 'Map', 'Wave', 'Hotel', 'Car', 'Star', 'Wallet'];
-        labels.forEach((label, i) => {
-          const el = document.createElement('div');
-          el.className = 'prog-icon';
-          el.innerHTML = i < currentStep ? 'Check' : i === currentStep ? label : label;
-          if (i < currentStep) el.classList.add('done');
-          if (i === currentStep) el.classList.add('active');
-          icons.appendChild(el);
-        });
-      };
+    const updateProgress = () => {
+  const icons = document.getElementById('progress');
+  icons.innerHTML = '';
+  const steps = ['Flag','Plane','Calendar','Map','Wave','Hotel','Car','Star','Wallet'];
+  const svgs = [
+    `<svg viewBox...>Flag</svg>`, // (use full list above)
+    // ... all 9 SVGs
+  ];
+  steps.forEach((label, i) => {
+    const el = document.createElement('div');
+    el.className = 'prog-icon';
+    el.innerHTML = svgs[i];
+    el.title = label;
+    if (i < currentStep) el.classList.add('done');
+    if (i === currentStep) el.classList.add('active');
+    icons.appendChild(el);
+  });
+};
+    const showSummary = () => {
+    setTimeout(() => {
+    const div = document.getElementById('summary-items');
+    if (!div) return;
+    div.innerHTML = '';
+    const add = (label, price, fee = 0) => {
+      div.innerHTML += `<div class="item" style="...">${label}<span>$${price}${fee?` + <strong>$${fee}</strong>`:''}</span></div>`;
+    };
+    // ... your add logic
+    document.getElementById('total').textContent = total.toFixed(2);
+    next(9);
+    document.getElementById('btnPay').style.display = 'block';
+    document.getElementById('btnTip').style.display = 'block';
+  }, 150);
+};
       const renderParishes = () => {
         const c = document.getElementById('parish-options'); c.innerHTML = '';
         ALL_PARISHES.forEach(p => {
