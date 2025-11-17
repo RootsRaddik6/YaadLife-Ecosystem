@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YaadVibe | Book Your Vibe</title>
+  <title>YaadVibe</title>
   <link rel="icon" href="/1drop.png" />
   <script src="https://unpkg.com/@tonconnect/ui@1.0.0/dist/tonconnect-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode.js@1.0.0/lib/qrcode.min.js"></script>
@@ -77,15 +77,15 @@
 </head>
 <body>
   <div class="container">
-    <div class="logo"><img src="/1drop.png" alt="1Drop"></div>
+    <div class="logo"><img src="/IMG_0454.png" alt="1Drop"></div>
     <h1>YAAD<br>VIBE</h1>
     <div id="progress"></div>
     <div class="total">Total: $<span id="liveTotal">0.00</span></div>
 
     <!-- STEP 0: START -->
     <div id="step0" class="step active">
-      <p class="msg">Ready fi di Yaad?</p>
-      <button class="btn gold" id="startBtn">Start Booking</button>
+      <p class="msg">Ready fi Yaad?</p>
+      <button class="btn gold" id="startBtn">Start</button>
     </div>
 
     <!-- STEP 1: LOCAL OR VISITOR -->
@@ -95,7 +95,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">You from Jamaica?</p>
+      <p class="msg">Ya Jamaican?</p>
       <div class="option-card" data-value="yes"><div class="info"><div class="name">Yes, local</div></div></div>
       <div class="option-card" data-value="no"><div class="info"><div class="name">No, coming in</div></div></div>
     </div>
@@ -107,7 +107,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">Where you flying from?</p>
+      <p class="msg">from Forin</p>
       <input type="text" id="fromCity" placeholder="e.g. New York, Miami" />
       <button class="btn gold" id="btn2">Next</button>
     </div>
@@ -119,7 +119,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">Choose Flight</p>
+      <p class="msg">Choose a Flight</p>
       <div id="flight-options"></div>
       <div class="option-card" data-flight="skip"><div class="info"><div class="name">Skip (I’ll book later)</div></div></div>
       <button class="btn gold" id="btnFlight">Next</button>
@@ -150,7 +150,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">Which Parish?</p>
+      <p class="msg">Parish</p>
       <div id="parish-options"></div>
       <button class="btn gold" id="parishNext" style="display:none;">Next</button>
     </div>
@@ -175,7 +175,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">Choose Your Stay</p>
+      <p class="msg">Choose</p>
       <div id="stay-options"></div>
       <button class="btn gold" id="btnStay">Next</button>
     </div>
@@ -187,7 +187,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">Add Transport</p>
+      <p class="msg">Drive</p>
       <div id="transport-options"></div>
       <button class="btn gold" id="btnTransport">Next</button>
     </div>
@@ -199,7 +199,7 @@
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
       </button>
-      <p class="msg">Add Tours (Optional)</p>
+      <p class="msg">Tours</p>
       <div id="tour-options"></div>
       <button class="btn gold" id="btnTours">Show My Package</button>
     </div>
