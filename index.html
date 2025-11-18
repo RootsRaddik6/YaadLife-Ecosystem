@@ -72,35 +72,36 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
 }
-   /* ────── FINAL TINY + / − BUTTONS (perfect size, no inheritance issues) ────── */
+    /* ────── FINAL + / − BUTTONS — BULLETPROOF, NO WHITE BARS EVER ────── */
 #minus, #plus, #minusAdult, #plusAdult {
-  width: 44px !important;
-  height: 44px !important;
-  min-width: 44px !important;
-  padding: 0 !important;
-  margin: 0 12px !important;
+  all: unset !important;
+  width: 52px !important;
+  height: 52px !important;
   border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255,255,255,0.14) !important;
+  border: 2.5px solid rgba(255,215,0,0.5) !important;
   color: var(--gold) !important;
-  font-size: 2rem !important;
+  font-size: 2.2rem !important;
   font-weight: bold !important;
-  border: 2px solid rgba(255, 215, 0, 0.4) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  backdrop-filter: blur(8px);
-  transition: all 0.22s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  transition: all 0.25s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-#minus:hover, #plus:hover,
+#minus:hover, #plus:hover, 
 #minusAdult:hover, #plusAdult:hover,
 #minus:active, #plus:active,
 #minusAdult:active, #plusAdult:active {
   background: var(--gold) !important;
   color: #000 !important;
-  transform: scale(1.12) !important;
-  box-shadow: 0 0 20px rgba(255,215,0,0.6) !important;
+  transform: scale(1.18) !important;
+  box-shadow: 0 0 30px rgba(255,215,0,0.8) !important;
 }
     .btn.back{
   position:fixed;
