@@ -151,7 +151,17 @@ body {
 input, select, button {
   font-size: 16px !important; /* prevents iOS zoom on focus */
 }
-  
+  /* Make date inputs match the +/− button style */
+#arriveDate, #departDate {
+  font-family: inherit;
+  outline: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s;
+}
+#arriveDate:focus, #departDate:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 20px rgba(255,215,0,0.4) !important;
+}
   </style>
 </head>
 <body>
