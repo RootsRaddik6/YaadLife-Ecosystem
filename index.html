@@ -135,6 +135,23 @@
 }
     .btn.back svg{width:48px;height:48px;stroke-width:4.5;}
     .btn.back:hover{transform:scale(1.2);background:rgba(255,215,0,0.25)!important;box-shadow:0 0 40px rgba(255,215,0,1)!important;}
+ /* ────── LOCK BACKGROUND — NO ZOOM, NO MOVEMENT, NO DOUBLE-TAP ZOOM ────── */
+html, body {
+  touch-action: manipulation;           /* disables double-tap zoom */
+  overscroll-behavior: none;            /* stops pull-to-refresh bounce */
+  -webkit-text-size-adjust: 100%;       /* prevents iOS auto-zoom on input */
+}
+
+body {
+  background-attachment: fixed !important;
+  image-rendering: -webkit-optimize-contrast; /* sharper on retina */
+}
+
+/* Prevent any zoom on input focus (Telegram/iOS) */
+input, select, button {
+  font-size: 16px !important; /* prevents iOS zoom on focus */
+}
+  
   </style>
 </head>
 <body>
