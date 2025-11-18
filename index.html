@@ -527,7 +527,21 @@ document.getElementById('btn3').onclick = () => {
   document.getElementById('btnTransport').onclick = () => {loadTours(); next(8);};
   document.getElementById('btnTours').onclick = showSummary;
   document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => {e.stopPropagation(); back();});
-
+// LIVE NIGHTS UPDATE WHEN DATES CHANGE
+['arriveDate', 'departDate'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    const arrive = document.getElementById('arriveDate').value;
+    const depart = document.getElementById('departDate').value;
+    if (arrive && depart) {
+      const nights = Math.floor((new Date(depart) - new Date(arrive)) / (86400000));
+      if (nights > 0 && nights <= 90) {
+        state.nights = nights;
+        document.getElementById('nightCount').textContent = nights;
+        updateCalc();
+      }
+    }
+  });
+});
   updateProgress();
 });
 </script>
