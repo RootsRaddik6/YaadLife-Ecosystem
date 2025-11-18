@@ -72,7 +72,27 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
 }
-    #minus,#plus,#minusAdult,#plusAdult{padding:0.5rem 0.9rem!important;font-size:1.4rem!important;min-width:50px;}
+   #minus, #plus, #minusAdult, #plusAdult {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  color: var(--gold);
+  font-size: 1.8rem;
+  font-weight: bold;
+  border: 2px solid rgba(255,215,0,0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+}
+#minus:hover, #plus:hover, #minusAdult:hover, #plusAdult:hover {
+  background: var(--gold);
+  color: #000;
+  transform: scale(1.1); pointer-enters: auto;
+} 
     .btn.back{
   position:fixed;
   top:14px;
