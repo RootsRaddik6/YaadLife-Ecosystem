@@ -130,14 +130,122 @@
       <div class="option-card" data-value="yes"><div class="info"><div class="name">Local</div></div></div>
       <div class="option-card" data-value="no"><div class="info"><div class="name">Visiting</div></div></div>
     </div>
-    <!-- (keeping the rest of your HTML exactly the same – too long to paste twice) -->
-    <!-- I left every single step, button, and div 100% identical -->
+<body>
+  <div class="overlay"></div>
+  <div class="flag"></div>
+  <div class="container">
+    <h1 class="logo"><span>YAAD</span><br><span>VIBE</span></h1>
+    <div class="calculator">$<span id="liveTotal">0.00</span></div>
+    <div id="progress"></div>
 
-    <!-- Put the rest of your original HTML here (step2 → summary) – just copy it from your file -->
-    <!-- I'm only shortening it here for brevity, but in the real file you paste everything back in -->
+    <div id="step0" class="step active">
+      <p class="msg">Book Package?</p>
+      <button class="btn gold" id="startBtn">
+  Start Booking
+</button>
+    </div>
 
+    <div id="step1" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Traveling?</p>
+      <div class="option-card" data-value="yes"><div class="info"><div class="name">Local</div></div></div>
+      <div class="option-card" data-value="no"><div class="info"><div class="name">Visiting</div></div></div>
+    </div>
+
+    <div id="step2" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Where are you departing from?</p>
+      <select id="fromCity">
+        <option value="">Choose city</option>
+        <optgroup label="Jamaica">
+          <option value="kingston">Kingston NMIA</option>
+          <option value="montego-bay">Montego Bay MBJ</option>
+        </optgroup>
+        <optgroup label="Foreign">
+          <option value="new-york">New York (JFK)</option>
+          <option value="miami">Miami (MIA)</option>
+          <option value="toronto">Toronto (YYZ)</option>
+          <option value="london">London (LHR)</option>
+          <option value="atlanta">Atlanta (ATL)</option>
+        </optgroup>
+      </select>
+      <button class="btn gold" id="btn2">Next</button>
+    </div>
+
+    <div id="step25" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Choose a Flight</p>
+      <div id="flight-options"></div>
+      <div class="option-card" data-flight="skip"><div class="info"><div class="name">Skip</div></div></div>
+      <button class="btn gold" id="btnFlight">Next</button>
+    </div>
+
+    <div id="step3" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Arrival & Departure</p>
+      <input type="date" id="arriveDate"><input type="date" id="departDate">
+      <p style="margin:1rem 0;font-size:1.3rem;">Nights: <strong><span id="nightCount">1</span></strong></p>
+      <button id="minus" class="btn" style="width:auto;display:inline-block;padding:0.8rem 1.2rem;">–</button>
+      <button id="plus" class="btn" style="width:auto;display:inline-block;padding:0.8rem 1.2rem;">+</button>
+      <p style="margin:1rem 0;">Adults:
+        <button id="minusAdult" class="btn" style="width:auto;padding:0.6rem 1rem;font-size:1.2rem;">–</button>
+        <strong id="adultCount" style="display:inline-block;width:50px;text-align:center;font-size:1.4rem;">1</strong>
+        <button id="plusAdult" class="btn" style="width:auto;padding:0.6rem 1rem;font-size:1.2rem;">+</button>
+      </p>
+      <p>Kids: <input type="number" id="kids" value="0" min="0" style="width:80px;"></p>
+      <button class="btn gold" id="btn3">Next</button>
+    </div>
+
+    <div id="step4" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Parish?</p>
+      <div id="parish-options"></div>
+      <button class="btn gold" id="parishNext" style="display:none;">Next</button>
+    </div>
+
+    <div id="step5" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Coastal or Inland?</p>
+      <div class="option-card" data-value="coastal"><div class="info"><div class="name">Coastal</div></div></div>
+      <div class="option-card" data-value="inland"><div class="info"><div class="name">Inland</div></div></div>
+      <button class="btn gold" id="btnVibe">Next</button>
+    </div>
+
+    <div id="step6" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Choose Your Stay</p>
+      <div id="stay-options"></div>
+      <button class="btn gold" id="btnStay">Next</button>
+    </div>
+
+    <div id="step7" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Transportation</p>
+      <div id="transport-options"></div>
+      <button class="btn gold" id="btnTransport">Next</button>
+    </div>
+
+    <div id="step8" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Tours</p>
+      <div id="tour-options"></div>
+      <button class="btn gold" id="btnTours">Show My Package</button>
+    </div>
+
+    <div id="summary" class="step">
+      <button class="btn back"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">Your YaadVibe Package</p>
+      <div id="summary-items" style="margin:2rem 0;font-size:1.2rem;"></div>
+      <div class="calculator">Total: $<span id="total">0.00</span></div>
+      <button class="btn gold" id="btnPay">
+  PAY TON WALLET
+</button>
+<button class="btn green" id="btnTip">
+  🔥TIP💰🔥
+</button>
+      <div id="qr-area" style="margin:2rem 0;"></div>
+    </div>
   </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const PARISH_TOWNS = {"clarendon":"May Pen","hanover":"Lucea","kingston":"Kingston","manchester":"Mandeville","portland":"Port Antonio","saint-andrew":"Half Way Tree","saint-ann":"St. Ann’s Bay","saint-catherine":"Spanish Town","saint-elizabeth":"Black River","saint-james":"Montego Bay","saint-mary":"Port Maria","saint-thomas":"Morant Bay","trelawny":"Falmouth","westmoreland":"Savanna-la-Mar"};
