@@ -470,20 +470,23 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('minusAdult').onclick = () => { if(state.adults>1){state.adults--;document.getElementById('adultCount').textContent=state.adults;updateCalc();}};
   document.getElementById('plusAdult').onclick  = () => {state.adults++;document.getElementById('adultCount').textContent=state.adults;updateCalc();};
   document.getElementById('kids').onchange = e => {state.kids = +e.target.value; updateCalc();};
-  document.getElementById('btn3').onclick = () => {
-    state.arrive = document.getElementById('arriveDate').value;
-    state.depart = document.getElementById('departDate').value;
-    if(!state.arrive||!state.depart) return alert("Choose both dates!");
-    const arrive = new Date(state.arrive);
-    const depart = new Date(state.depart);
-    if(depart<=arrive) return alert("Departure must be after arrival!");
-    const nights = Math.floor((depart-arrive)/(1000*60*60*24));
-    if(nights<1||nights>90) return alert("Stay between 1 and 90 nights");
-    state.nights = nights;
-    document.getElementById('nightCount').textContent = nights;
-    updateCalc();
-    next(4);
-  };
+document.getElementById('btn3').onclick = () => {
+  state.arrive = document.getElementById('arriveDate').value;
+  state.depart = document.getElementById('departDate').value;
+  if(!state.arrive || !state.depart) return alert("Please select both dates");
+
+  const arrive = new Date(state.arrive);
+  const depart = new Date(state.depart);
+  if(depart <= arrive) return alert("Departure must be after arrival");
+
+  const nights = Math.floor((depart - arrive) / (1000 * 60 * 60 * 24));
+  if(nights < 1 || nights > 90) return alert("Stay between 1 and 90 nights");
+
+  state.nights = nights;
+  document.getElementById('nightCount').textContent = nights;
+  updateCalc();
+  next(4);
+};
   document.getElementById('parishNext').onclick = () => {if(!state.parish) return alert("Choose parish!"); next(5);};
   document.getElementById('step5').addEventListener('click', e => {
     const card = e.target.closest('.option-card');
