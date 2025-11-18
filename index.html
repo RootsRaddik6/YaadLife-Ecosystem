@@ -152,16 +152,31 @@ body {
 input, select, button {
   font-size: 16px !important; /* prevents iOS zoom on focus */
 }
-  /* Make date inputs match the +/− button style */
+ /* ────── FINAL DATE PICKERS — BEAUTIFUL, NO ZOOM, CONSISTENT ────── */
 #arriveDate, #departDate {
-  font-family: inherit;
-  outline: none;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: all 0.3s;
+  all: unset !important;
+  width: 300px !important;
+  height: 62px !important;
+  margin: 16px auto !important;
+  padding: 0 20px !important;
+  display: block !important;
+  border-radius: 31px !important;
+  border: 2.5px solid rgba(255,215,0,0.5) !important;
+  background: rgba(255,255,255,0.14) !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  text-align: center !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+  -webkit-appearance: none !important;
 }
+
 #arriveDate:focus, #departDate:focus {
+  outline: none !important;
   border-color: var(--gold) !important;
-  box-shadow: 0 0 20px rgba(255,215,0,0.4) !important;
+  box-shadow: 0 0 30px rgba(255,215,0,0.6) !important;
+  transform: scale(1.03);
 }
   </style>
 </head>
@@ -220,12 +235,12 @@ input, select, button {
   <!-- Single, beautiful date inputs — same style as +/− buttons -->
   <div style="text-align:center;margin:2rem 0;">
     <label style="color:var(--gold);font-size:1.1rem;display:block;margin-bottom:0.5rem;">Arrival</label>
-    <input type="date" id="arriveDate" style="width:280px;height:56px;padding:0 1rem;border-radius:28px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,215,0,0.4);color:#fff;font-size:1.3rem;text-align:center;backdrop-filter:blur(8px);">
+    <input type="date" id="arriveDate">
   </div>
 
   <div style="text-align:center;margin:1.5rem 0;">
     <label style="color:var(--gold);font-size:1.1rem;display:block;margin-bottom:0.5rem;">Departure</label>
-    <input type="date" id="departDate" style="width:280px;height:56px;padding:0 1rem;border-radius:28px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,215,0,0.4);color:#fff;font-size:1.3rem;text-align:center;backdrop-filter:blur(8px);">
+    <input type="date" id="departDate">
   </div>
 
   <div style="text-align:center;margin:2rem 0;font-size:1.8rem;color:var(--gold);font-weight:700;">
