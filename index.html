@@ -352,17 +352,61 @@ document.addEventListener('DOMContentLoaded', () => {
     if (i > 0) next(s[i-1]);
   };
 
-  const updateProgress = () => {
-    const p = document.getElementById('progress'); p.innerHTML = '';
-    const icons = ['🌏','🧳','✈️','📅','📍','🌊','🛏️','🚕','🎫','🛒'];
-    icons.forEach((e,i) => {
-      const s = document.createElement('span');
-      s.textContent = e; s.style.fontSize = '2.2rem'; s.style.margin = '0 0.3rem';
-      s.style.opacity = i <= currentStep ? '1' : '0.3';
-      if (i === currentStep) s.style.transform = 'scale(1.5)';
-      p.appendChild(s);
-    });
-  };
+const updateProgress = () => {
+  const p = document.getElementById('progress');
+  p.innerHTML = '';
+  
+  const icons = ['Home','Travel','Plane','Calendar','Map','Wave','Bed','Car','Ticket','Cart'];
+  const steps = [0, 1, 2, 2.5, 3, 4, 5, 6, 7, 8]; // maps icon index → step number
+
+  icons.forEach((emoji, i) => {
+    const span = document.createElement('span');
+    span.textContent = emoji;
+    span.style.fontSize = '2.6rem';
+    span.style.margin = '0 0.45rem';
+    span.style.cursor = 'pointer';
+    span.style.transition = 'all 0.3s ease';
+    span.style.padding = '8px';
+    span.style.borderponseRadius = '50%';
+    span.style.userSelect = 'none';
+    span.style.opacity = i <= currentStep ? '1' : '0.35';
+    
+    // Active step glow
+    if (i === steps.indexOf(currentStep)) {
+      span.style.transform = 'scale(1.4)';
+      span.style.textShadow = '0 0 20px #FFD700';
+    }
+
+    // COMPLETED steps = gold glow
+    if (i < steps.indexOf(currentStep)) {
+      span.style.opacity = '1';
+      span.style.filter = 'drop-shadow(0 0 12px #FFD700)';
+    }
+
+    // CLICK TO JUMP TO ANY STEP (after dates are set)
+    span.onclick = (e) => {
+      e.stopPropagation();
+      
+      // Only allow jumping if dates are set (or it's before dates)
+      if (i > 3 && (!state.arrive || !state.depart)) {
+        alert("Please set your arrival & departure dates first");
+        next(3); // send them to calendar
+        return;
+      }
+
+      // Special cases
+      if (i === 2 && !state.isLocal) next(2.5);     // flight step
+      else if (i === 4) renderParishes();           // parish needs render
+      else if (i === 6) loadStays();                // stays need vibe
+      else if (i === 7) loadTransport();            // transport
+      else if (i === 8) loadTours();                // tours
+
+      next(steps[i]);
+    };
+
+    p.appendChild(span);
+  });
+};
 
   const renderParishes = () => {
     const c = document.getElementById('parish-options'); c.innerHTML = '';
