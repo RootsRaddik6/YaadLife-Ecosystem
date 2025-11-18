@@ -51,17 +51,26 @@
     #summary-items div{display:flex;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,215,0,0.3);font-size:1.35rem;}
     #summary-items div:last-child{border-bottom:none;}
     #summary-items strong{color:#FFD700;font-size:1.4rem;}
-    .btn.gold,.btn.green,#btnPay,#btnTip,#startBtn{padding:0.7rem 1rem!important;font-size:1.1rem!important;margin:0.7rem 0!important;border-radius:16px!important;}
-    #startBtn{
-  padding:1rem 2rem !important;
-  font-size:1.4rem !important;
-  font-weight:800;
-  border-radius:99px !important;
-  background:var(--gold);
-  color:#000;
-  box-shadow:0 6px 20px rgba(255,215,0,0.3);
-  margin-top:2rem;
-      pointer-events: auto;
+ /* New elegant gold buttons – used for Start Booking, Next, Pay, etc */
+.btn.gold, #startBtn, #btnPay, #btnTip {
+  width: auto !important;
+  min-width: 240px;
+  max-width: 90%;
+  margin: 2rem auto 1rem !important;
+  padding: 1rem 2rem !important;
+  font-size: 1.35rem !important;
+  font-weight: 800;
+  border-radius: 99px !important;
+  background: var(--gold);
+  color: #000;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+  display: block;
+  pointer-events: auto;
+  transition: all 0.3s;
+}
+.btn.gold:hover, #startBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
 }
     #minus,#plus,#minusAdult,#plusAdult{padding:0.5rem 0.9rem!important;font-size:1.4rem!important;min-width:50px;}
     .btn.back{
