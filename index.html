@@ -21,7 +21,19 @@
     .logo span:last-child{background:linear-gradient(135deg,#FFD700,#FFC107);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 25px #FFD700);}
     .logo span{animation:fyahPulse 3s ease-in-out infinite alternate;}
     @keyframes fyahPulse{0%{filter:drop-shadow(0 0 18px #FF4500);transform:scale(1);}100%{filter:drop-shadow(0 0 30px #FFD700);transform:scale(1.03);}}
-    .calculator{text-align:center;font-weight:900;color:var(--gold);background:rgba(0,0,0,0.5);padding:1rem;border-radius:16px;margin:1rem 0;box-shadow:0 0 20px rgba(255,215,0,0.4);font-size:clamp(2rem,8vw,4.5rem);line-height:1.1;}
+    .calculator{
+  text-align:center;
+  font-weight:700;
+  color:var(--gold);
+  background:rgba(0,0,0,0.4);
+  padding:0.6rem 1.2rem;
+  border-radius:12px;
+  margin:1.2rem auto;
+  width:fit-content;
+  font-size:2.2rem;        /* fixed size, no longer huge */
+  box-shadow:0 4px 15px rgba(255,215,0,0.15);
+  backdrop-filter:blur(4px);
+}
     #progress{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0;flex-wrap:wrap;font-size:2.2rem;}
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
