@@ -109,50 +109,63 @@
       font-size: 3.2rem;
       font-weight: bold;
     }
-    /* === UNIVERSAL BIG JADE BUTTONS FOR ALL STEPS (Local, Coastal, Parish, etc.) === */
-.option-card {
-  height: 110px !important;
-  width: 90% !important;
-  max-width: 380px !important;
-  margin: 1.4rem auto !important;
-  background: linear-gradient(135deg, var(--green), var(--green-light));
-  border: 3px solid var(--gold-shine) !important;
-  border-radius: 28px !important;
-  box-shadow: 0 14px 35px rgba(0,102,68,0.45);
+    /* === FINAL MASTER OPTION-CARD STYLE — WORKS FOR LOCAL, COASTAL, PARISH, EVERYTHING === */
+.option-card, #parish-options .option-card {
+  all: unset !important;
+  height: 88px !important;
+  width: 88% !important;
+  max-width: 360px !important;
+  margin: 0.9rem auto !important;
+  background: linear-gradient(135deg, var(--green), var(--green-light)) !important;
+  border: 2.8px solid var(--gold-shine) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 28px rgba(0,102,68,0.4);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   text-align: center;
+  font-size: 1.35rem !important;
+  font-weight: 900 !important;
+  color: #fff !important;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
 }
 
-.option-card::before {
+.option-card::before, #parish-options .option-card::before {
   content: '';
   position: absolute;
   inset: -50%;
-  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
   transform: rotate(30deg);
   pointer-events: none;
 }
 
-.option-card .name {
-  font-size: 1.8rem !important;
-  font-weight: 900 !important;
-  color: #fff !important;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+.option-card.selected, #parish-options .option-card.selected {
+  background: linear-gradient(135deg, var(--gold), var(--gold-shine)) !important;
+  border-color: var(--gold-glow) !important;
+  box-shadow: 0 0 40px rgba(255,215,0,0.85), inset 0 0 22px rgba(255,255,255,0.35) !important;
+  transform: scale(1.05);
 }
 
-.option-card.selected {
-  background: linear-gradient(135deg, var(--gold), var(--gold-shine));
-  border-color: var(--gold-glow) !important;
-  box-shadow: 0 0 45px rgba(255,215,0,0.9), inset 0 0 25px rgba(255,255,255,0.4) !important;
-  transform: scale(1.06);
+/* Hide the ugly floating circle completely */
+#parishNext {
+  display: none !important;
 }
-    .info .name{font-weight:700;font-size:1.2rem;}
-    .info .price{color:var(--gold);font-weight:700;}
+
+/* Make normal Next buttons appear when selection made */
+.btn.gold.auto-show {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.btn.gold.auto-show.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
     .btn{width:100%;padding:1.2rem;margin:1rem 0;border:none;border-radius:16px;font-size:1.35rem;font-weight:900;cursor:pointer;transition:0.3s;pointer-events:auto;}
     .btn.gold{background:var(--gold);color:#000;}
     .btn.green{background:var(--green);color:#fff;}
@@ -334,9 +347,9 @@ input, select, button {
     <div id="step1" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Traveling?</p>
-      <div class="option-card" data-value="yes"><div class="info"><div class="name">Local</div></div></div>
-      <div class="option-card" data-value="no"><div class="info"><div class="name">Visiting</div></div></div>
-    </div>
+            <div class="option-card" data-value="yes"><div class="info">Local</div></div>
+      <div class="option-card" data-value="no"><div class="info">Visiting</div></div>
+      <button class="btn gold auto-show" id="localNext" onclick="next(2)" style="display:none;">Next</button></div>
 
     <div id="step2" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
