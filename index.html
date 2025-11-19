@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Changa+One&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
-
+    :root{--green:#009B48;--gold:#FFD700;--black:#000;}
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Inter',sans-serif;background:#000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;color:#fff;min-height:100dvh;overflow-x:hidden;position:relative;}
     .overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.04),rgba(0,155,72,0.04));backdrop-filter:blur(0.5px);z-index:1;pointer-events:none;}
@@ -39,100 +39,10 @@
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
     .msg{text-align:center;font-size:1.4rem;margin:1rem 0;color:var(--gold);font-weight:600;}
-/* === FINAL UNIVERSAL JADE & GOLD BUTTONS — 100% FIXED === */
-.option-card, #parish-options .option-card {
-  all: unset !important;
-  height: 94px !important;
-  width: 88% !important;
-  max-width: 370px !important;
-  margin: 1rem auto !important;
-  background: linear-gradient(135deg, var(--green), var(--green-light)) !important;
-  border: 3px solid var(--gold-shine) !important;
-  border-radius: 26px !important;
-  box-shadow: 0 12px 35px rgba(0,102,68,0.45);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.option-card::before, #parish-options .option-card::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
-  transform: rotate(30deg);
-  pointer-events: none;
-}
-
-.option-card .info, #parish-options .info {
-  width: 100%;
-  padding: 10px;
-}
-
-.option-card .name, #parish-options .name {
-  font-size: 1.4rem !important;
-  font-weight: 900 !important;
-  color: #fff !important;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.6);
-}
-
-.option-card small, #parish-options small {
-  font-size: 0.95rem;
-  color: #ddd;
-}
-
-.option-card.selected, #parish-options .option-card.selected {
-  background: linear-gradient(135deg, var(--gold), var(--gold-shine)) !important;
-  border-color: var(--gold-glow) !important;
-  box-shadow: 0 0 50px rgba(255,215,0,0.9), inset 0 0 30px rgba(255,255,255,0.4) !important;
-  transform: scale(1.06);
-}
-
-/* Kill all floating buttons */
-#parishNext, #localNext, #vibeNext { display: none !important; }
-
-/* Beautiful centered Next button */
-.centered-next {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 280px;
-  height: 70px;
-  border-radius: 99px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-shine));
-  border: none;
-  box-shadow: 0 15px 45px rgba(229,184,11,0.7);
-  font-size: 1.7rem;
-  font-weight: 900;
-  color: #000;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s ease;
-  z-index: 999;
-}
-
-.centered-next.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) scale(1.05);
-}
-/* Make normal Next buttons appear when selection made */
-.btn.gold.auto-show {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.4s ease;
-}
-
-.btn.gold.auto-show.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+    .option-card{background:rgba(0,0,0,0.65)!important;backdrop-filter:blur(4px);border:2px solid rgba(255,215,0,0.3);border-radius:16px;padding:1.2rem;margin:1rem 0;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:0.3s;border:3px solid transparent;}
+    .option-card.selected{background:rgba(255,215,0,0.25)!important;border-color:var(--gold)!important;box-shadow:0 0 20px rgba(255,215,0,0.5);transform:scale(1.02);}
+    .info .name{font-weight:700;font-size:1.2rem;}
+    .info .price{color:var(--gold);font-weight:700;}
     .btn{width:100%;padding:1.2rem;margin:1rem 0;border:none;border-radius:16px;font-size:1.35rem;font-weight:900;cursor:pointer;transition:0.3s;pointer-events:auto;}
     .btn.gold{background:var(--gold);color:#000;}
     .btn.green{background:var(--green);color:#fff;}
@@ -289,13 +199,7 @@ input, select, button {
 #progress span:active {
   transform: scale(1.1) !important;
 }
-  :root{
-  --green: #006644;          /* deep jade base */
-  --green-light: #008C76;    /* satin highlight */
-  --gold: #E5B80B;           /* real gold base */
-  --gold-shine: #FFEA9E;     /* bright metallic highlight */
-  --gold-glow: #FFC107;      /* inner glow */
-}  
+    
   </style>
 </head>
 <body>
@@ -314,9 +218,10 @@ input, select, button {
     <div id="step1" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Traveling?</p>
-       <div class="option-card" data-value="yes"><div class="info">Local</div></div>
-      <div class="option-card" data-value="no"><div class="info">Visiting</div></div>
-<button class="btn gold centered-next" onclick="next(2)">Next</button>
+      <div class="option-card" data-value="yes"><div class="info"><div class="name">Local</div></div></div>
+      <div class="option-card" data-value="no"><div class="info"><div class="name">Visiting</div></div></div>
+    </div>
+
     <div id="step2" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Where are you departing from?</p>
@@ -387,15 +292,16 @@ input, select, button {
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Parish?</p>
       <div id="parish-options"></div>
-      <button class="btn gold centered-next" onclick="next(5)">Next</button>
+      <button class="btn gold" id="parishNext" style="display:none;">Next</button>
     </div>
 
     <div id="step5" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Coastal or Inland?</p>
-            <div class="option-card" data-value="coastal"><div class="info">Coastal</div></div>
-      <div class="option-card" data-value="inland"><div class="info">Inland</div></div>
-      <button class="btn gold centered-next" onclick="next(6)">Next</button>
+      <div class="option-card" data-value="coastal"><div class="info"><div class="name">Coastal</div></div></div>
+      <div class="option-card" data-value="inland"><div class="info"><div class="name">Inland</div></div></div>
+      <button class="btn gold" id="btnVibe">Next</button>
+    </div>
 
     <div id="step6" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
@@ -523,37 +429,25 @@ const updateProgress = () => {
     p.appendChild(span);
   });
 };
+
   const renderParishes = () => {
-    const c = document.getElementById('parish-options');
-    c.innerHTML = '';
-
-    const naturalOrder = [
-      'kingston','saint-andrew','saint-james','saint-ann','portland',
-      'saint-catherine','clarendon','manchester','westmoreland','hanover',
-      'saint-elizabeth','saint-mary','saint-thomas','trelawny'
-    ];
-
-    naturalOrder.forEach(p => {
-      const niceName = p.replace(/-/g,' ').split(' ').map(w => 
-        w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const c = document.getElementById('parish-options'); c.innerHTML = '';
+    ALL_PARISHES.forEach(p => {
+      const niceName = p.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
       const card = document.createElement('div');
       card.className = 'option-card';
-      card.innerHTML = `
-        <div class="info" style="text-align:center;padding-top:12px;">
-          <div class="name" style="font-size:1.28rem;font-weight:800;color:#fff;">${niceName}</div>
-          <small style="color:#ddd;font-size:0.95rem;">${PARISH_TOWNS[p]}</small>
-        </div>
-      `;
+      card.innerHTML = `<div class="info"><div class="name">${niceName}<br><small style="color:#aaa">${PARISH_TOWNS[p]}</small></div></div>`;
       card.onclick = () => {
-        c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
+        c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
         card.classList.add('selected');
         state.parish = p;
-        document.getElementById('parishNext').classList.add('visible');
+        document.getElementById('parishNext').style.display = 'block';
       };
       c.appendChild(card);
     });
   };
-    const loadStays = () => {
+
+  const loadStays = () => {
     const c = document.getElementById('stay-options');
     c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
     setTimeout(() => {
@@ -713,35 +607,6 @@ document.getElementById('btn3').onclick = () => {
       }
     }
   });
-});
-  // Auto show Next when Coastal/Inland selected
-document.getElementById('step5').addEventListener('click', e => {
-  if (e.target.closest('.option-card')) {
-    setTimeout(() => document.getElementById('btnVibe').style.display = 'block', 150);
-  }
-});
-  // Auto-show Next buttons for Local/Visiting and Coastal/Inland
-document.addEventListener('click', e => {
-  if (e.target.closest('.option-card')) {
-    setTimeout(() => {
-      const nextBtn = e.target.closest('.step').querySelector('.auto-show');
-      if (nextBtn) nextBtn.style.display = 'block';
-    }, 100);
-  }
-});
-  // Universal Next button show
-document.addEventListener('click', e => {
-  if (e.target.closest('.option-card')) {
-    const btn = document.querySelector('.centered-next');
-    if (btn) btn.classList.add('visible');
-  }
-});
-  // FINAL UNIVERSAL NEXT BUTTON — WORKS EVERYWHERE
-document.addEventListener('click', e => {
-  if (e.target.closest('.option-card')) {
-    const btn = document.querySelector('.centered-next');
-    if (btn) btn.classList.add('visible');
-  }
 });
   updateProgress();
 });
