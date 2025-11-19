@@ -16,257 +16,117 @@
 
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
     body{
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       background:#000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;
       color:#fff;
       min-height:100vh;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
     }
-
-    /* overlay */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(1px);z-index:1;pointer-events:none}
 
-    /* flag */
-    .flag{
-      position:fixed;
-      top:12px;
-      left:12px;
-      width:110px;
-      height:74px;
-      background:url('/IMG_0454.png') center/cover no-repeat;
-      border-radius:6px;
-      z-index:1002;
-      box-shadow:0 6px 18px rgba(0,0,0,0.6);
-      animation:waveFlow 3s ease-in-out infinite;
-    }
-    .flag::after{
-      content:"1Drop";
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:900;
-      font-size:1.2rem;
-      color:#fff;
-      text-shadow:0 0 8px #000;
-      pointer-events:none;
-    }
+    /* Flag + tip */
+    .flag{position:fixed;top:12px;left:12px;width:110px;height:74px;background:url('/IMG_0454.png') center/cover no-repeat;border-radius:6px;z-index:1002;box-shadow:0 6px 18px rgba(0,0,0,0.6);animation:waveFlow 3s ease-in-out infinite}
+    .flag::after{content:"1Drop";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff;text-shadow:0 0 8px #000;pointer-events:none}
     @keyframes waveFlow{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(2.5deg) scale(1.03)}}
 
-    /* tip icon — moved under flag */
-    #btnTip {
-      position:fixed;
-      top:100px; /* under the flag */
-      left:20px;
-      z-index:1002;
-      width:64px;
-      height:64px;
-      border-radius:50%;
-      border:3px solid #FFEA9E;
-      background:linear-gradient(135deg,#004d40,#006400);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.6rem;
-      box-shadow:0 8px 26px rgba(0,0,0,0.6);
-      cursor:pointer;
-    }
+    #btnTip{position:fixed;top:100px;left:18px;z-index:1002;width:64px;height:64px;border-radius:50%;border:3px solid #FFEA9E;background:linear-gradient(135deg,#004d40,#006400);display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 8px 26px rgba(0,0,0,0.6);cursor:pointer}
 
-    /* container */
-    .container{
-      position:relative;
-      z-index:2;
-      max-width:480px;
-      margin:0 auto;
-      padding:1rem;
-      display:flex;
-      flex-direction:column;
-      min-height:100vh;
-      pointer-events:auto;
-    }
+    /* main container */
+    .container{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:1rem;display:flex;flex-direction:column;min-height:100vh;pointer-events:auto}
 
-    /* top controls: back + wallet stacked */
-    .top-controls{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      margin-top:8px;
-      margin-bottom:8px;
-    }
-    .top-left {
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      align-items:flex-start;
-      width:100%;
-    }
-    .back-global {
-      display:flex;
-      align-items:center;
-      gap:8px;
-      background:transparent;
-      border:none;
-      color:#FFD700;
-      font-weight:800;
-      font-size:1.05rem;
-      cursor:pointer;
-      padding:6px 8px;
-      border-radius:10px;
-    }
-    .back-global svg{width:22px;height:22px}
-
-    .wallet-bar{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:flex-start;
-      width:100%;
-    }
-    .wallet-bar .btn {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:12px;
-      font-weight:800;
-      cursor:pointer;
-      text-decoration:none;
-    }
-    .wallet-bar .connect {background:linear-gradient(135deg,#E5B80B,#FFEA9E);color:#000;border:none}
-    .wallet-bar .info {background:rgba(255,255,255,0.06);color:#fff;padding:8px 10px;border-radius:12px}
-
-    /* logo */
-    .logo{font-family:'Changa One',cursive;font-size:clamp(3.6rem,16vw,6.2rem);font-weight:900;letter-spacing:-3px;text-align:center;margin:8px 0 8px}
+    /* logo section - controls near the 'E' in VIBE */
+    .logo-section{position:relative;display:flex;align-items:center;justify-content:center;margin-top:14px}
+    .logo{font-family:'Changa One',cursive;font-size:clamp(3.6rem,16vw,6.2rem);font-weight:900;letter-spacing:-3px;text-align:center;margin:0}
     .logo span:first-child{background:linear-gradient(135deg,#FF4500,#DC143C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px #FF4500)}
     .logo span:last-child{background:linear-gradient(135deg,#FFD700,#FFC107);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 25px #FFD700)}
 
-    /* small calculator */
-    .calculator{align-self:center;text-align:center;font-weight:700;color:#FFD700;background:rgba(0,0,0,0.45);padding:0.5rem 0.9rem;border-radius:10px;margin:6px auto;font-size:1.4rem;box-shadow:0 6px 16px rgba(255,215,0,0.08);backdrop-filter: blur(4px)}
+    /* Place controls to the right of logo (near 'E' in VIBE). Absolute positioning relative to logo-section */
+    .logo-controls{
+      position:absolute;
+      right:12%;
+      top:46%;
+      transform:translate(10%, -50%); /* tweak this to move close to 'E' */
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+      z-index:1003;
+    }
+    .back-global{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#E5B80B,#FFEA9E);border:none;color:#000;font-weight:900;padding:8px 12px;border-radius:99px;cursor:pointer}
+    .wallet-controls{display:flex;gap:8px;align-items:center}
+    .wallet-connect{background:rgba(255,255,255,0.95);color:#000;padding:8px 12px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
+    .wallet-info{background:rgba(255,255,255,0.06);color:#fff;padding:8px 10px;border-radius:12px;display:flex;gap:8px;align-items:center}
 
-    #progress{display:flex;justify-content:center;gap:0.7rem;margin:8px 0;font-size:1.6rem;flex-wrap:wrap}
+    /* calculator & progress */
+    .calculator{align-self:center;text-align:center;font-weight:700;color:#FFD700;background:rgba(0,0,0,0.45);padding:0.5rem 0.9rem;border-radius:10px;margin:8px auto;font-size:1.4rem;box-shadow:0 6px 16px rgba(255,215,0,0.08);backdrop-filter: blur(4px)}
+    #progress{display:flex;justify-content:center;gap:0.7rem;margin:10px 0;font-size:1.6rem;flex-wrap:wrap}
 
     .step{display:none;padding:12px 0}
     .step.active{display:block}
-
     .msg{text-align:center;font-size:1.05rem;margin:8px 0;color:#FFD700;font-weight:700}
 
-    /* option-card default */
-    .option-card {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:10px;
-      border-radius:16px;
-      background:linear-gradient(135deg,#004d40,#006400);
-      border:2px solid #FFEA9E;
-      color:#fff;
-      cursor:pointer;
-      box-shadow:0 8px 24px rgba(0,0,0,0.5);
-      margin:10px auto;
-      width:92%;
-      max-width:420px;
-      text-align:center;
-    }
-    .option-card.selected {background:linear-gradient(135deg,#E5B80B,#FFEA9E);color:#000;transform:scale(1.02)}
+    .option-card{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px;border-radius:16px;background:linear-gradient(135deg,#004d40,#006400);border:2px solid #FFEA9E;color:#fff;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.5);margin:10px auto;width:92%;max-width:420px;text-align:center}
+    .option-card.selected{background:linear-gradient(135deg,#E5B80B,#FFEA9E);color:#000;transform:scale(1.02)}
 
-    /* centered next */
-    .centered-next {
-      width:220px;height:56px;border-radius:99px;background:linear-gradient(135deg,#E5B80B,#FFEA9E);border:none;color:#000;font-weight:900;font-size:1.1rem;margin:12px auto;display:none;cursor:pointer
-    }
+    .centered-next{width:220px;height:56px;border-radius:99px;background:linear-gradient(135deg,#E5B80B,#FFEA9E);border:none;color:#000;font-weight:900;font-size:1.1rem;margin:12px auto;display:none;cursor:pointer}
     .centered-next.visible{display:block}
 
-    /* date inputs smaller */
-    .date-row {display:flex;gap:12px;align-items:center;justify-content:center;margin:14px 0}
-    input[type="date"]{
-      width:180px;
-      height:40px;
-      padding:8px 10px;
-      border-radius:10px;
-      border:2px solid rgba(255,215,0,0.18);
-      background:rgba(255,255,255,0.03);
-      color:#fff;
-      font-size:0.95rem;
-    }
+    /* smaller date */
+    .date-row{display:flex;gap:12px;align-items:center;justify-content:center;margin:14px 0}
+    input[type="date"]{width:170px;height:40px;padding:8px 10px;border-radius:10px;border:2px solid rgba(255,215,0,0.12);background:rgba(255,255,255,0.03);color:#fff;font-size:0.95rem}
 
-    /* parish grid 2 columns */
-    #parish-options {
-      display:grid;
-      grid-template-columns:repeat(2, 1fr);
-      gap:10px;
-      padding:6px 4px;
-    }
-    .parish-card {
-      background:linear-gradient(135deg,#004d40,#006400);
-      border:2px solid #FFEA9E;
-      border-radius:14px;
-      padding:10px;
-      min-height:68px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      cursor:pointer;
-      transition:transform .18s ease, box-shadow .18s ease;
-      box-shadow:0 8px 20px rgba(0,0,0,0.4);
-    }
+    /* parish grid */
+    #parish-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:6px 4px}
+    .parish-card{background:linear-gradient(135deg,#004d40,#006400);border:2px solid #FFEA9E;border-radius:14px;padding:10px;min-height:72px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;box-shadow:0 8px 20px rgba(0,0,0,0.4)}
     .parish-card:hover{transform:translateY(-4px)}
     .parish-card.selected{background:linear-gradient(135deg,#E5B80B,#FFEA9E);color:#000;box-shadow:0 10px 30px rgba(255,215,0,0.25)}
     .parish-card .pname{font-weight:900;font-size:1rem}
-    .parish-card .ptowns{font-size:0.78rem;color:#eee;opacity:0.9;margin-top:6px;line-height:1.1}
+    .parish-card .ptowns{font-size:0.78rem;color:#eee;opacity:0.95;margin-top:6px;line-height:1.1}
 
-    /* smaller controls for counts */
-    .small-controls {display:flex;gap:12px;align-items:center;justify-content:center;margin:8px 0}
+    .small-controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:8px 0}
     .small-controls button{width:40px;height:36px;border-radius:8px;border:none;background:rgba(255,255,255,0.06);color:#FFD700;font-size:1.3rem;cursor:pointer}
 
-    /* summary items */
     #summary-items{margin:10px 6px;border-radius:10px;overflow:hidden}
-    #summary-items > div{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px dashed rgba(255,255,255,0.06)}
+    #summary-items>div{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px dashed rgba(255,255,255,0.06)}
 
-    /* QR area */
     #qr-area{margin-top:12px;text-align:center}
 
-    /* hide per-step back buttons to use global one */
+    /* hide per-step old back buttons */
     .btn.back{display:none !important}
 
-    /* small responsive tweaks */
     @media (max-width:420px){
       input[type="date"]{width:150px;height:38px}
       .centered-next{width:200px;height:52px}
       .logo{font-size:clamp(3.2rem,18vw,5.2rem)}
+      .logo-controls{right:6%;top:52%}
     }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
 
-  <!-- flag and tip -->
+  <!-- flag + tip -->
   <div class="flag" aria-hidden="true"></div>
   <button id="btnTip" title="Tip (always visible)">🔥</button>
 
   <div class="container">
-    <!-- top controls: back + ton connect -->
-    <div class="top-controls">
-      <div class="top-left">
-        <button class="back-global" id="backGlobal" title="Back" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Back
-        </button>
+    <div class="logo-section">
+      <h1 class="logo"><span>YAAD</span><br><span>VIBE</span></h1>
 
-        <div class="wallet-bar" id="walletTop">
-          <button class="btn connect" id="connectWalletBtn">Connect TON Wallet</button>
-          <div id="walletInfo" class="info" style="display:none">
-            <span id="walletAddr" style="font-weight:800;font-size:0.88rem"></span>
-            <button class="btn" id="disconnectWalletBtn" style="margin-left:8px;background:transparent;border:none;color:#FFD700;cursor:pointer">Disconnect</button>
+      <!-- controls positioned near the logo (right side) -->
+      <div class="logo-controls" id="logoControls">
+        <button id="backGlobal" class="back-global" style="display:none">← Back</button>
+        <div class="wallet-controls" id="walletControls">
+          <button id="connectWalletBtn" class="wallet-connect">Connect TON Wallet</button>
+          <div id="walletInfo" class="wallet-info" style="display:none">
+            <span id="walletAddr" style="font-weight:800;font-size:0.85rem"></span>
+            <button id="disconnectWalletBtn" style="background:transparent;border:none;color:#FFD700;cursor:pointer;font-weight:800">Disconnect</button>
           </div>
         </div>
       </div>
     </div>
-
-    <h1 class="logo"><span>YAAD</span><br><span>VIBE</span></h1>
 
     <div class="calculator">$<span id="liveTotal">0.00</span></div>
     <div id="progress" aria-hidden="true"></div>
@@ -274,9 +134,7 @@
     <!-- Steps -->
     <div id="step0" class="step active">
       <p class="msg">Book Package?</p>
-      <div style="text-align:center">
-        <button class="centered-next visible" id="startBtn" style="display:inline-block">Start Booking</button>
-      </div>
+      <div style="text-align:center"><button class="centered-next visible" id="startBtn">Start Booking</button></div>
     </div>
 
     <div id="step1" class="step">
@@ -316,7 +174,6 @@
 
     <div id="step3" class="step">
       <p class="msg">When are you coming?</p>
-
       <div class="date-row">
         <div style="text-align:center">
           <label style="display:block;color:#FFD700;font-size:0.9rem;margin-bottom:6px">Arrival</label>
@@ -373,7 +230,7 @@
     </div>
 
     <div id="step8" class="step">
-      <p class="msg">Tours</p>
+      <p class="msg">Tours & Attractions</p>
       <div id="tour-options"></div>
       <div style="text-align:center"><button class="centered-next visible" id="btnTours">Show My Package</button></div>
     </div>
@@ -382,59 +239,319 @@
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
       <div class="calculator">Total: $<span id="total">0.00</span></div>
-      <div style="text-align:center;margin-top:10px">
-        <button class="centered-next visible" id="btnPay">PAY TON WALLET</button>
-      </div>
+      <div style="text-align:center;margin-top:10px"><button class="centered-next visible" id="btnPay">PAY TON WALLET</button></div>
       <div id="qr-area"></div>
     </div>
 
   </div> <!-- container -->
 
   <script>
-    // -------------------------
-    // App data & initial state
-    // -------------------------
     document.addEventListener('DOMContentLoaded', () => {
 
-      const PARISH_TOWNS = {
-        "clarendon":"May Pen",
-        "hanover":"Lucea",
-        "kingston":"Kingston",
-        "manchester":"Mandeville",
-        "portland":"Port Antonio, Hectors River",
-        "saint-andrew":"Half Way Tree",
-        "saint-ann":"St. Ann’s Bay, Ocho Rios, Discovery Bay",
-        "saint-catherine":"Spanish Town, Portmore",
-        "saint-elizabeth":"Black River",
-        "saint-james":"Montego Bay",
-        "saint-mary":"Port Maria",
-        "saint-thomas":"Morant Bay",
-        "trelawny":"Falmouth",
-        "westmoreland":"Savanna-la-Mar, Negril West End"
+      // -------------------------
+      // Sample parish metadata (realistic, editable)
+      // -------------------------
+      const PARISH_METADATA = {
+        "clarendon": {
+          attractions: [
+            { name: "YS Falls", description: "Scenic waterfall & tubing", link: "#" },
+            { name: "Rio Minho Valley", description: "Picturesque river valley", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Clarendon)", price: 60 },
+            { name: "Knutsford Express (route)", price: 25 }
+          ],
+          flights: [
+            { airline: "Domestic/Regional", code: "MBJ/KIN", note: "Via MBJ or KIN" }
+          ],
+          accommodations: [
+            { name: "Clarendon Inn", price: 120, type: "mid", img: "/clarendon1.jpg" },
+            { name: "Rio View Guesthouse", price: 90, type: "budget", img: "/clarendon2.jpg" }
+          ],
+          tours: [
+            { name: "YS Falls Half-day Tour", price: 45 },
+            { name: "Clarendon Culture Experience", price: 35 }
+          ]
+        },
+        "hanover": {
+          attractions: [
+            { name: "Lucea Town Walk", description: "Historic town & harbor", link: "#" },
+            { name: "Raynor's Cove", description: "Relaxed beach", link: "#" }
+          ],
+          transport: [
+            { name: "Taxi/Shuttle", price: 40 },
+            { name: "Private transfer", price: 70 }
+          ],
+          flights: [
+            { airline: "Regional", code: "MBJ", note: "Access via MBJ" }
+          ],
+          accommodations: [
+            { name: "Lucea Bay Hotel", price: 140, type: "mid", img: "/hanover1.jpg" },
+            { name: "Hanover Seaside Guesthouse", price: 95, type: "budget", img: "/hanover2.jpg" }
+          ],
+          tours: [
+            { name: "Hanover Coastal Tour", price: 50 },
+            { name: "Lucea Heritage Walk", price: 25 }
+          ]
+        },
+        "kingston": {
+          attractions: [
+            { name: "Bob Marley Museum", description: "Reggae legend home-museum", link: "https://www.bobmarleymuseum.com" },
+            { name: "Devon House", description: "Historic mansion & shops", link: "https://devonhouse.com" }
+          ],
+          transport: [
+            { name: "Private Transfer (Kingston)", price: 40 },
+            { name: "Highway Taxi", price: 25 }
+          ],
+          flights: [
+            { airline: "Norman Manley Intl", code: "KIN", note: "Kingston (KIN)" }
+          ],
+          accommodations: [
+            { name: "Spanish Court Hotel", price: 210, type: "mid", img: "/kingston1.jpg" },
+            { name: "Altamont Court Hotel", price: 160, type: "mid", img: "/kingston2.jpg" }
+          ],
+          tours: [
+            { name: "Kingston City Tour", price: 45 },
+            { name: "Bob Marley Museum Guided", price: 30 }
+          ]
+        },
+        "manchester": {
+          attractions: [
+            { name: "Roaring River & Mayfield", description: "Swimming & caves", link: "#" },
+            { name: "Mandeville Town Walk", description: "Market & cafes", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Mandeville)", price: 50 },
+            { name: "Local Shuttle", price: 20 }
+          ],
+          flights: [
+            { airline: "Regional", code: "KIN/MBJ", note: "Access via KIN/MBJ" }
+          ],
+          accommodations: [
+            { name: "Mandeville Suites", price: 110, type: "mid", img: "/manchester1.jpg" },
+            { name: "Country View Guesthouse", price: 85, type: "budget", img: "/manchester2.jpg" }
+          ],
+          tours: [
+            { name: "Mandeville Heritage Tour", price: 35 },
+            { name: "Roaring River Experience", price: 40 }
+          ]
+        },
+        "portland": {
+          attractions: [
+            { name: "Blue Lagoon", description: "Deep blue lagoon", link: "#" },
+            { name: "Reach Falls", description: "Beautiful waterfall", link: "#" }
+          ],
+          transport: [
+            { name: "Private Tour Vehicle", price: 80 },
+            { name: "Shuttle Service", price: 45 }
+          ],
+          flights: [],
+          accommodations: [
+            { name: "Frenchman's Cove Villas", price: 260, type: "luxe", img: "/portland1.jpg" },
+            { name: "Port Antonio Guesthouse", price: 140, type: "mid", img: "/portland2.jpg" }
+          ],
+          tours: [
+            { name: "Port Antonio Boat Tour", price: 75 },
+            { name: "Reach Falls Guided", price: 55 }
+          ]
+        },
+        "saint-andrew": {
+          attractions: [
+            { name: "Holywell Park", description: "Nature park & trails", link: "#" },
+            { name: "Half Way Tree", description: "Shopping & transit hub", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (St Andrew)", price: 35 },
+            { name: "Local Taxi", price: 18 }
+          ],
+          flights: [
+            { airline: "Norman Manley Intl", code: "KIN", note: "Kingston area" }
+          ],
+          accommodations: [
+            { name: "Courtleigh Hotel", price: 200, type: "mid", img: "/saint-andrew1.jpg" },
+            { name: "Boutique Guesthouse", price: 130, type: "mid", img: "/saint-andrew2.jpg" }
+          ],
+          tours: [
+            { name: "St Andrew City Tour", price: 40 },
+            { name: "Holywell Nature Walk", price: 30 }
+          ]
+        },
+        "saint-ann": {
+          attractions: [
+            { name: "Dunn's River Falls", description: "Iconic waterfall", link: "#" },
+            { name: "Dolphin Cove", description: "Interactive marine facility", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Ocho Rios)", price: 55 },
+            { name: "Shuttle/Bus", price: 25 }
+          ],
+          flights: [
+            { airline: "MBJ/KIN", code: "MBJ", note: "Via MBJ" }
+          ],
+          accommodations: [
+            { name: "Ocean View Resort Ocho Rios", price: 240, type: "resort", img: "/saint-ann1.jpg" },
+            { name: "Budget Inn Ocho Rios", price: 120, type: "budget", img: "/saint-ann2.jpg" }
+          ],
+          tours: [
+            { name: "Dunn's River Guided", price: 60 },
+            { name: "Ocho Rios Island Tour", price: 50 }
+          ]
+        },
+        "saint-catherine": {
+          attractions: [
+            { name: "Spanish Town Historic Walk", description: "Colonial-era sites", link: "#" },
+            { name: "Trench Town Culture Yard", description: "Reggae history", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Spanish Town)", price: 45 },
+            { name: "Local Taxi", price: 20 }
+          ],
+          flights: [],
+          accommodations: [
+            { name: "Spanish Town Guesthouse", price: 95, type: "budget", img: "/saint-catherine1.jpg" },
+            { name: "Country Lodge Spanish Town", price: 130, type: "mid", img: "/saint-catherine2.jpg" }
+          ],
+          tours: [
+            { name: "Spanish Town Cultural Tour", price: 30 },
+            { name: "Trench Town Music Tour", price: 35 }
+          ]
+        },
+        "saint-elizabeth": {
+          attractions: [
+            { name: "Black River Safari", description: "Wildlife & crocodiles", link: "#" },
+            { name: "Pelican Bar", description: "Offshore bar experience", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Black River)", price: 70 },
+            { name: "Local Minibus", price: 18 }
+          ],
+          flights: [],
+          accommodations: [
+            { name: "Black River Inn", price: 110, type: "mid", img: "/saint-elizabeth1.jpg" },
+            { name: "Pelican Cottage", price: 85, type: "budget", img: "/saint-elizabeth2.jpg" }
+          ],
+          tours: [
+            { name: "Black River Boat Safari", price: 55 },
+            { name: "Pelican Bar Excursion", price: 65 }
+          ]
+        },
+        "saint-james": {
+          attractions: [
+            { name: "Rose Hall Great House", description: "Historic house & tours", link: "#" },
+            { name: "Doctor's Cave Beach", description: "Popular beach", link: "#" }
+          ],
+          transport: [
+            { name: "Knutsford Express (MBJ)", price: 30 },
+            { name: "Private Airport Transfer", price: 65 }
+          ],
+          flights: [
+            { airline: "Sangster Intl", code: "MBJ", note: "Montego Bay (MBJ)" }
+          ],
+          accommodations: [
+            { name: "Sandals Montego Bay", price: 320, type: "resort", img: "/saint-james1.jpg" },
+            { name: "Jacks Guesthouse", price: 130, type: "budget", img: "/saint-james2.jpg" }
+          ],
+          tours: [
+            { name: "Rose Hall Night Tour", price: 55 },
+            { name: "Seven Mile Beach Trip", price: 30 }
+          ]
+        },
+        "saint-mary": {
+          attractions: [
+            { name: "Oracabessa Beach", description: "Quiet beach area", link: "#" },
+            { name: "Fort Haldane", description: "Historical site", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Port Maria)", price: 65 },
+            { name: "Local Taxi", price: 22 }
+          ],
+          flights: [],
+          accommodations: [
+            { name: "Port Maria Guest Inn", price: 135, type: "mid", img: "/saint-mary1.jpg" },
+            { name: "Cozy Cottage Port Maria", price: 90, type: "budget", img: "/saint-mary2.jpg" }
+          ],
+          tours: [
+            { name: "Oracabessa Beach Day", price: 40 },
+            { name: "Fort Haldane History Tour", price: 35 }
+          ]
+        },
+        "saint-thomas": {
+          attractions: [
+            { name: "Morant Bay Court House", description: "Historical landmark", link: "#" },
+            { name: "Blue Mountains (approach)", description: "Nearby scenic drives", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Morant Bay)", price: 60 },
+            { name: "Local Taxi", price: 25 }
+          ],
+          flights: [],
+          accommodations: [
+            { name: "Morant Bay Hotel", price: 100, type: "mid", img: "/saint-thomas1.jpg" },
+            { name: "Hilltop Guesthouse", price: 80, type: "budget", img: "/saint-thomas2.jpg" }
+          ],
+          tours: [
+            { name: "Morant Bay History Walk", price: 30 },
+            { name: "Blue Mountain Transfer", price: 75 }
+          ]
+        },
+        "trelawny": {
+          attractions: [
+            { name: "Falmouth Historic District", description: "Georgian architecture", link: "#" },
+            { name: "Luminous Lagoon (nearby)", description: "Bioluminescent bay", link: "#" }
+          ],
+          transport: [
+            { name: "Private Transfer (Falmouth)", price: 60 },
+            { name: "Shuttle Services", price: 30 }
+          ],
+          flights: [
+            { airline: "MBJ access", code: "MBJ", note: "Montego Bay access" }
+          ],
+          accommodations: [
+            { name: "Falmouth Bay Resort", price: 220, type: "resort", img: "/trelawny1.jpg" },
+            { name: "Falmouth B&B", price: 95, type: "budget", img: "/trelawny2.jpg" }
+          ],
+          tours: [
+            { name: "Falmouth Historic Walk", price: 25 },
+            { name: "Luminous Lagoon Night Tour", price: 60 }
+          ]
+        },
+        "westmoreland": {
+          attractions: [
+            { name: "Negril Seven Mile Beach", description: "World-famous beach", link: "#" },
+            { name: "Negril Lighthouse", description: "Historic landmark", link: "#" }
+          ],
+          transport: [
+            { name: "Taxi/Shuttle to Negril", price: 45 },
+            { name: "Private Airport Transfer", price: 80 }
+          ],
+          flights: [
+            { airline: "MBJ access", code: "MBJ", note: "Montego Bay access" }
+          ],
+          accommodations: [
+            { name: "Negril Beach Resort", price: 250, type: "resort", img: "/westmoreland1.jpg" },
+            { name: "Sunset Guesthouse", price: 110, type: "mid", img: "/westmoreland2.jpg" }
+          ],
+          tours: [
+            { name: "Negril Sunset Cruise", price: 55 },
+            { name: "Seven Mile Beach Day", price: 20 }
+          ]
+        }
       };
 
-      const LIVE_DATA = {
-        flights:{default:[{"airline":"JetBlue","code":"B6231","price":380},{"airline":"American","code":"AA1347","price":420}]},
-        accommodations:{default:[{"name":"Sandals Montego Bay","price":320,"img":"/sandals.jpg","type":"coastal"},{"name":"Jakes Hotel","price":280,"img":"/jakes.jpg","type":"coastal"},{"name":"Ian Fleming Villas","price":450,"img":"/ian.jpg","type":"inland"}]},
-        transport:{default:[{"name":"Private Transfer","price":80},{"name":"Knutsford Express","price":35}]},
-        tours:{default:[{"name":"Dunn’s River","price":65},{"name":"Blue Hole","price":55}]}
-      };
-
-      let state = {from:'',arrive:'',depart:'',parish:'',vibe:'',stay:null,transport:[],tours:[],nights:1,adults:1,kids:0,isLocal:false,flight:null};
+      // -------------------------
+      // State & UI refs
+      // -------------------------
+      let state = { from:'', arrive:'', depart:'', parish:'', vibe:'', stay:null, transport:[], tours:[], nights:1, adults:1, kids:0, isLocal:false, flight:null };
       let total = 0;
       let currentStep = 0;
 
-      // TonConnect v3 objects
-      let tonConnectUI = null;
-      let tonConnect = null;
-      let connectedAccount = null;
+      let tonConnect = null, tonConnectUI = null, connectedAccount = null;
 
-      // UI refs
       const backGlobal = document.getElementById('backGlobal');
-      const walletInfo = document.getElementById('walletInfo');
-      const walletAddr = document.getElementById('walletAddr');
       const connectWalletBtn = document.getElementById('connectWalletBtn');
       const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
+      const walletInfo = document.getElementById('walletInfo');
+      const walletAddr = document.getElementById('walletAddr');
 
       // -------------------------
       // Helpers
@@ -443,12 +560,12 @@
         total = 0;
         if(state.stay){
           const base = state.stay.price * state.nights;
-          const extra = (state.adults>2?(state.adults-2)*50:0);
+          const extra = (state.adults > 2 ? (state.adults-2)*50 : 0);
           total += base + extra + Math.round(base*0.05);
         }
-        state.transport.forEach(t=> total += t.price);
-        state.tours.forEach(t=> total += t.price);
-        if(state.flight) total += state.flight.price;
+        state.transport.forEach(t => total += (t.price || 0));
+        state.tours.forEach(t => total += (t.price || 0));
+        if(state.flight && state.flight.price) total += state.flight.price;
         document.getElementById('liveTotal').textContent = total.toFixed(2);
         const tEl = document.getElementById('total'); if(tEl) tEl.textContent = total.toFixed(2);
       };
@@ -465,15 +582,12 @@
           span.style.cursor = 'pointer';
           span.onclick = (e) => {
             e.stopPropagation();
-            if (i > 3 && (!state.arrive || !state.depart)) {
-              alert("Please set your arrival & departure dates first");
-              next(3); return;
-            }
-            if (i === 2 && !state.isLocal) next(2.5);
-            else if (i === 4) renderParishes();
-            else if (i === 6) loadStays();
-            else if (i === 7) loadTransport();
-            else if (i === 8) loadTours();
+            if(i > 3 && (!state.arrive || !state.depart)){ alert("Please set arrival & departure first"); next(3); return; }
+            if(i === 2 && !state.isLocal) next(2.5);
+            else if(i === 4) renderParishes();
+            else if(i === 6) loadStays();
+            else if(i === 7) loadTransport();
+            else if(i === 8) loadTours();
             next(steps[i]);
           };
           p.appendChild(span);
@@ -490,141 +604,151 @@
         if(!el) return;
         el.classList.add('active');
         currentStep = n;
-        // show/hide global back
         backGlobal.style.display = currentStep > 0 ? 'inline-flex' : 'none';
         updateProgress();
         if(n === 4) renderParishes();
       };
 
-      backGlobal.addEventListener('click', () => {
+      backGlobal.addEventListener('click', ()=>{
         const s = [0,1,2,2.5,3,4,5,6,7,8,9];
         const i = s.indexOf(currentStep);
         if(i > 0) next(s[i-1]);
       });
 
       // -------------------------
-      // Parishes (2-column render)
+      // Render parishes (2 columns)
       // -------------------------
-      const renderParishes = () => {
+      function renderParishes(){
         const container = document.getElementById('parish-options');
         container.innerHTML = '';
-        // naturalOrder to prioritize major parishes first (as in user's sequence)
         const naturalOrder = ['kingston','saint-andrew','saint-james','saint-ann','portland','saint-catherine','clarendon','manchester','westmoreland','hanover','saint-elizabeth','saint-mary','saint-thomas','trelawny'];
         naturalOrder.forEach(p => {
-          const niceName = p.replace(/-/g,' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-          const towns = PARISH_TOWNS[p] || '';
+          const nice = p.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+          const towns = (PARISH_METADATA[p] && PARISH_METADATA[p].attractions) ? PARISH_METADATA[p].attractions.map(a=>a.name).slice(0,3).join(', ') : '';
           const card = document.createElement('div');
           card.className = 'parish-card';
           card.dataset.parish = p;
-          card.innerHTML = `<div class="pname">${niceName}</div><div class="ptowns">${towns}</div>`;
+          card.innerHTML = `<div class="pname">${nice}</div><div class="ptowns">${towns}</div>`;
           card.onclick = () => {
-            // single select
             container.querySelectorAll('.parish-card').forEach(c=>c.classList.remove('selected'));
             card.classList.add('selected');
             state.parish = p;
-            const btn = document.getElementById('step4Next');
-            if(btn) btn.classList.add('visible');
-            btn.classList.add('visible');
-            btn.style.display = 'inline-block';
+            document.getElementById('step4Next').style.display = 'inline-block';
+            document.getElementById('step4Next').classList.add('visible');
+            // pre-load relevant lists (helpful)
+            loadFlights();
+            loadStays();
+            loadTransport();
+            loadTours();
           };
           container.appendChild(card);
         });
-      };
+      }
 
       // -------------------------
-      // Loads for stays / transport / tours / flights
+      // Loaders: stays / transport / tours / flights
       // -------------------------
-      const loadStays = () => {
-        const c = document.getElementById('stay-options'); c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
-        setTimeout(()=> {
-          c.innerHTML = '';
-          const items = LIVE_DATA.accommodations.default.filter(i => !state.vibe || i.type === state.vibe);
-          items.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'option-card';
-            card.innerHTML = `<img src="${item.img}" onerror="this.src='/IMG_0039.jpeg'" style="width:64px;height:64px;border-radius:8px;margin-right:10px"><div style="text-align:left"><div style="font-weight:900">${item.name}</div><div style="opacity:0.9;color:#fff">$${item.price}/night</div></div>`;
-            card.onclick = () => {
-              c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
-              card.classList.add('selected');
-              state.stay = item;
-              updateCalc();
-            };
-            c.appendChild(card);
-          });
-        }, 500);
-      };
-
-      const loadTransport = () => {
-        const c = document.getElementById('transport-options'); c.innerHTML = '';
-        LIVE_DATA.transport.default.forEach(t => {
+      function loadStays(){
+        const c = document.getElementById('stay-options'); c.innerHTML = '';
+        const p = state.parish;
+        if(!p || !PARISH_METADATA[p]) { c.innerHTML = '<p style="text-align:center;color:#aaa">Choose a parish first</p>'; return; }
+        const items = PARISH_METADATA[p].accommodations || [];
+        if(items.length === 0) { c.innerHTML = '<p style="text-align:center;color:#aaa">No stays found</p>'; return; }
+        items.forEach(item => {
           const card = document.createElement('div');
           card.className = 'option-card';
-          card.innerHTML = `<div style="text-align:left"><div style="font-weight:900">${t.name}</div><div style="opacity:0.9">$${t.price}</div></div>`;
-          card.onclick = () => {
-            card.classList.toggle('selected');
-            if(card.classList.contains('selected')) state.transport.push(t);
-            else state.transport = state.transport.filter(x=>x.name !== t.name);
-            updateCalc();
-          };
-          c.appendChild(card);
-        });
-      };
-
-      const loadTours = () => {
-        const c = document.getElementById('tour-options'); c.innerHTML = '';
-        LIVE_DATA.tours.default.forEach(t => {
-          const card = document.createElement('div');
-          card.className = 'option-card';
-          card.innerHTML = `<div style="text-align:left"><div style="font-weight:900">${t.name}</div><div style="opacity:0.9">$${t.price}</div></div>`;
-          card.onclick = () => {
-            card.classList.toggle('selected');
-            if(card.classList.contains('selected')) state.tours.push(t);
-            else state.tours = state.tours.filter(x=>x.name !== t.name);
-            updateCalc();
-          };
-          c.appendChild(card);
-        });
-      };
-
-      const loadFlights = () => {
-        const c = document.getElementById('flight-options'); c.innerHTML = '';
-        LIVE_DATA.flights.default.forEach(f => {
-          const card = document.createElement('div');
-          card.className = 'option-card';
-          card.innerHTML = `<div style="text-align:left"><div style="font-weight:900">${f.airline} ${f.code}</div><div style="opacity:0.9">$${f.price}</div></div>`;
+          card.innerHTML = `<div style="display:flex;align-items:center;gap:10px"><img src="${item.img || '/IMG_0039.jpeg'}" onerror="this.src='/IMG_0039.jpeg'" style="width:64px;height:64px;border-radius:8px"><div style="text-align:left"><div style="font-weight:900">${item.name}</div><div style="opacity:0.9">$${item.price}/night · ${item.type}</div></div></div>`;
           card.onclick = () => {
             c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
             card.classList.add('selected');
-            state.flight = f;
+            state.stay = item;
             updateCalc();
           };
           c.appendChild(card);
         });
-      };
+      }
 
-      // summary builder
-      const showSummary = () => {
+      function loadTransport(){
+        const c = document.getElementById('transport-options'); c.innerHTML = '';
+        const p = state.parish;
+        if(!p || !PARISH_METADATA[p] || !PARISH_METADATA[p].transport) { c.innerHTML = '<p style="text-align:center;color:#aaa">No transport options</p>'; return; }
+        PARISH_METADATA[p].transport.forEach(t => {
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          card.innerHTML = `<div style="text-align:left"><div style="font-weight:900">${t.name}</div>${t.price?`<div style="opacity:0.9">$${t.price}</div>`:''}</div>`;
+          card.onclick = () => {
+            card.classList.toggle('selected');
+            if(card.classList.contains('selected')) state.transport.push(t);
+            else state.transport = state.transport.filter(x => x.name !== t.name);
+            updateCalc();
+          };
+          c.appendChild(card);
+        });
+      }
+
+      function loadTours(){
+        const c = document.getElementById('tour-options'); c.innerHTML = '';
+        const p = state.parish;
+        if(!p || !PARISH_METADATA[p] || !PARISH_METADATA[p].tours) { c.innerHTML = '<p style="text-align:center;color:#aaa">No tours</p>'; return; }
+        PARISH_METADATA[p].tours.forEach(t => {
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          card.innerHTML = `<div style="text-align:left"><div style="font-weight:900">${t.name}</div>${t.price?`<div style="opacity:0.9">$${t.price}</div>`:''}</div>`;
+          card.onclick = () => {
+            card.classList.toggle('selected');
+            if(card.classList.contains('selected')) state.tours.push(t);
+            else state.tours = state.tours.filter(x => x.name !== t.name);
+            updateCalc();
+          };
+          c.appendChild(card);
+        });
+      }
+
+      function loadFlights(){
+        const c = document.getElementById('flight-options'); c.innerHTML = '';
+        const p = state.parish;
+        // prefer parish flights if present; otherwise show typical airport options
+        const f = (p && PARISH_METADATA[p] && PARISH_METADATA[p].flights) ? PARISH_METADATA[p].flights : [{airline:'Sangster Intl', code:'MBJ', price:0}, {airline:'Norman Manley', code:'KIN', price:0}];
+        f.forEach(flt => {
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          const pretty = flt.airline ? `${flt.airline} ${flt.code || ''}` : `${flt.code}`;
+          card.innerHTML = `<div style="text-align:left"><div style="font-weight:900">${pretty}</div><div style="opacity:0.9">${flt.note || ''}</div></div>`;
+          card.onclick = () => {
+            c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
+            card.classList.add('selected');
+            state.flight = flt;
+            updateCalc();
+          };
+          c.appendChild(card);
+        });
+      }
+
+      // -------------------------
+      // Summary builder
+      // -------------------------
+      function showSummary(){
         const div = document.getElementById('summary-items'); div.innerHTML = '';
-        const add = (label,price) => div.innerHTML += `<div><span>${label}</span><strong>$${price}</strong></div>`;
+        const add = (label, price) => div.innerHTML += `<div><span>${label}</span><strong>$${price}</strong></div>`;
         if(state.stay){
           const base = state.stay.price * state.nights;
           const fee = Math.round(base*0.05);
           add(`${state.stay.name} (${state.nights} nights)`, base);
           add(`Service & Booking Fee`, fee);
         }
-        state.transport.forEach(t => add(t.name,t.price));
-        state.tours.forEach(t => add(t.name,t.price));
-        if(state.flight) add(`${state.flight.airline} Flight`, state.flight.price);
+        state.transport.forEach(t => add(t.name, t.price || 0));
+        state.tours.forEach(t => add(t.name, t.price || 0));
+        if(state.flight && state.flight.price) add(`${state.flight.airline} Flight`, state.flight.price);
         updateCalc();
         next(9);
-      };
+      }
 
       // -------------------------
-      // Wire UI events (flow)
+      // UI events: navigation & interactions
       // -------------------------
       document.getElementById('startBtn').addEventListener('click', ()=> next(1));
 
-      // step1 option cards
+      // step1 local/visiting
       document.getElementById('step1').addEventListener('click', e=>{
         const card = e.target.closest('.option-card');
         if(!card) return;
@@ -636,7 +760,7 @@
 
       document.getElementById('btn2').addEventListener('click', ()=>{
         state.from = document.getElementById('fromCity').value;
-        if(!state.from) { alert('Choose your city!'); return; }
+        if(!state.from){ alert('Choose your city!'); return; }
         if(!state.isLocal){ loadFlights(); next(2.5); } else next(3);
       });
 
@@ -647,17 +771,19 @@
         card.classList.add('selected');
         if(card.dataset.flight === 'skip') state.flight = null;
         else {
-          const txt = card.querySelector('.name') ? card.querySelector('.name').textContent : card.textContent;
-          state.flight = LIVE_DATA.flights.default.find(f=> txt.includes(f.airline)) || null;
+          const txt = card.textContent || '';
+          const found = (PARISH_METADATA[state.parish] && PARISH_METADATA[state.parish].flights) ? PARISH_METADATA[state.parish].flights.find(f => txt.includes(f.airline) || txt.includes(f.code)) : null;
+          state.flight = found || null;
         }
         updateCalc();
       });
+
       document.getElementById('btnFlight').addEventListener('click', ()=> next(3));
 
       // nights/adults toggles
-      document.getElementById('minus').addEventListener('click', ()=> { if(state.nights>1){state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); }});
+      document.getElementById('minus').addEventListener('click', ()=> { if(state.nights>1){ state.nights--; document.getElementById('nightCount').textContent = state.nights; updateCalc(); }});
       document.getElementById('plus').addEventListener('click', ()=> { state.nights++; document.getElementById('nightCount').textContent = state.nights; updateCalc(); });
-      document.getElementById('minusAdult').addEventListener('click', ()=> { if(state.adults>1){state.adults--; document.getElementById('adultCount').textContent = state.adults; updateCalc(); }});
+      document.getElementById('minusAdult').addEventListener('click', ()=> { if(state.adults>1){ state.adults--; document.getElementById('adultCount').textContent = state.adults; updateCalc(); }});
       document.getElementById('plusAdult').addEventListener('click', ()=> { state.adults++; document.getElementById('adultCount').textContent = state.adults; updateCalc(); });
       document.getElementById('kids').addEventListener('change', e=> { state.kids = +e.target.value; updateCalc(); });
 
@@ -683,15 +809,14 @@
         document.getElementById('step5Next').classList.add('visible');
       });
 
-      document.getElementById('btnStay').addEventListener('click', ()=> { if(!state.stay) { alert('Choose your stay!'); return; } loadTransport(); next(7); });
+      document.getElementById('btnStay').addEventListener('click', ()=> { if(!state.stay){ alert('Choose your stay!'); return; } loadTransport(); next(7); });
       document.getElementById('btnTransport').addEventListener('click', ()=> { loadTours(); next(8); });
       document.getElementById('btnTours').addEventListener('click', showSummary);
 
-      // update nights on date change
+      // date change recalc nights
       ['arriveDate','departDate'].forEach(id => {
         document.getElementById(id).addEventListener('change', ()=> {
-          const a = document.getElementById('arriveDate').value;
-          const d = document.getElementById('departDate').value;
+          const a = document.getElementById('arriveDate').value, d = document.getElementById('departDate').value;
           if(a && d){
             const nights = Math.floor((new Date(d) - new Date(a)) / 86400000);
             if(nights > 0 && nights <= 90){ state.nights = nights; document.getElementById('nightCount').textContent = nights; updateCalc(); }
@@ -699,7 +824,7 @@
         });
       });
 
-      // show next button when option card tapped
+      // show Next buttons when option card clicked
       document.addEventListener('click', e=>{
         if(e.target.closest('.option-card')){
           const step = e.target.closest('.step'); if(!step) return;
@@ -707,11 +832,12 @@
         }
       });
 
-      // initialize UI
-      updateProgress(); updateCalc();
+      updateProgress();
+      updateCalc();
+      renderParishes();
 
       // -------------------------
-      // TonConnect v3 integration (basic)
+      // TonConnect v3 integration
       // -------------------------
       try {
         const TonConnectUI = window.TonConnectUI?.TonConnectUI || window.TonConnectUI;
@@ -719,18 +845,14 @@
         if(TonConnect && TonConnectUI){
           tonConnect = new TonConnect();
           tonConnectUI = new TonConnectUI({ manifestUrl: '' });
-
-          // status change
           tonConnect.onStatusChange((wallet) => {
             connectedAccount = wallet;
             refreshWalletUI();
           });
 
-          // connect button
           connectWalletBtn.addEventListener('click', async ()=>{
             try {
               await tonConnectUI.connect();
-              // after connect, onStatusChange should fire; otherwise, try to read tonConnect.account
               if(tonConnect && tonConnect.account) { connectedAccount = tonConnect.account; refreshWalletUI(); }
             } catch(err){
               console.error('connect error', err);
@@ -738,22 +860,17 @@
             }
           });
 
-          // disconnect
           disconnectWalletBtn.addEventListener('click', async ()=>{
             try {
               await tonConnect.disconnect();
               connectedAccount = null;
               refreshWalletUI();
-            } catch(err){
-              console.error('disconnect err', err);
-            }
+            } catch(err){ console.error('disconnect err', err); }
           });
         } else {
-          console.warn('TonConnect UI/SDK not found (CDN).');
+          console.warn('TonConnect library not found via CDN.');
         }
-      } catch(err){
-        console.error('TonConnect init error', err);
-      }
+      } catch(err){ console.error('init tonconnect', err); }
 
       function refreshWalletUI(){
         let acc = null;
@@ -770,20 +887,20 @@
       }
 
       // -------------------------
-      // Payment: TON transfer + QR fallback
+      // Payment flow: TON transfer + QR fallback
       // -------------------------
       document.getElementById('btnPay').addEventListener('click', async ()=>{
         updateCalc();
         if(total <= 0){ alert('Your total is $0. Add items to pay.'); return; }
 
-        // Put your real receiving TON address here:
-        const MERCHANT_ADDRESS = 'EQCXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'; // <- REPLACE
+        // REPLACE with your actual merchant address
+        const MERCHANT_ADDRESS = 'EQCXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 
-        if(!MERCHANT_ADDRESS || MERCHANT_ADDRESS.startsWith('EQCXXXX')) {
-          alert('Merchant TON address not configured. Replace MERCHANT_ADDRESS in the code.');
+        if(!MERCHANT_ADDRESS || MERCHANT_ADDRESS.startsWith('EQCXXXX')){
+          alert('Merchant TON address not configured. Replace MERCHANT_ADDRESS in code.');
         }
 
-        // TODO: fetch a real USD->TON exchange rate server-side; for demo we keep 1:1
+        // TODO: fetch real exchange rate from server
         const exchangeRateTONperUSD = 1.0;
         const amountTON = (total * exchangeRateTONperUSD).toFixed(4);
         const memo = encodeURIComponent(`YaadVibe booking - ${new Date().toISOString().slice(0,10)}`);
@@ -791,55 +908,40 @@
 
         const qrArea = document.getElementById('qr-area'); qrArea.innerHTML = '';
 
-        // If TonConnect available and connected, prefer prompt sendTransaction via SDK
         if(tonConnect && tonConnect.account){
-          const useSdk = confirm('Wallet connected. Click OK to request the connected wallet to send the TON payment. Cancel to show QR code.');
+          const useSdk = confirm('Wallet connected. Click OK to request the connected wallet to send the payment. Cancel to show QR.');
           if(useSdk){
             try {
-              // TonConnect v3 expects messages in a certain shape; this is a common pattern.
-              // Many wallets accept nanotons (1 TON = 1e9 nanotons). Convert to nanotons:
-              const amountNano = (Number(amountTON) * 1e9).toFixed(0); // integer string
-              const tx = {
-                validUntil: Math.floor(Date.now()/1000) + 60*5,
-                messages: [
-                  { to: MERCHANT_ADDRESS, amount: amountNano }
-                ]
-              };
+              const amountNano = (Number(amountTON) * 1e9).toFixed(0);
+              const tx = { validUntil: Math.floor(Date.now()/1000) + 60*5, messages: [ { to: MERCHANT_ADDRESS, amount: amountNano } ] };
               const res = await tonConnect.sendTransaction(tx);
-              console.log('sendTransaction res', res);
-              alert('Transaction request sent to your wallet. Confirm in the wallet app.');
+              console.log('sendTransaction', res);
+              alert('Transaction request sent to wallet. Confirm in wallet.');
               return;
             } catch(err){
               console.error('sendTransaction failed', err);
-              alert('Wallet transaction request failed: ' + (err.message || err));
-              // fall through to QR fallback
+              alert('Wallet transaction failed: ' + (err.message || err));
             }
           }
         }
 
-        // QR fallback + deep link
+        // QR fallback
         const title = document.createElement('div'); title.style.color='#FFD700'; title.style.marginBottom='8px';
         title.textContent = `Scan to pay ${amountTON} TON`;
         qrArea.appendChild(title);
-
         const qrDiv = document.createElement('div'); qrArea.appendChild(qrDiv);
         new QRCode(qrDiv, { text: tonUri, width:220, height:220 });
-
         const linkRow = document.createElement('div'); linkRow.style.marginTop='12px'; linkRow.style.display='flex'; linkRow.style.gap='10px'; linkRow.style.justifyContent='center';
-        const openBtn = document.createElement('a'); openBtn.className='btn connect'; openBtn.textContent='Open wallet (mobile)'; openBtn.href = tonUri; openBtn.style.textDecoration='none';
-        const copyBtn = document.createElement('button'); copyBtn.className='btn'; copyBtn.textContent='Copy transfer link';
+        const openBtn = document.createElement('a'); openBtn.className='wallet-connect'; openBtn.textContent='Open wallet (mobile)'; openBtn.href=tonUri; openBtn.style.textDecoration='none';
+        const copyBtn = document.createElement('button'); copyBtn.className='wallet-connect'; copyBtn.textContent='Copy link';
         copyBtn.onclick = () => navigator.clipboard.writeText(tonUri).then(()=> alert('Copied transfer link'));
-        linkRow.appendChild(openBtn); linkRow.appendChild(copyBtn);
-        qrArea.appendChild(linkRow);
-
+        linkRow.appendChild(openBtn); linkRow.appendChild(copyBtn); qrArea.appendChild(linkRow);
       });
 
-      // refresh wallet UI periodically (in case status changes)
+      // refresh wallet UI periodically
       setInterval(()=> { try { refreshWalletUI(); } catch(e){} }, 2500);
 
-      // initial render of parishes (so grid exists when user arrives)
-      renderParishes();
-    });
+    }); // DOMContentLoaded
   </script>
 </body>
 </html>
