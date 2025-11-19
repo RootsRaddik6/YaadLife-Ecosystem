@@ -39,76 +39,93 @@
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
     .msg{text-align:center;font-size:1.4rem;margin:1rem 0;color:var(--gold);font-weight:600;}
-      /* === NEW PARISH GRID & BUTTONS === */
-    #parish-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      padding: 0 1rem 6rem 1rem; /* extra space for floating button */
-      margin-top: 1rem;
-    }
+ /* === FINAL CLEAN PARISH + UNIVERSAL BUTTONS — NO MORE CONFLICTS === */
+#parish-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 0 1rem 7rem 1rem;
+  margin-top: 1rem;
+}
 
-    #parish-options .option-card {
-      height: 92px !important;
-      background: linear-gradient(135deg, var(--green), var(--green-light));
-      border: 2.5px solid var(--gold-shine);
-      border-radius: 22px !important;
-      box-shadow: 0 10px 25px rgba(0,102,68,0.35);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
+.option-card, #parish-options .option-card {
+  height: 92px !important;
+  background: linear-gradient(135deg, var(--green), var(--green-light)) !important;
+  border: 2.8px solid var(--gold-shine) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 12px 32px rgba(0,102,68,0.4);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
-    #parish-options .option-card::before {
-      content: '';
-      position: absolute;
-      inset: -50%;
-      background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
-      transform: rotate(30deg);
-      pointer-events: none;
-    }
+.option-card::before, #parish-options .option-card::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform: rotate(30deg);
+  pointer-events: none;
+}
 
-    #parish-options .option-card.selected {
-      background: linear-gradient(135deg, var(--gold), var(--gold-shine));
-      border-color: var(--gold-glow) !important;
-      box-shadow: 0 0 35px rgba(255,215,0,0.7), inset 0 0 20px rgba(255,255,255,0.3) !important;
-      transform: scale(1.04);
-      z-index: 10;
-    }
+.option-card .info, #parish-options .info {
+  width: 100%;
+  padding: 8px;
+}
 
-    /* Floating Next Button */
-    #parishNext {
-      position: fixed !important;
-      bottom: 30px;
-      right: 30px;
-      width: 70px;
-      height: 70px;
-      border-radius: 50% !important;
-      background: linear-gradient(135deg, var(--gold), var(--gold-shine));
-      border: none;
-      box-shadow: 0 12px 35px rgba(229,184,11,0.6);
-      font-size: 2.8rem;
-      font-weight: bold;
-      color: #000;
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s ease;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-    }
+.option-card .name, #parish-options .name {
+  font-size: 1.35rem !important;
+  font-weight: 900 !important;
+  color: #fff !important;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+}
 
-    #parishNext.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1.12);
-    }
-        #parishNext::after {
-      content: '→';
-      font-size: 3.2rem;
-      font-weight: bold;
-    }
+.option-card small, #parish-options small {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.option-card.selected, #parish-options .option-card.selected {
+  background: linear-gradient(135deg, var(--gold), var(--gold-shine)) !important;
+  border-color: var(--gold-glow) !important;
+  box-shadow: 0 0 45px rgba(255,215,0,0.9), inset 0 0 25px rgba(255,255,255,0.4) !important;
+  transform: scale(1.05);
+}
+
+/* Kill the ugly floating circle forever */
+#parishNext { display: none !important; }
+
+/* Beautiful centered Next that appears after any selection */
+.auto-next {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 68px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-shine));
+  border: none;
+  box-shadow: 0 15px 40px rgba(229,184,11,0.6);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 999;
+}
+
+.auto-next.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) scale(1.05);
+}
     /* === FINAL MASTER OPTION-CARD STYLE — WORKS FOR LOCAL, COASTAL, PARISH, EVERYTHING === */
 .option-card, #parish-options .option-card {
   all: unset !important;
