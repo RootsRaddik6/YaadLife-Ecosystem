@@ -736,6 +736,12 @@ document.getElementById('btn3').onclick = () => {
     }
   });
 });
+  // Auto show Next when Coastal/Inland selected
+document.getElementById('step5').addEventListener('click', e => {
+  if (e.target.closest('.option-card')) {
+    setTimeout(() => document.getElementById('btnVibe').style.display = 'block', 150);
+  }
+});
   updateProgress();
 });
 </script>
