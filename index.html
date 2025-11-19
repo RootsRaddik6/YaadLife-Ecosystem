@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Changa+One&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
-    :root{--green:#009B48;--gold:#FFD700;--black:#000;}
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Inter',sans-serif;background:#000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;color:#fff;min-height:100dvh;overflow-x:hidden;position:relative;}
     .overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.04),rgba(0,155,72,0.04));backdrop-filter:blur(0.5px);z-index:1;pointer-events:none;}
@@ -21,185 +20,107 @@
     .logo span:last-child{background:linear-gradient(135deg,#FFD700,#FFC107);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 25px #FFD700);}
     .logo span{animation:fyahPulse 3s ease-in-out infinite alternate;}
     @keyframes fyahPulse{0%{filter:drop-shadow(0 0 18px #FF4500);transform:scale(1);}100%{filter:drop-shadow(0 0 30px #FFD700);transform:scale(1.03);}}
-    .calculator{
-  text-align:center;
-  font-weight:700;
-  color:var(--gold);
-  background:rgba(0,0,0,0.4);
-  padding:0.6rem 1.2rem;
-  border-radius:12px;
-  margin:1.2rem auto;
-  width:fit-content;
-  font-size:2.2rem;        /* fixed size, no longer huge */
-  box-shadow:0 4px 15px rgba(255,215,0,0.15);
-  backdrop-filter:blur(4px);
-      pointer-events: auto;
-}
+    .calculator{text-align:center;font-weight:700;color:var(--gold);background:rgba(0,0,0,0.4);padding:0.6rem 1.2rem;border-radius:12px;margin:1.2rem auto;width:fit-content;font-size:2.2rem;box-shadow:0 4px 15px rgba(255,215,0,0.15);backdrop-filter:blur(4px);}
     #progress{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0;flex-wrap:wrap;font-size:2.2rem;}
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
     .msg{text-align:center;font-size:1.4rem;margin:1rem 0;color:var(--gold);font-weight:600;}
-    .option-card{background:rgba(0,0,0,0.65)!important;backdrop-filter:blur(4px);border:2px solid rgba(255,215,0,0.3);border-radius:16px;padding:1.2rem;margin:1rem 0;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:0.3s;border:3px solid transparent;}
-    .option-card.selected{background:rgba(255,215,0,0.25)!important;border-color:var(--gold)!important;box-shadow:0 0 20px rgba(255,215,0,0.5);transform:scale(1.02);}
-    .info .name{font-weight:700;font-size:1.2rem;}
-    .info .price{color:var(--gold);font-weight:700;}
-    .btn{width:100%;padding:1.2rem;margin:1rem 0;border:none;border-radius:16px;font-size:1.35rem;font-weight:900;cursor:pointer;transition:0.3s;pointer-events:auto;}
-    .btn.gold{background:var(--gold);color:#000;}
-    .btn.green{background:var(--green);color:#fff;}
-    input,select{width:100%;padding:1rem;margin:0.6rem 0;border-radius:16px;border:none;background:rgba(255,255,255,0.15);color:#fff;font-size:1.1rem;}
-    #summary-items{background:rgba(0,0,0,0.7);padding:1.5rem;border-radius:16px;margin:1.5rem 0;border:1px solid rgba(255,215,0,0.3);}
-    #summary-items div{display:flex;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,215,0,0.3);font-size:1.35rem;}
-    #summary-items div:last-child{border-bottom:none;}
-    #summary-items strong{color:#FFD700;font-size:1.4rem;}
- /* New elegant gold buttons – used for Start Booking, Next, Pay, etc */
-.btn.gold, #startBtn, #btnPay, #btnTip {
-  width: auto !important;
-  min-width: 240px;
-  max-width: 90%;
-  margin: 2rem auto 1rem !important;
-  padding: 1rem 2rem !important;
-  font-size: 1.35rem !important;
-  font-weight: 800;
-  border-radius: 99px !important;
-  background: var(--gold);
-  color: #000;
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
-  display: block;
-  pointer-events: auto;
-  transition: all 0.3s;
-}
-.btn.gold:hover, #startBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
-}
-    /* ────── FINAL + / − BUTTONS — BULLETPROOF, NO WHITE BARS EVER ────── */
-#minus, #plus, #minusAdult, #plusAdult {
-  all: unset !important;
-  width: 52px !important;
-  height: 52px !important;
-  border-radius: 50% !important;
-  background: rgba(255,255,255,0.14) !important;
-  border: 2.5px solid rgba(255,215,0,0.5) !important;
-  color: var(--gold) !important;
-  font-size: 2.2rem !important;
-  font-weight: bold !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  transition: all 0.25s ease;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
 
-#minus:hover, #plus:hover, 
-#minusAdult:hover, #plusAdult:hover,
-#minus:active, #plus:active,
-#minusAdult:active, #plusAdult:active {
-  background: var(--gold) !important;
-  color: #000 !important;
-  transform: scale(1.18) !important;
-  box-shadow: 0 0 30px rgba(255,215,0,0.8) !important;
-}
-    .btn.back{
-  position:fixed;
-  top:14px;
-  right:14px;
-  background:rgba(0,0,0,0.5) !important;
-  backdrop-filter:blur(10px);
-  border-radius:50%;
-  width:56px;
-  height:56px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  border:2px solid var(--gold);
-  box-shadow:0 4px 12px rgba(0,0,0,0.6);
-  transition:all 0.25s;
-  pointer-events:auto !important;   /* ← THIS LINE WAS MISSING — critical */
-  cursor:pointer;                   /* ← also good practice */
-}
-.btn.back svg{
-  width:32px;
-  height:32px;
-  stroke-width:3;
-  stroke:var(--gold);
-  pointer-events:none;   /* svg itself doesn’t need events */
-}
-.btn.back:hover,
-.btn.back:active {
-  transform:scale(1.1);
-  background:rgba(255,215,0,0.15) !important;
-}
-    .btn.back svg{width:48px;height:48px;stroke-width:4.5;}
-    .btn.back:hover{transform:scale(1.2);background:rgba(255,215,0,0.25)!important;box-shadow:0 0 40px rgba(255,215,0,1)!important;}
- /* ────── LOCK BACKGROUND — NO ZOOM, NO MOVEMENT, NO DOUBLE-TAP ZOOM ────── */
-html, body {
-  touch-action: manipulation;           /* disables double-tap zoom */
-  overscroll-behavior: none;            /* stops pull-to-refresh bounce */
-  -webkit-text-size-adjust: 100%;       /* prevents iOS auto-zoom on input */
-}
+    /* UNIVERSAL JADE & GOLD BUTTONS — WORKS EVERYWHERE */
+    .option-card, #parish-options .option-card {
+      height: 96px !important;
+      width: 88% !important;
+      max-width: 370px !important;
+      margin: 1rem auto !important;
+      background: linear-gradient(135deg, var(--green), var(--green-light)) !important;
+      border: 3px solid var(--gold-shine) !important;
+      border-radius: 26px !important;
+      box-shadow: 0 12px 35px rgba(0,102,68,0.45);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
 
-body {
-  background-attachment: fixed !important;
-  image-rendering: -webkit-optimize-contrast; /* sharper on retina */
-}
+    .option-card::before, #parish-options .option-card::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+      transform: rotate(30deg);
+      pointer-events: none;
+    }
 
-/* Prevent any zoom on input focus (Telegram/iOS) */
-input, select, button {
-  font-size: 16px !important; /* prevents iOS zoom on focus */
-}
- /* ────── FINAL DATE PICKERS — BEAUTIFUL, NO ZOOM, CONSISTENT ────── */
-#arriveDate, #departDate {
-  all: unset !important;
-  width: 300px !important;
-  height: 62px !important;
-  margin: 16px auto !important;
-  padding: 0 20px !important;
-  display: block !important;
-  border-radius: 31px !important;
-  border: 2.5px solid rgba(255,215,0,0.5) !important;
-  background: rgba(255,255,255,0.14) !important;
-  color: #fff !important;
-  font-size: 18px !important;
-  text-align: center !important;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  transition: all 0.3s ease;
-  -webkit-appearance: none !important;
-}
+    .option-card .name, #parish-options .name {
+      font-size: 1.45rem !important;
+      font-weight: 900 !important;
+      color: #fff !important;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
 
-#arriveDate:focus, #departDate:focus {
-  outline: none !important;
-  border-color: var(--gold) !important;
-  box-shadow: 0 0 30px rgba(255,215,0,0.6) !important;
-  transform: scale(1.03);
-}
-#progress span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
+    .option-card small, #parish-options small {
+      font-size: 0.98rem;
+      color: #ddd;
+    }
 
-#progress span:hover {
-  background: rgba(255,215,0,0.15);
-  transform: scale(1.2) !important;
-  box-shadow: 0 0 25px rgba(255,215,0,0.5);
-}
+    .option-card.selected, #parish-options .option-card.selected {
+      background: linear-gradient(135deg, var(--gold), var(--gold-shine)) !important;
+      border-color: var(--gold-glow) !important;
+      box-shadow: 0 0 50px rgba(255,215,0,0.9), inset 0 0 30px rgba(255,255,255,0.4) !important;
+      transform: scale(1.06);
+    }
 
-#progress span:active {
-  transform: scale(1.1) !important;
-}
-    
+    /* Centered Gold Next Button */
+    .centered-next {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 70px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-shine));
+      border: none;
+      box-shadow: 0 15px 45px rgba(229,184,11,0.7);
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+      z-index: 999;
+    }
+
+    .centered-next.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    /* Kill all old Next buttons */
+    #parishNext, #localNext, #vibeNext, #btnVibe { display: none !important; }
+
+    .btn.gold, #startBtn, #btnPay, #btnTip {
+      width: auto !important;min-width:240px;max-width:90%;margin:2rem auto 1rem !important;padding:1rem 2rem !important;font-size:1.35rem !important;font-weight:800;
+      border-radius:99px !important;background:var(--gold);color:#000;box-shadow:0 8px 25px rgba(255,215,0,0.3);display:block;transition:all 0.3s;
+    }
+
+    #minus, #plus, #minusAdult, #plusAdult {all:unset !important;width:52px !important;height:52px !important;border-radius:50% !important;background:rgba(255,255,255,0.14) !important;border:2.5px solid rgba(255,215,0,0.5) !important;color:var(--gold) !important;font-size:2.2rem !important;font-weight:bold !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;cursor:pointer !important;backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:all 0.25s ease;}
+    #minus:hover, #plus:hover, #minusAdult:hover, #plusAdult:hover {background:var(--gold) !important;color:#000 !important;transform:scale(1.18) !important;box-shadow:0 0 30px rgba(255,215,0,0.8) !important;}
+    .btn.back{position:fixed;top:14px;right:14px;background:rgba(0,0,0,0.5) !important;backdrop-filter:blur(10px);border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;z-index:9999;border:2px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,0.6);transition:all 0.25s;pointer-events:auto !important;cursor:pointer;}
+    .btn.back svg{width:48px;height:48px;stroke-width:4.5;stroke:var(--gold);}
+    html,body{touch-action:manipulation;overscroll-behavior:none;-webkit-text-size-adjust:100%;}
+    body{background-attachment:fixed !important;}
+    input,select,button{font-size:16px !important;}
+    #arriveDate,#departDate{all:unset !important;width:300px !important;height:62px !important;margin:16px auto !important;padding:0 20px !important;display:block !important;border-radius:31px !important;border:2.5px solid rgba(255,215,0,0.5) !important;background:rgba(255,255,255,0.14) !important;color:#fff !important;font-size:18px !important;text-align:center !important;backdrop-filter:blur(12px);box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:all 0.3s ease;-webkit-appearance:none !important;}
+    #arriveDate:focus,#departDate:focus{outline:none !important;border-color:var(--gold) !important;box-shadow:0 0 30px rgba(255,215,0,0.6) !important;transform:scale(1.03);}
+    #progress span{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);transition:all 0.3s ease;}
+    #progress span:hover{background:rgba(255,215,0,0.15);transform:scale(1.2) !important;box-shadow:0 0 25px rgba(255,215,0,0.5);}
+    :root{--green:#006644;--green-light:#008C76;--gold:#E5B80B;--gold-shine:#FFEA9E;--gold-glow:#FFC107;}
   </style>
 </head>
 <body>
@@ -210,16 +131,14 @@ input, select, button {
     <div class="calculator">$<span id="liveTotal">0.00</span></div>
     <div id="progress"></div>
 
-    <div id="step0" class="step active">
-      <p class="msg">Book Package?</p>
-      <button class="btn gold" id="startBtn">Start Booking</button>
-    </div>
+    <div id="step0" class="step active"><p class="msg">Book Package?</p><button class="btn gold" id="startBtn">Start Booking</button></div>
 
     <div id="step1" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Traveling?</p>
-      <div class="option-card" data-value="yes"><div class="info"><div class="name">Local</div></div></div>
-      <div class="option-card" data-value="no"><div class="info"><div class="name">Visiting</div></div></div>
+      <div class="option-card" data-value="yes"><div class="info">Local</div></div>
+      <div class="option-card" data-value="no"><div class="info">Visiting</div></div>
+      <button class="btn gold centered-next" onclick="next(2)">Next</button>
     </div>
 
     <div id="step2" class="step">
@@ -250,57 +169,47 @@ input, select, button {
       <button class="btn gold" id="btnFlight">Next</button>
     </div>
 
-<div id="step3" class="step">
-  <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
-  <p class="msg">When are you coming?</p>
-
-  <!-- Single, beautiful date inputs — same style as +/− buttons -->
-  <div style="text-align:center;margin:2rem 0;">
-    <label style="color:var(--gold);font-size:1.1rem;display:block;margin-bottom:0.5rem;">Arrival</label>
-    <input type="date" id="arriveDate">
-  </div>
-
-  <div style="text-align:center;margin:1.5rem 0;">
-    <label style="color:var(--gold);font-size:1.1rem;display:block;margin-bottom:0.5rem;">Departure</label>
-    <input type="date" id="departDate">
-  </div>
-
-  <div style="text-align:center;margin:2rem 0;font-size:1.8rem;color:var(--gold);font-weight:700;">
-    Nights: <strong><span id="nightCount">1</span></strong>
-  </div>
-
-  <!-- Nights counter -->
-  <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:1rem 0;">
-    <button id="minus">−</button>
-    <span style="font-size:1.4rem;color:var(--gold);">Nights</span>
-    <button id="plus">+</button>
-  </div>
-
-  <!-- Adults counter -->
-  <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:2rem 0;">
-    <button id="minusAdult">−</button>
-    <span style="font-size:1.5rem;color:var(--gold);">Adults: <strong id="adultCount">1</strong></span>
-    <button id="plusAdult">+</button>
-  </div>
-
-  <p style="text-align:center;margin:1rem 0;">Kids: <input type="number" id="kids" value="0" min="0" style="width:90px;height:44px;border-radius:22px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,215,0,0.3);text-align:center;"></p>
-
-  <button class="btn gold" id="btn3">Next</button>
-</div>
+    <div id="step3" class="step">
+      <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <p class="msg">When are you coming?</p>
+      <div style="text-align:center;margin:2rem 0;">
+        <label style="color:var(--gold);font-size:1.1rem;display:block;margin-bottom:0.5rem;">Arrival</label>
+        <input type="date" id="arriveDate">
+      </div>
+      <div style="text-align:center;margin:1.5rem 0;">
+        <label style="color:var(--gold);font-size:1.1rem;display:block;margin-bottom:0.5rem;">Departure</label>
+        <input type="date" id="departDate">
+      </div>
+      <div style="text-align:center;margin:2rem 0;font-size:1.8rem;color:var(--gold);font-weight:700;">
+        Nights: <strong><span id="nightCount">1</span></strong>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:1rem 0;">
+        <button id="minus">−</button>
+        <span style="font-size:1.4rem;color:var(--gold);">Nights</span>
+        <button id="plus">+</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:2rem 0;">
+        <button id="minusAdult">−</button>
+        <span style="font-size:1.5rem;color:var(--gold);">Adults: <strong id="adultCount">1</strong></span>
+        <button id="plusAdult">+</button>
+      </div>
+      <p style="text-align:center;margin:1rem 0;">Kids: <input type="number" id="kids" value="0" min="0" style="width:90px;height:44px;border-radius:22px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,215,0,0.3);text-align:center;"></p>
+      <button class="btn gold" id="btn3">Next</button>
+    </div>
 
     <div id="step4" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Parish?</p>
       <div id="parish-options"></div>
-      <button class="btn gold" id="parishNext" style="display:none;">Next</button>
+      <button class="btn gold centered-next" onclick="next(5)">Next</button>
     </div>
 
     <div id="step5" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Coastal or Inland?</p>
-      <div class="option-card" data-value="coastal"><div class="info"><div class="name">Coastal</div></div></div>
-      <div class="option-card" data-value="inland"><div class="info"><div class="name">Inland</div></div></div>
-      <button class="btn gold" id="btnVibe">Next</button>
+      <div class="option-card" data-value="coastal"><div class="info">Coastal</div></div>
+      <div class="option-card" data-value="inland"><div class="info">Inland</div></div>
+      <button class="btn gold centered-next" onclick="next(6)">Next</button>
     </div>
 
     <div id="step6" class="step">
@@ -335,281 +244,273 @@ input, select, button {
     </div>
   </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const PARISH_TOWNS = {"clarendon":"May Pen","hanover":"Lucea","kingston":"Kingston","manchester":"Mandeville","portland":"Port Antonio","saint-andrew":"Half Way Tree","saint-ann":"St. Ann’s Bay","saint-catherine":"Spanish Town","saint-elizabeth":"Black River","saint-james":"Montego Bay","saint-mary":"Port Maria","saint-thomas":"Morant Bay","trelawny":"Falmouth","westmoreland":"Savanna-la-Mar"};
-  const ALL_PARISHES = Object.keys(PARISH_TOWNS);
-  const LIVE_DATA = {flights:{default:[{"airline":"JetBlue","code":"B6231","price":380},{"airline":"American","code":"AA1347","price":420}]},accommodations:{default:[{"name":"Sandals Montego Bay","price":320,"img":"/sandals.jpg","type":"coastal"},{"name":"Jakes Hotel","price":280,"img":"/jakes.jpg","type":"coastal"},{"name":"Ian Fleming Villas","price":450,"img":"/ian.jpg","type":"inland"}]},transport:{default:[{"name":"Private Transfer","price":80},{"name":"Knutsford Express","price":35}]},tours:{default:[{"name":"Dunn’s River","price":65},{"name":"Blue Hole","price":55}]}};
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const PARISH_TOWNS = {"clarendon":"May Pen","hanover":"Lucea","kingston":"Kingston","manchester":"Mandeville","portland":"Port Antonio","saint-andrew":"Half Way Tree","saint-ann":"St. Ann’s Bay","saint-catherine":"Spanish Town","saint-elizabeth":"Black River","saint-james":"Montego Bay","saint-mary":"Port Maria","saint-thomas":"Morant Bay","trelawny":"Falmouth","westmoreland":"Savanna-la-Mar"};
+      const ALL_PARISHES = Object.keys(PARISH_TOWNS);
+      const LIVE_DATA = {flights:{default:[{"airline":"JetBlue","code":"B6231","price":380},{"airline":"American","code":"AA1347","price":420}]},accommodations:{default:[{"name":"Sandals Montego Bay","price":320,"img":"/sandals.jpg","type":"coastal"},{"name":"Jakes Hotel","price":280,"img":"/jakes.jpg","type":"coastal"},{"name":"Ian Fleming Villas","price":450,"img":"/ian.jpg","type":"inland"}]},transport:{default:[{"name":"Private Transfer","price":80},{"name":"Knutsford Express","price":35}]},tours:{default:[{"name":"Dunn’s River","price":65},{"name":"Blue Hole","price":55}]}};
 
-  let state = {from:'',arrive:'',depart:'',parish:'',vibe:'',stay:null,transport:[],tours:[],nights:1,adults:1,kids:0,isLocal:false,flight:null};
-  let total = 0;
-  let currentStep = 0;
+      let state = {from:'',arrive:'',depart:'',parish:'',vibe:'',stay:null,transport:[],tours:[],nights:1,adults:1,kids:0,isLocal:false,flight:null};
+      let total = 0;
+      let currentStep = 0;
 
-  const updateCalc = () => {
-    total = 0;
-    if(state.stay){
-      const base = state.stay.price * state.nights;
-      const extra = (state.adults>2?(state.adults-2)*50:0);
-      total += base + extra + Math.round(base*0.05);
-    }
-    state.transport.forEach(t=>total+=t.price);
-    state.tours.forEach(t=>total+=t.price);
-    if(state.flight) total += state.flight.price;
-    document.getElementById('liveTotal').textContent = total.toFixed(2);
-    document.getElementById('total').textContent = total.toFixed(2);
-  };
-
-  const next = n => {
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    const id = n===2.5 ? 'step25' : n===9 ? 'summary' : `step${n}`;
-    document.getElementById(id).classList.add('active');
-    currentStep = n;
-    updateProgress();
-    if (n === 4) renderParishes();
-  };
-
-  const back = () => {
-    const s = [0,1,2,2.5,3,4,5,6,7,8,9];
-    const i = s.indexOf(currentStep);
-    if (i > 0) next(s[i-1]);
-  };
-
-const updateProgress = () => {
-  const p = document.getElementById('progress');
-  p.innerHTML = '';
-  
-  const icons = ['🏠','🧳','✈️','📆','🗺️','🎢','🛌','🚕','🎟️','🛒'];
-  const steps = [0, 1, 2, 2.5, 3, 4, 5, 6, 7, 8]; // maps icon index → step number
-
-  icons.forEach((emoji, i) => {
-    const span = document.createElement('span');
-    span.textContent = emoji;
-    span.style.fontSize = '2.6rem';
-    span.style.margin = '0 0.45rem';
-    span.style.cursor = 'pointer';
-    span.style.transition = 'all 0.3s ease';
-    span.style.padding = '8px';
-    span.style.borderponseRadius = '50%';
-    span.style.userSelect = 'none';
-    span.style.opacity = i <= currentStep ? '1' : '0.35';
-    
-    // Active step glow
-    if (i === steps.indexOf(currentStep)) {
-      span.style.transform = 'scale(1.4)';
-      span.style.textShadow = '0 0 20px #FFD700';
-    }
-
-    // COMPLETED steps = gold glow
-    if (i < steps.indexOf(currentStep)) {
-      span.style.opacity = '1';
-      span.style.filter = 'drop-shadow(0 0 12px #FFD700)';
-    }
-
-    // CLICK TO JUMP TO ANY STEP (after dates are set)
-    span.onclick = (e) => {
-      e.stopPropagation();
-      
-      // Only allow jumping if dates are set (or it's before dates)
-      if (i > 3 && (!state.arrive || !state.depart)) {
-        alert("Please set your arrival & departure dates first");
-        next(3); // send them to calendar
-        return;
-      }
-
-      // Special cases
-      if (i === 2 && !state.isLocal) next(2.5);     // flight step
-      else if (i === 4) renderParishes();           // parish needs render
-      else if (i === 6) loadStays();                // stays need vibe
-      else if (i === 7) loadTransport();            // transport
-      else if (i === 8) loadTours();                // tours
-
-      next(steps[i]);
-    };
-
-    p.appendChild(span);
-  });
-};
-
-  const renderParishes = () => {
-    const c = document.getElementById('parish-options'); c.innerHTML = '';
-    ALL_PARISHES.forEach(p => {
-      const niceName = p.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-      const card = document.createElement('div');
-      card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${niceName}<br><small style="color:#aaa">${PARISH_TOWNS[p]}</small></div></div>`;
-      card.onclick = () => {
-        c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
-        card.classList.add('selected');
-        state.parish = p;
-        document.getElementById('parishNext').style.display = 'block';
+      const updateCalc = () => {
+        total = 0;
+        if(state.stay){
+          const base = state.stay.price * state.nights;
+          const extra = (state.adults>2?(state.adults-2)*50:0);
+          total += base + extra + Math.round(base*0.05);
+        }
+        state.transport.forEach(t=>total+=t.price);
+        state.tours.forEach(t=>total+=t.price);
+        if(state.flight) total += state.flight.price;
+        document.getElementById('liveTotal').textContent = total.toFixed(2);
+        document.getElementById('total').textContent = total.toFixed(2);
       };
-      c.appendChild(card);
-    });
-  };
 
-  const loadStays = () => {
-    const c = document.getElementById('stay-options');
-    c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
-    setTimeout(() => {
-      c.innerHTML = '';
-      const items = LIVE_DATA.accommodations.default.filter(i => !state.vibe || i.type === state.vibe);
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'option-card';
-        card.innerHTML = `<img src="${item.img}" onerror="this.src='/IMG_0039.jpeg'" style="width:70px;height:70px;border-radius:8px;"><div class="info"><div class="name">${item.name}</div><div class="price">$${item.price}/night</div></div>`;
-        card.onclick = () => {
-          c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
-          card.classList.add('selected');
-          state.stay = item;
-          updateCalc();
+      const next = n => {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        const id = n===2.5 ? 'step25' : n===9 ? 'summary' : `step${n}`;
+        document.getElementById(id).classList.add('active');
+        currentStep = n;
+        updateProgress();
+        if (n === 4) renderParishes();
+      };
+
+      const back = () => {
+        const s = [0,1,2,2.5,3,4,5,6,7,8,9];
+        const i = s.indexOf(currentStep);
+        if (i > 0) next(s[i-1]);
+      };
+
+      const updateProgress = () => {
+        const p = document.getElementById('progress');
+        p.innerHTML = '';
+        const icons = ['🏠','🧳','✈️','📆','🗺️','🎢','🛌','🚕','🎟️','🛒'];
+        const steps = [0, 1, 2, 2.5, 3, 4, 5, 6, 7, 8];
+        icons.forEach((emoji, i) => {
+          const span = document.createElement('span');
+          span.textContent = emoji;
+          span.style.fontSize = '2.6rem';
+          span.style.margin = '0 0.45rem';
+          span.style.cursor = 'pointer';
+          span.style.transition = 'all 0.3s ease';
+          span.style.padding = '8px';
+          span.style.userSelect = 'none';
+          span.style.opacity = i <= currentStep ? '1' : '0.35';
+          if (i === steps.indexOf(currentStep)) {
+            span.style.transform = 'scale(1.4)';
+            span.style.textShadow = '0 0 20px #FFD700';
+          }
+          if (i < steps.indexOf(currentStep)) {
+            span.style.opacity = '1';
+            span.style.filter = 'drop-shadow(0 0 12px #FFD700)';
+          }
+          span.onclick = (e) => {
+            e.stopPropagation();
+            if (i > 3 && (!state.arrive || !state.depart)) {
+              alert("Please set your arrival & departure dates first");
+              next(3);
+              return;
+            }
+            if (i === 2 && !state.isLocal) next(2.5);
+            else if (i === 4) renderParishes();
+            else if (i === 6) loadStays();
+            else if (i === 7) loadTransport();
+            else if (i === 8) loadTours();
+            next(steps[i]);
+          };
+          p.appendChild(span);
+        });
+      };
+
+      const renderParishes = () => {
+        const c = document.getElementById('parish-options');
+        c.innerHTML = '';
+        const naturalOrder = ['kingston','saint-andrew','saint-james','saint-ann','portland','saint-catherine','clarendon','manchester','westmoreland','hanover','saint-elizabeth','saint-mary','saint-thomas','trelawny'];
+        naturalOrder.forEach(p => {
+          const niceName = p.replace(/-/g,' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          card.innerHTML = `<div class="info"><div class="name">${niceName}</div><small>${PARISH_TOWNS[p]}</small></div>`;
+          card.onclick = () => {
+            c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
+            card.classList.add('selected');
+            state.parish = p;
+            const btn = document.querySelector('#step4 .centered-next');
+            if (btn) btn.classList.add('visible');
+          };
+          c.appendChild(card);
+        });
+      };
+
+      const loadStays = () => {
+        const c = document.getElementById('stay-options');
+        c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
+        setTimeout(() => {
+          c.innerHTML = '';
+          const items = LIVE_DATA.accommodations.default.filter(i => !state.vibe || i.type === state.vibe);
+          items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'option-card';
+            card.innerHTML = `<img src="${item.img}" onerror="this.src='/IMG_0039.jpeg'" style="width:70px;height:70px;border-radius:8px;"><div class="info"><div class="name">${item.name}</div><div class="price">$${item.price}/night</div></div>`;
+            card.onclick = () => {
+              c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
+              card.classList.add('selected');
+              state.stay = item;
+              updateCalc();
+            };
+            c.appendChild(card);
+          });
+        }, 600);
+      };
+
+      const loadTransport = () => {
+        const c = document.getElementById('transport-options'); c.innerHTML = '';
+        LIVE_DATA.transport.default.forEach(t => {
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          card.innerHTML = `<div class="info"><div class="name">${t.name}</div><div class="price">$${t.price}</div></div>`;
+          card.onclick = () => {
+            card.classList.toggle('selected');
+            if (card.classList.contains('selected')) state.transport.push(t);
+            else state.transport = state.transport.filter(x => x.name !== t.name);
+            updateCalc();
+          };
+          c.appendChild(card);
+        });
+      };
+
+      const loadTours = () => {
+        const c = document.getElementById('tour-options'); c.innerHTML = '';
+        LIVE_DATA.tours.default.forEach(t => {
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          card.innerHTML = `<div class="info"><div class="name">${t.name}</div><div class="price">$${t.price}</div></div>`;
+          card.onclick = () => {
+            card.classList.toggle('selected');
+            if (card.classList.contains('selected')) state.tours.push(t);
+            else state.tours = state.tours.filter(x => x.name !== t.name);
+            updateCalc();
+          };
+          c.appendChild(card);
+        });
+      };
+
+      const loadFlights = () => {
+        const c = document.getElementById('flight-options'); c.innerHTML = '';
+        LIVE_DATA.flights.default.forEach(f => {
+          const card = document.createElement('div');
+          card.className = 'option-card';
+          card.innerHTML = `<div class="info"><div class="name">${f.airline} ${f.code}</div><div class="price">$${f.price}</div></div>`;
+          card.onclick = () => {
+            c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
+            card.classList.add('selected');
+            state.flight = f;
+          };
+          c.appendChild(card);
+        });
+      };
+
+      const showSummary = () => {
+        const div = document.getElementById('summary-items'); div.innerHTML = '';
+        const add = (label,price) => {
+          div.innerHTML += `<div><span>${label}</span><strong>$${price}</strong></div>`;
         };
-        c.appendChild(card);
+        if(state.stay){
+          const base = state.stay.price*state.nights;
+          const fee = Math.round(base*0.05);
+          add(`${state.stay.name} (${state.nights} nights)`, base);
+          add(`Service & Booking Fee`, fee);
+        }
+        state.transport.forEach(t=>add(t.name,t.price));
+        state.tours.forEach(t=>add(t.name,t.price));
+        if(state.flight) add(`${state.flight.airline} Flight`,state.flight.price);
+        next(9);
+      };
+
+      document.getElementById('startBtn').onclick = () => next(1);
+      document.getElementById('step1').addEventListener('click', e => {
+        const card = e.target.closest('.option-card');
+        if(card){
+          document.querySelectorAll('#step1 .option-card').forEach(c=>c.classList.remove('selected'));
+          card.classList.add('selected');
+          state.isLocal = card.dataset.value === 'yes';
+          const btn = document.querySelector('#step1 .centered-next');
+          if (btn) btn.classList.add('visible');
+        }
       });
-    }, 600);
-  };
-
-  const loadTransport = () => {
-    const c = document.getElementById('transport-options'); c.innerHTML = '';
-    LIVE_DATA.transport.default.forEach(t => {
-      const card = document.createElement('div');
-      card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${t.name}</div><div class="price">$${t.price}</div></div>`;
-      card.onclick = () => {
-        card.classList.toggle('selected');
-        if (card.classList.contains('selected')) state.transport.push(t);
-        else state.transport = state.transport.filter(x => x.name !== t.name);
-        updateCalc();
+      document.getElementById('btn2').onclick = () => {
+        state.from = document.getElementById('fromCity').value;
+        if(!state.from) return alert("Choose your city!");
+        if(!state.isLocal){ loadFlights(); next(2.5); } else next(3);
       };
-      c.appendChild(card);
-    });
-  };
-
-  const loadTours = () => {
-    const c = document.getElementById('tour-options'); c.innerHTML = '';
-    LIVE_DATA.tours.default.forEach(t => {
-      const card = document.createElement('div');
-      card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${t.name}</div><div class="price">$${t.price}</div></div>`;
-      card.onclick = () => {
-        card.classList.toggle('selected');
-        if (card.classList.contains('selected')) state.tours.push(t);
-        else state.tours = state.tours.filter(x => x.name !== t.name);
-        updateCalc();
-      };
-      c.appendChild(card);
-    });
-  };
-
-  const loadFlights = () => {
-    const c = document.getElementById('flight-options'); c.innerHTML = '';
-    LIVE_DATA.flights.default.forEach(f => {
-      const card = document.createElement('div');
-      card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${f.airline} ${f.code}</div><div class="price">$${f.price}</div></div>`;
-      card.onclick = () => {
-        c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
+      document.getElementById('step25').addEventListener('click', e => {
+        const card = e.target.closest('.option-card');
+        if(!card) return;
+        document.querySelectorAll('#step25 .option-card').forEach(c=>c.classList.remove('selected'));
         card.classList.add('selected');
-        state.flight = f;
-      };
-      c.appendChild(card);
-    });
-  };
-
-  const showSummary = () => {
-    const div = document.getElementById('summary-items'); div.innerHTML = '';
-    const add = (label,price) => {
-      div.innerHTML += `<div><span>${label}</span><strong>$${price}</strong></div>`;
-    };
-    if(state.stay){
-      const base = state.stay.price*state.nights;
-      const fee = Math.round(base*0.05);
-      add(`${state.stay.name} (${state.nights} nights)`, base);
-      add(`Service & Booking Fee`, fee);
-    }
-    state.transport.forEach(t=>add(t.name,t.price));
-    state.tours.forEach(t=>add(t.name,t.price));
-    if(state.flight) add(`${state.flight.airline} Flight`,state.flight.price);
-    next(9);
-  };
-
-  document.getElementById('startBtn').onclick = () => next(1);
-  document.getElementById('step1').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-    if(card){
-      document.querySelectorAll('#step1 .option-card').forEach(c=>c.classList.remove('selected'));
-      card.classList.add('selected');
-      state.isLocal = card.dataset.value === 'yes';
-      next(2);
-    }
-  });
-  document.getElementById('btn2').onclick = () => {
-    state.from = document.getElementById('fromCity').value;
-    if(!state.from) return alert("Choose your city!");
-    if(!state.isLocal){ loadFlights(); next(2.5); } else next(3);
-  };
-  document.getElementById('step25').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-    if(!card) return;
-    document.querySelectorAll('#step25 .option-card').forEach(c=>c.classList.remove('selected'));
-    card.classList.add('selected');
-    if(card.dataset.flight==="skip") state.flight = null;
-    else state.flight = LIVE_DATA.flights.default.find(f=>card.querySelector('.name').textContent.includes(f.airline)) || null;
-    updateCalc();
-  });
-  document.getElementById('btnFlight').onclick = () => next(3);
-  document.getElementById('minus').onclick = () => { if(state.nights>1){state.nights--;document.getElementById('nightCount').textContent=state.nights;updateCalc();}};
-  document.getElementById('plus').onclick  = () => {state.nights++;document.getElementById('nightCount').textContent=state.nights;updateCalc();};
-  document.getElementById('minusAdult').onclick = () => { if(state.adults>1){state.adults--;document.getElementById('adultCount').textContent=state.adults;updateCalc();}};
-  document.getElementById('plusAdult').onclick  = () => {state.adults++;document.getElementById('adultCount').textContent=state.adults;updateCalc();};
-  document.getElementById('kids').onchange = e => {state.kids = +e.target.value; updateCalc();};
-document.getElementById('btn3').onclick = () => {
-  state.arrive = document.getElementById('arriveDate').value;
-  state.depart = document.getElementById('departDate').value;
-  if(!state.arrive || !state.depart) return alert("Please select both dates");
-
-  const arrive = new Date(state.arrive);
-  const depart = new Date(state.depart);
-  if(depart <= arrive) return alert("Departure must be after arrival");
-
-  const nights = Math.floor((depart - arrive) / (1000 * 60 * 60 * 24));
-  if(nights < 1 || nights > 90) return alert("Stay between 1 and 90 nights");
-
-  state.nights = nights;
-  document.getElementById('nightCount').textContent = nights;
-  updateCalc();
-  next(4);
-};
-  document.getElementById('parishNext').onclick = () => {if(!state.parish) return alert("Choose parish!"); next(5);};
-  document.getElementById('step5').addEventListener('click', e => {
-    const card = e.target.closest('.option-card');
-    if(card){
-      document.querySelectorAll('#step5 .option-card').forEach(c=>c.classList.remove('selected'));
-      card.classList.add('selected');
-      state.vibe = card.dataset.value;
-    }
-  });
-  document.getElementById('btnVibe').onclick = () => {if(!state.vibe) return alert("Choose Coastal or Inland!"); loadStays(); next(6);};
-  document.getElementById('btnStay').onclick = () => {if(!state.stay) return alert("Choose your stay!"); loadTransport(); next(7);};
-  document.getElementById('btnTransport').onclick = () => {loadTours(); next(8);};
-  document.getElementById('btnTours').onclick = showSummary;
-  document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => {e.stopPropagation(); back();});
-// LIVE NIGHTS UPDATE WHEN DATES CHANGE
-['arriveDate', 'departDate'].forEach(id => {
-  document.getElementById(id).addEventListener('change', () => {
-    const arrive = document.getElementById('arriveDate').value;
-    const depart = document.getElementById('departDate').value;
-    if (arrive && depart) {
-      const nights = Math.floor((new Date(depart) - new Date(arrive)) / (86400000));
-      if (nights > 0 && nights <= 90) {
+        if(card.dataset.flight==="skip") state.flight = null;
+        else state.flight = LIVE_DATA.flights.default.find(f=>card.querySelector('.name').textContent.includes(f.airline)) || null;
+        updateCalc();
+      });
+      document.getElementById('btnFlight').onclick = () => next(3);
+      document.getElementById('minus').onclick = () => { if(state.nights>1){state.nights--;document.getElementById('nightCount').textContent=state.nights;updateCalc();}};
+      document.getElementById('plus').onclick  = () => {state.nights++;document.getElementById('nightCount').textContent=state.nights;updateCalc();};
+      document.getElementById('minusAdult').onclick = () => { if(state.adults>1){state.adults--;document.getElementById('adultCount').textContent=state.adults;updateCalc();}};
+      document.getElementById('plusAdult').onclick  = () => {state.adults++;document.getElementById('adultCount').textContent=state.adults;updateCalc();};
+      document.getElementById('kids').onchange = e => {state.kids = +e.target.value; updateCalc();};
+      document.getElementById('btn3').onclick = () => {
+        state.arrive = document.getElementById('arriveDate').value;
+        state.depart = document.getElementById('departDate').value;
+        if(!state.arrive || !state.depart) return alert("Please select both dates");
+        const arrive = new Date(state.arrive);
+        const depart = new Date(state.depart);
+        if(depart <= arrive) return alert("Departure must be after arrival");
+        const nights = Math.floor((depart - arrive) / (1000 * 60 * 60 * 24));
+        if(nights < 1 || nights > 90) return alert("Stay between 1 and 90 nights");
         state.nights = nights;
         document.getElementById('nightCount').textContent = nights;
         updateCalc();
-      }
-    }
-  });
-});
-  updateProgress();
-});
-</script>
+        next(4);
+      };
+      document.getElementById('step5').addEventListener('click', e => {
+        const card = e.target.closest('.option-card');
+        if(card){
+          document.querySelectorAll('#step5 .option-card').forEach(c=>c.classList.remove('selected'));
+          card.classList.add('selected');
+          state.vibe = card.dataset.value;
+          const btn = document.querySelector('#step5 .centered-next');
+          if (btn) btn.classList.add('visible');
+        }
+      });
+      document.getElementById('btnStay').onclick = () => {if(!state.stay) return alert("Choose your stay!"); loadTransport(); next(7);};
+      document.getElementById('btnTransport').onclick = () => {loadTours(); next(8);};
+      document.getElementById('btnTours').onclick = showSummary;
+      document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => {e.stopPropagation(); back();});
+      ['arriveDate', 'departDate'].forEach(id => {
+        document.getElementById(id).addEventListener('change', () => {
+          const arrive = document.getElementById('arriveDate').value;
+          const depart = document.getElementById('departDate').value;
+          if (arrive && depart) {
+            const nights = Math.floor((new Date(depart) - new Date(arrive)) / (86400000));
+            if (nights > 0 && nights <= 90) {
+              state.nights = nights;
+              document.getElementById('nightCount').textContent = nights;
+              updateCalc();
+            }
+          }
+        });
+      });
+      // Universal Next button show
+      document.addEventListener('click', e => {
+        if (e.target.closest('.option-card')) {
+          const btn = document.querySelector('.centered-next');
+          if (btn) btn.classList.add('visible');
+        }
+      });
+      updateProgress();
+    });
+  </script>
 </body>
 </html>
