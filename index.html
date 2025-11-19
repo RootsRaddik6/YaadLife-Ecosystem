@@ -39,8 +39,68 @@
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
     .msg{text-align:center;font-size:1.4rem;margin:1rem 0;color:var(--gold);font-weight:600;}
-    .option-card{background:rgba(0,0,0,0.65)!important;backdrop-filter:blur(4px);border:2px solid rgba(255,215,0,0.3);border-radius:16px;padding:1.2rem;margin:1rem 0;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:0.3s;border:3px solid transparent;}
-    .option-card.selected{background:rgba(255,215,0,0.25)!important;border-color:var(--gold)!important;box-shadow:0 0 20px rgba(255,215,0,0.5);transform:scale(1.02);}
+      /* === NEW PARISH GRID & BUTTONS === */
+    #parish-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding: 0 1rem 6rem 1rem; /* extra space for floating button */
+      margin-top: 1rem;
+    }
+
+    #parish-options .option-card {
+      height: 92px !important;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      border: 2.5px solid var(--gold-shine);
+      border-radius: 22px !important;
+      box-shadow: 0 10px 25px rgba(0,102,68,0.35);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    #parish-options .option-card::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+      transform: rotate(30deg);
+      pointer-events: none;
+    }
+
+    #parish-options .option-card.selected {
+      background: linear-gradient(135deg, var(--gold), var(--gold-shine));
+      border-color: var(--gold-glow) !important;
+      box-shadow: 0 0 35px rgba(255,215,0,0.7), inset 0 0 20px rgba(255,255,255,0.3) !important;
+      transform: scale(1.04);
+      z-index: 10;
+    }
+
+    /* Floating Next Button */
+    #parishNext {
+      position: fixed !important;
+      bottom: 30px;
+      right: 30px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50% !important;
+      background: linear-gradient(135deg, var(--gold), var(--gold-shine));
+      border: none;
+      box-shadow: 0 12px 35px rgba(229,184,11,0.6);
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #000;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+
+    #parishNext.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1.12);
+    }
     .info .name{font-weight:700;font-size:1.2rem;}
     .info .price{color:var(--gold);font-weight:700;}
     .btn{width:100%;padding:1.2rem;margin:1rem 0;border:none;border-radius:16px;font-size:1.35rem;font-weight:900;cursor:pointer;transition:0.3s;pointer-events:auto;}
@@ -435,25 +495,37 @@ const updateProgress = () => {
     p.appendChild(span);
   });
 };
-
   const renderParishes = () => {
-    const c = document.getElementById('parish-options'); c.innerHTML = '';
-    ALL_PARISHES.forEach(p => {
-      const niceName = p.replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+    const c = document.getElementById('parish-options');
+    c.innerHTML = '';
+
+    const naturalOrder = [
+      'kingston','saint-andrew','saint-james','saint-ann','portland',
+      'saint-catherine','clarendon','manchester','westmoreland','hanover',
+      'saint-elizabeth','saint-mary','saint-thomas','trelawny'
+    ];
+
+    naturalOrder.forEach(p => {
+      const niceName = p.replace(/-/g,' ').split(' ').map(w => 
+        w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       const card = document.createElement('div');
       card.className = 'option-card';
-      card.innerHTML = `<div class="info"><div class="name">${niceName}<br><small style="color:#aaa">${PARISH_TOWNS[p]}</small></div></div>`;
+      card.innerHTML = `
+        <div class="info" style="text-align:center;padding-top:12px;">
+          <div class="name" style="font-size:1.28rem;font-weight:800;color:#fff;">${niceName}</div>
+          <small style="color:#ddd;font-size:0.95rem;">${PARISH_TOWNS[p]}</small>
+        </div>
+      `;
       card.onclick = () => {
-        c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
+        c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
         card.classList.add('selected');
         state.parish = p;
-        document.getElementById('parishNext').style.display = 'block';
+        document.getElementById('parishNext').classList.add('visible');
       };
       c.appendChild(card);
     });
   };
-
-  const loadStays = () => {
+    const loadStays = () => {
     const c = document.getElementById('stay-options');
     c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
     setTimeout(() => {
