@@ -109,6 +109,48 @@
       font-size: 3.2rem;
       font-weight: bold;
     }
+    /* === UNIVERSAL BIG JADE BUTTONS FOR ALL STEPS (Local, Coastal, Parish, etc.) === */
+.option-card {
+  height: 110px !important;
+  width: 90% !important;
+  max-width: 380px !important;
+  margin: 1.4rem auto !important;
+  background: linear-gradient(135deg, var(--green), var(--green-light));
+  border: 3px solid var(--gold-shine) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 14px 35px rgba(0,102,68,0.45);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+  transform: rotate(30deg);
+  pointer-events: none;
+}
+
+.option-card .name {
+  font-size: 1.8rem !important;
+  font-weight: 900 !important;
+  color: #fff !important;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.option-card.selected {
+  background: linear-gradient(135deg, var(--gold), var(--gold-shine));
+  border-color: var(--gold-glow) !important;
+  box-shadow: 0 0 45px rgba(255,215,0,0.9), inset 0 0 25px rgba(255,255,255,0.4) !important;
+  transform: scale(1.06);
+}
     .info .name{font-weight:700;font-size:1.2rem;}
     .info .price{color:var(--gold);font-weight:700;}
     .btn{width:100%;padding:1.2rem;margin:1rem 0;border:none;border-radius:16px;font-size:1.35rem;font-weight:900;cursor:pointer;transition:0.3s;pointer-events:auto;}
