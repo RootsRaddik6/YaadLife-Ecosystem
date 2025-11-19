@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Changa+One&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
-    :root{--green:#009B48;--gold:#FFD700;--black:#000;}
+
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Inter',sans-serif;background:#000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;color:#fff;min-height:100dvh;overflow-x:hidden;position:relative;}
     .overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.04),rgba(0,155,72,0.04));backdrop-filter:blur(0.5px);z-index:1;pointer-events:none;}
@@ -94,12 +94,20 @@
       opacity: 0;
       pointer-events: none;
       transition: all 0.4s ease;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
     }
 
     #parishNext.visible {
       opacity: 1;
       pointer-events: auto;
       transform: scale(1.12);
+    }
+        #parishNext::after {
+      content: '→';
+      font-size: 3.2rem;
+      font-weight: bold;
     }
     .info .name{font-weight:700;font-size:1.2rem;}
     .info .price{color:var(--gold);font-weight:700;}
