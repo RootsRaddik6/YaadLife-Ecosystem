@@ -754,6 +754,15 @@ document.getElementById('step5').addEventListener('click', e => {
     setTimeout(() => document.getElementById('btnVibe').style.display = 'block', 150);
   }
 });
+  // Auto-show Next buttons for Local/Visiting and Coastal/Inland
+document.addEventListener('click', e => {
+  if (e.target.closest('.option-card')) {
+    setTimeout(() => {
+      const nextBtn = e.target.closest('.step').querySelector('.auto-show');
+      if (nextBtn) nextBtn.style.display = 'block';
+    }, 100);
+  }
+});
   updateProgress();
 });
 </script>
