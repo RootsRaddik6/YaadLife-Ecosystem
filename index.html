@@ -314,9 +314,9 @@ input, select, button {
     <div id="step1" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Traveling?</p>
-            <div class="option-card" data-value="yes"><div class="info">Local</div></div>
+       <div class="option-card" data-value="yes"><div class="info">Local</div></div>
       <div class="option-card" data-value="no"><div class="info">Visiting</div></div>
-      <button class="btn gold centered-next" onclick="next(currentStep + 1)">Next</button>
+<button class="btn gold centered-next" onclick="next(2)">Next</button>
     <div id="step2" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Where are you departing from?</p>
@@ -395,7 +395,7 @@ input, select, button {
       <p class="msg">Coastal or Inland?</p>
             <div class="option-card" data-value="coastal"><div class="info">Coastal</div></div>
       <div class="option-card" data-value="inland"><div class="info">Inland</div></div>
-      <button class="btn gold centered-next" onclick="next(currentStep + 1)">Next</button>
+      <button class="btn gold centered-next" onclick="next(6)">Next</button>
 
     <div id="step6" class="step">
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
@@ -730,6 +730,13 @@ document.addEventListener('click', e => {
   }
 });
   // Universal Next button show
+document.addEventListener('click', e => {
+  if (e.target.closest('.option-card')) {
+    const btn = document.querySelector('.centered-next');
+    if (btn) btn.classList.add('visible');
+  }
+});
+  // FINAL UNIVERSAL NEXT BUTTON — WORKS EVERYWHERE
 document.addEventListener('click', e => {
   if (e.target.closest('.option-card')) {
     const btn = document.querySelector('.centered-next');
