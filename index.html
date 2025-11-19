@@ -39,21 +39,17 @@
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
     .msg{text-align:center;font-size:1.4rem;margin:1rem 0;color:var(--gold);font-weight:600;}
- /* === FINAL CLEAN PARISH + UNIVERSAL BUTTONS — NO MORE CONFLICTS === */
-#parish-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 0 1rem 7rem 1rem;
-  margin-top: 1rem;
-}
-
+/* === FINAL UNIVERSAL JADE & GOLD BUTTONS — 100% FIXED === */
 .option-card, #parish-options .option-card {
-  height: 92px !important;
+  all: unset !important;
+  height: 94px !important;
+  width: 88% !important;
+  max-width: 370px !important;
+  margin: 1rem auto !important;
   background: linear-gradient(135deg, var(--green), var(--green-light)) !important;
-  border: 2.8px solid var(--gold-shine) !important;
-  border-radius: 24px !important;
-  box-shadow: 0 12px 32px rgba(0,102,68,0.4);
+  border: 3px solid var(--gold-shine) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 12px 35px rgba(0,102,68,0.45);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -68,51 +64,51 @@
   content: '';
   position: absolute;
   inset: -50%;
-  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
   transform: rotate(30deg);
   pointer-events: none;
 }
 
 .option-card .info, #parish-options .info {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
 }
 
 .option-card .name, #parish-options .name {
-  font-size: 1.35rem !important;
+  font-size: 1.4rem !important;
   font-weight: 900 !important;
   color: #fff !important;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+  text-shadow: 0 4px 10px rgba(0,0,0,0.6);
 }
 
 .option-card small, #parish-options small {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #ddd;
 }
 
 .option-card.selected, #parish-options .option-card.selected {
   background: linear-gradient(135deg, var(--gold), var(--gold-shine)) !important;
   border-color: var(--gold-glow) !important;
-  box-shadow: 0 0 45px rgba(255,215,0,0.9), inset 0 0 25px rgba(255,255,255,0.4) !important;
-  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(255,215,0,0.9), inset 0 0 30px rgba(255,255,255,0.4) !important;
+  transform: scale(1.06);
 }
 
-/* Kill the ugly floating circle forever */
-#parishNext { display: none !important; }
+/* Kill all floating buttons */
+#parishNext, #localNext, #vibeNext { display: none !important; }
 
-/* Beautiful centered Next that appears after any selection */
-.auto-next {
+/* Beautiful centered Next button */
+.centered-next {
   position: fixed;
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  width: 260px;
-  height: 68px;
+  width: 280px;
+  height: 70px;
   border-radius: 99px;
   background: linear-gradient(135deg, var(--gold), var(--gold-shine));
   border: none;
-  box-shadow: 0 15px 40px rgba(229,184,11,0.6);
-  font-size: 1.6rem;
+  box-shadow: 0 15px 45px rgba(229,184,11,0.7);
+  font-size: 1.7rem;
   font-weight: 900;
   color: #000;
   opacity: 0;
@@ -121,57 +117,11 @@
   z-index: 999;
 }
 
-.auto-next.visible {
+.centered-next.visible {
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) scale(1.05);
 }
-    /* === FINAL MASTER OPTION-CARD STYLE — WORKS FOR LOCAL, COASTAL, PARISH, EVERYTHING === */
-.option-card, #parish-options .option-card {
-  all: unset !important;
-  height: 88px !important;
-  width: 88% !important;
-  max-width: 360px !important;
-  margin: 0.9rem auto !important;
-  background: linear-gradient(135deg, var(--green), var(--green-light)) !important;
-  border: 2.8px solid var(--gold-shine) !important;
-  border-radius: 24px !important;
-  box-shadow: 0 10px 28px rgba(0,102,68,0.4);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 1.35rem !important;
-  font-weight: 900 !important;
-  color: #fff !important;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
-}
-
-.option-card::before, #parish-options .option-card::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
-  transform: rotate(30deg);
-  pointer-events: none;
-}
-
-.option-card.selected, #parish-options .option-card.selected {
-  background: linear-gradient(135deg, var(--gold), var(--gold-shine)) !important;
-  border-color: var(--gold-glow) !important;
-  box-shadow: 0 0 40px rgba(255,215,0,0.85), inset 0 0 22px rgba(255,255,255,0.35) !important;
-  transform: scale(1.05);
-}
-
-/* Hide the ugly floating circle completely */
-#parishNext {
-  display: none !important;
-}
-
 /* Make normal Next buttons appear when selection made */
 .btn.gold.auto-show {
   opacity: 0;
