@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   <title>1Drop YaadVibe</title>
+
+  <!-- QR lib (you had this) -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode.js@1.4.4/lib/qrcode.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Changa+One&display=swap" rel="stylesheet">
+
+  <!-- TonConnect UI + SDK (CDNs). Keep both so we can show UI and optionally use SDK sendTransaction -->
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Changa+One&display=swap" rel="stylesheet" />
+
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Inter',sans-serif;background:#000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;color:#fff;min-height:100dvh;overflow-x 
+    body{
+      font-family:'Inter',sans-serif;
+      background:#000 url('/IMG_0039.jpeg') center/cover no-repeat fixed;
+      color:#fff;
+      min-height:100dvh;
+      overflow-x:hidden;
+    }
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(1px);z-index:1;pointer-events:none;}
     .flag{position:fixed;top:16px;left:16px;width:110px;height:74px;background:url('/IMG_0454.png') center/cover no-repeat;animation:waveFlow 3s ease-in-out infinite;z-index:10;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.5);pointer-events:none;}
     .flag::after{content:"1Drop";font-weight:900;font-size:1.35rem;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;text-shadow:0 0 8px #000;}
@@ -25,8 +38,6 @@
     .step{display:none;padding:1.5rem 0;}
     .step.active{display:block;}
     .msg{text-align:center;font-size:1.4rem;margin:1rem 0;color:#FFD700;font-weight:600;}
-
-    /* PERFECT SIZE JADE BUTTONS — LOCAL, COASTAL, PARISH */
     .option-card, #parish-options .option-card {
       height: 84px !important;
       width: 88% !important;
@@ -44,8 +55,8 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      padding: 12px;
     }
-
     .option-card::before, #parish-options .option-card::before {
       content: '';
       position: absolute;
@@ -54,26 +65,14 @@
       transform: rotate(30deg);
       pointer-events: none;
     }
-
-    .option-card .name, #parish-options .name {
-      font-size: 1.35rem !important;
-      font-weight: 900 !important;
-      color: #fff !important;
-    }
-
-    .option-card small, #parish-options small {
-      font-size: 0.92rem;
-      color: #ddd;
-    }
-
+    .option-card .name, #parish-options .name {font-size: 1.35rem !important;font-weight: 900 !important;color: #fff !important;}
+    .option-card small, #parish-options small {font-size: 0.92rem;color:#ddd;}
     .option-card.selected, #parish-options .option-card.selected {
       background: linear-gradient(135deg, #E5B80B, #FFEA9E) !important;
       border-color: #FFC107 !important;
       box-shadow: 0 0 45px rgba(255,215,0,0.9), inset 0 0 25px rgba(255,255,255,0.4) !important;
       transform: scale(1.05);
     }
-
-    /* Beautiful centered Next button */
     .centered-next {
       width: 260px;
       height: 68px;
@@ -87,18 +86,8 @@
       color: #000;
       display: none;
     }
-
-    .centered-next.visible {
-      display: block;
-    }
-
-    /* Smaller calendar */
-    #arriveDate, #departDate {
-      width: 260px !important;
-      height: 52px !important;
-    }
-
-    /* Hunter Green Tip Button — always visible */
+    .centered-next.visible {display:block;}
+    #arriveDate, #departDate {width: 260px !important;height: 52px !important;}
     #btnTip {
       position: fixed !important;
       bottom: 20px;
@@ -113,6 +102,12 @@
       box-shadow: 0 10px 30px rgba(0,77,64,0.6);
     }
 
+    /* simple buttons since original .btn had no styles */
+    .btn {background:transparent;border:none;color:inherit;cursor:pointer;font-weight:700;padding:10px 14px;border-radius:10px;}
+    .btn.gold {background:linear-gradient(135deg,#E5B80B,#FFEA9E);color:#000;border:none;padding:12px 18px;border-radius:12px;}
+    .btn.green {background:linear-gradient(135deg,#004d40,#006400);color:#fff;border:none;padding:10px;border-radius:10px;}
+    .wallet-bar {display:flex;gap:8px;align-items:center;justify-content:center;margin:1rem 0;}
+
     :root{
       --green:#004d40;
       --green-light:#006400;
@@ -120,15 +115,31 @@
       --gold-shine:#FFEA9E;
       --gold-glow:#FFC107;
     }
+
+    /* small responsive tweaks */
+    @media (max-width:520px){
+      .option-card{max-width:92%;}
+      .logo{font-size:clamp(3.6rem,20vw,6rem);}
+    }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
   <div class="flag"></div>
+
   <div class="container">
     <h1 class="logo"><span>YAAD</span><br><span>VIBE</span></h1>
+
     <div class="calculator">$<span id="liveTotal">0.00</span></div>
     <div id="progress"></div>
+
+    <div class="wallet-bar" id="walletBar">
+      <button class="btn green" id="connectWalletBtn">Connect TON Wallet</button>
+      <div id="walletInfo" style="display:none;">
+        <span id="walletAddr" style="font-weight:700;"></span>
+        <button class="btn" id="disconnectWalletBtn">Disconnect</button>
+      </div>
+    </div>
 
     <button class="btn green" id="btnTip">🔥</button>
 
@@ -142,7 +153,7 @@
       <p class="msg">Traveling?</p>
       <div class="option-card" data-value="yes"><div class="info">Local</div></div>
       <div class="option-card" data-value="no"><div class="info">Visiting</div></div>
-      <button class="btn gold centered-next" onclick="next(2)">Next</button>
+      <button class="btn gold centered-next" id="step1Next" onclick="next(2)">Next</button>
     </div>
 
     <div id="step2" class="step">
@@ -205,7 +216,7 @@
       <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Parish?</p>
       <div id="parish-options"></div>
-      <button class="btn gold centered-next" onclick="next(5)">Next</button>
+      <button class="btn gold centered-next" id="step4Next" onclick="next(5)">Next</button>
     </div>
 
     <div id="step5" class="step">
@@ -213,7 +224,7 @@
       <p class="msg">Coastal or Inland?</p>
       <div class="option-card" data-value="coastal"><div class="info">Coastal</div></div>
       <div class="option-card" data-value="inland"><div class="info">Inland</div></div>
-      <button class="btn gold centered-next" onclick="next(6)">Next</button>
+      <button class="btn gold centered-next" id="step5Next" onclick="next(6)">Next</button>
     </div>
 
     <div id="step6" class="step">
@@ -224,30 +235,33 @@
     </div>
 
     <div id="step7" class="step">
-      <button class="btn back"><svg symbol="back-arrow"></svg></button>
+      <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Transportation</p>
       <div id="transport-options"></div>
       <button class="btn gold" id="btnTransport">Next</button>
     </div>
 
     <div id="step8" class="step">
-      <button class="btn back"><svg symbol="back-arrow"></svg></button>
+      <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Tours</p>
       <div id="tour-options"></div>
       <button class="btn gold" id="btnTours">Show My Package</button>
     </div>
 
     <div id="summary" class="step">
-      <button class="btn back"><svg symbol="back-arrow"></svg></button>
+      <button class="btn back"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
       <p class="msg">Your YaadVibe Package</p>
       <div id="summary-items"></div>
       <div class="calculator">Total: $<span id="total">0.00</span></div>
-      <button class="btn gold" id="btnPay">PAY TON WALLET</button>
-      <div id="qr-area" style="margin:2rem 0;"></div>
+      <div style="text-align:center;margin-top:1rem;">
+        <button class="btn gold" id="btnPay">PAY TON WALLET</button>
+      </div>
+      <div id="qr-area" style="margin:2rem 0;text-align:center;"></div>
     </div>
   </div>
 
   <script>
+    // App data + initializations
     document.addEventListener('DOMContentLoaded', () => {
       const PARISH_TOWNS = {
         "clarendon":"May Pen",
@@ -265,13 +279,24 @@
         "trelawny":"Falmouth",
         "westmoreland":"Savanna-la-Mar, Negril West End"
       };
-      const ALL_PARISHES = Object.keys(PARISH_TOWNS);
-      const LIVE_DATA = {flights:{default:[{"airline":"JetBlue","code":"B6231","price":380},{"airline":"American","code":"AA1347","price":420}]},accommodations:{default:[{"name":"Sandals Montego Bay","price":320,"img":"/sandals.jpg","type":"coastal"},{"name":"Jakes Hotel","price":280,"img":"/jakes.jpg","type":"coastal"},{"name":"Ian Fleming Villas","price":450,"img":"/ian.jpg","type":"inland"}]},transport:{default:[{"name":"Private Transfer","price":80},{"name":"Knutsford Express","price":35}]},tours:{default:[{"name":"Dunn’s River","price":65},{"name":"Blue Hole","price":55}]}};
+      const LIVE_DATA = {
+        flights:{default:[{"airline":"JetBlue","code":"B6231","price":380},{"airline":"American","code":"AA1347","price":420}]},
+        accommodations:{default:[{"name":"Sandals Montego Bay","price":320,"img":"/sandals.jpg","type":"coastal"},{"name":"Jakes Hotel","price":280,"img":"/jakes.jpg","type":"coastal"},{"name":"Ian Fleming Villas","price":450,"img":"/ian.jpg","type":"inland"}]},
+        transport:{default:[{"name":"Private Transfer","price":80},{"name":"Knutsford Express","price":35}]},
+        tours:{default:[{"name":"Dunn’s River","price":65},{"name":"Blue Hole","price":55}]}
+      };
 
+      // state
       let state = {from:'',arrive:'',depart:'',parish:'',vibe:'',stay:null,transport:[],tours:[],nights:1,adults:1,kids:0,isLocal:false,flight:null};
       let total = 0;
       let currentStep = 0;
 
+      // TON Connect objects (global in this scope)
+      let tonConnectUI = null;
+      let tonConnect = null; // TonConnect SDK instance
+      let connectedAccount = null;
+
+      // Helper: Update calc
       const updateCalc = () => {
         total = 0;
         if(state.stay){
@@ -283,13 +308,17 @@
         state.tours.forEach(t=>total+=t.price);
         if(state.flight) total += state.flight.price;
         document.getElementById('liveTotal').textContent = total.toFixed(2);
-        document.getElementById('total').textContent = total.toFixed(2);
+        const totalEl = document.getElementById('total');
+        if(totalEl) totalEl.textContent = total.toFixed(2);
       };
 
-      const next = n => {
+      // Steps navigation
+      window.next = (n) => {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         const id = n===2.5 ? 'step25' : n===9 ? 'summary' : `step${n}`;
-        document.getElementById(id).classList.add('active');
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.classList.add('active');
         currentStep = n;
         updateProgress();
         if (n === 4) renderParishes();
@@ -315,9 +344,10 @@
           span.style.transition = 'all 0.3s ease';
           span.style.padding = '8px';
           span.style.userSelect = 'none';
-          span.style.opacity = i <= currentStep ? '1' : '0.35';
-          if (i === steps.indexOf(currentStep)) span.style.transform = 'scale(1.4)';
-          if (i < steps.indexOf(currentStep)) span.style.opacity = '1';
+          // highlight based on index
+          const currentIndex = steps.indexOf(currentStep);
+          span.style.opacity = i <= currentIndex ? '1' : '0.35';
+          if (i === currentIndex) span.style.transform = 'scale(1.4)';
           span.onclick = (e) => {
             e.stopPropagation();
             if (i > 3 && (!state.arrive || !state.depart)) {
@@ -336,6 +366,7 @@
         });
       };
 
+      // Parishes
       const renderParishes = () => {
         const c = document.getElementById('parish-options');
         c.innerHTML = '';
@@ -344,7 +375,7 @@
           const niceName = p.replace(/-/g,' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
           const card = document.createElement('div');
           card.className = 'option-card';
-          card.innerHTML = `<div class="info"><div class="name">${niceName}</div><small>${PARISH_TOWNS[p]}</small></div>`;
+          card.innerHTML = `<div class="info"><div class="name">${niceName}</div><small>${PARISH_TOWNS[p] || ''}</small></div>`;
           card.onclick = () => {
             c.querySelectorAll('.option-card').forEach(x => x.classList.remove('selected'));
             card.classList.add('selected');
@@ -356,6 +387,7 @@
         });
       };
 
+      // Stays
       const loadStays = () => {
         const c = document.getElementById('stay-options');
         c.innerHTML = '<p style="text-align:center;color:#aaa">Finding your vibe...</p>';
@@ -365,7 +397,7 @@
           items.forEach(item => {
             const card = document.createElement('div');
             card.className = 'option-card';
-            card.innerHTML = `<img src="${item.img}" onerror="this.src='/IMG_0039.jpeg'" style="width:70px;height:70px;border-radius:8px;"><div class="info"><div class="name">${item.name}</div><div class="price">$${item.price}/night</div></div>`;
+            card.innerHTML = `<img src="${item.img}" onerror="this.src='/IMG_0039.jpeg'" style="width:70px;height:70px;border-radius:8px;margin-right:10px;"><div class="info"><div class="name">${item.name}</div><div class="price">$${item.price}/night</div></div>`;
             card.onclick = () => {
               c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
               card.classList.add('selected');
@@ -377,6 +409,7 @@
         }, 600);
       };
 
+      // Transport
       const loadTransport = () => {
         const c = document.getElementById('transport-options'); c.innerHTML = '';
         LIVE_DATA.transport.default.forEach(t => {
@@ -393,6 +426,7 @@
         });
       };
 
+      // Tours
       const loadTours = () => {
         const c = document.getElementById('tour-options'); c.innerHTML = '';
         LIVE_DATA.tours.default.forEach(t => {
@@ -409,6 +443,7 @@
         });
       };
 
+      // Flights
       const loadFlights = () => {
         const c = document.getElementById('flight-options'); c.innerHTML = '';
         LIVE_DATA.flights.default.forEach(f => {
@@ -419,14 +454,16 @@
             c.querySelectorAll('.option-card').forEach(x=>x.classList.remove('selected'));
             card.classList.add('selected');
             state.flight = f;
+            updateCalc();
           };
           c.appendChild(card);
         });
       };
 
+      // Summary
       const showSummary = () => {
         const div = document.getElementById('summary-items'); div.innerHTML = '';
-        const add = (label,price) => div.innerHTML += `<div><span>${label}</span><strong>$${price}</strong></div>`;
+        const add = (label,price) => div.innerHTML += `<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px dashed rgba(255,255,255,0.06);"><span>${label}</span><strong>$${price}</strong></div>`;
         if(state.stay){
           const base = state.stay.price*state.nights;
           const fee = Math.round(base*0.05);
@@ -436,10 +473,14 @@
         state.transport.forEach(t=>add(t.name,t.price));
         state.tours.forEach(t=>add(t.name,t.price));
         if(state.flight) add(`${state.flight.airline} Flight`,state.flight.price);
+        updateCalc();
         next(9);
       };
 
+      // Wire UI events (flow)
       document.getElementById('startBtn').onclick = () => next(1);
+
+      // Step1 options selection
       document.getElementById('step1').addEventListener('click', e => {
         const card = e.target.closest('.option-card');
         if(card){
@@ -450,27 +491,38 @@
           if (btn) btn.classList.add('visible');
         }
       });
+
+      // fromCity next
       document.getElementById('btn2').onclick = () => {
         state.from = document.getElementById('fromCity').value;
         if(!state.from) return alert("Choose your city!");
         if(!state.isLocal){ loadFlights(); next(2.5); } else next(3);
       };
+
+      // flights selection
       document.getElementById('step25').addEventListener('click', e => {
         const card = e.target.closest('.option-card');
         if(card){
           document.querySelectorAll('#step25 .option-card').forEach(c=>c.classList.remove('selected'));
           card.classList.add('selected');
           if(card.dataset.flight==="skip") state.flight = null;
-          else state.flight = LIVE_DATA.flights.default.find(f=>card.querySelector('.name').textContent.includes(f.airline)) || null;
+          else {
+            // find based on text
+            const txt = card.querySelector('.name') ? card.querySelector('.name').textContent : '';
+            state.flight = LIVE_DATA.flights.default.find(f=>txt.includes(f.airline)) || null;
+          }
           updateCalc();
         }
       });
       document.getElementById('btnFlight').onclick = () => next(3);
+
+      // nights / adults toggles
       document.getElementById('minus').onclick = () => { if(state.nights>1){state.nights--;document.getElementById('nightCount').textContent=state.nights;updateCalc();}};
       document.getElementById('plus').onclick = () => {state.nights++;document.getElementById('nightCount').textContent=state.nights;updateCalc();};
       document.getElementById('minusAdult').onclick = () => { if(state.adults>1){state.adults--;document.getElementById('adultCount').textContent=state.adults;updateCalc();}};
       document.getElementById('plusAdult').onclick = () => {state.adults++;document.getElementById('adultCount').textContent=state.adults;updateCalc();};
       document.getElementById('kids').onchange = e => {state.kids = +e.target.value; updateCalc();};
+
       document.getElementById('btn3').onclick = () => {
         state.arrive = document.getElementById('arriveDate').value;
         state.depart = document.getElementById('departDate').value;
@@ -485,6 +537,8 @@
         updateCalc();
         next(4);
       };
+
+      // Step5 vibe
       document.getElementById('step5').addEventListener('click', e => {
         const card = e.target.closest('.option-card');
         if(card){
@@ -495,10 +549,12 @@
           if (btn) btn.classList.add('visible');
         }
       });
-      document.getElementById('btnStay').onclick = () => {if(!state.stay) return alert("Choose your stay!"); loadTransport(); next(7);};
-      document.getElementById('btnTransport').onclick = () => {loadTours(); next(8);};
+
+      document.getElementById('btnStay').onclick = () => { if(!state.stay) return alert("Choose your stay!"); loadTransport(); next(7); };
+      document.getElementById('btnTransport').onclick = () => { loadTours(); next(8); };
       document.getElementById('btnTours').onclick = showSummary;
-      document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => {e.stopPropagation(); back();});
+      document.querySelectorAll('.btn.back').forEach(b => b.onclick = e => { e.stopPropagation(); back(); });
+
       ['arriveDate','departDate'].forEach(id => {
         document.getElementById(id).addEventListener('change', () => {
           const arrive = document.getElementById('arriveDate').value;
@@ -513,16 +569,211 @@
           }
         });
       });
-      // Universal Next button show
+
+      // show Next buttons when card clicked
       document.addEventListener('click', e => {
         if (e.target.closest('.option-card')) {
           const step = e.target.closest('.step');
+          if (!step) return;
           const btn = step.querySelector('.centered-next');
           if (btn) btn.classList.add('visible');
         }
       });
+
       updateProgress();
-    });
+      updateCalc();
+
+      // -------- TON CONNECT INTEGRATION ----------
+      // We create TonConnect UI (modal) and TonConnect (SDK instance)
+      // NOTE: Using CDN supplied bundles; if you use bundlers or npm, import accordingly.
+      try {
+        const TonConnectUI = window.TonConnectUI?.TonConnectUI || window.TonConnectUI;
+        const TonConnect = window.TonConnect?.TonConnect || window.TonConnect;
+        if (TonConnectUI && TonConnect) {
+          // create TonConnect SDK instance (optional - we keep UI around)
+          tonConnect = new TonConnect();
+
+          // Create TonConnect UI - this creates a modal and handles a UI for connecting wallets
+          tonConnectUI = new TonConnectUI({
+            // optional: app metadata for wallet deep-linking
+            manifestUrl: '' // you can add a manifest JSON endpoint if you host one
+          });
+
+          // register event listeners
+          tonConnect.onStatusChange((wallet) => {
+            // wallet === null if disconnected
+            connectedAccount = wallet;
+            refreshWalletUI();
+          });
+
+          // hook connect button
+          document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+            try {
+              // open modal and let user choose wallet; the SDK will handle pairing
+              await tonConnectUI.connect(); // this will open modal/QR and handle handshake
+              // after connect, tonConnect.account is available (depends on the SDK instance)
+              // Some wallets will call onStatusChange and refreshWalletUI will reflect it.
+            } catch (err) {
+              console.error('Connect error', err);
+              alert('Wallet connect failed: ' + (err.message || err));
+            }
+          });
+
+          // disconnect
+          document.getElementById('disconnectWalletBtn').addEventListener('click', async () => {
+            try {
+              await tonConnect.disconnect();
+              connectedAccount = null;
+              refreshWalletUI();
+            } catch (err) {
+              console.error('Disconnect error', err);
+            }
+          });
+
+        } else {
+          console.warn('TonConnect UI/SDK not available in this environment.');
+        }
+      } catch (err) {
+        console.error('TonConnect init error', err);
+      }
+
+      // refresh UI when connection status changes
+      function refreshWalletUI(){
+        const info = document.getElementById('walletInfo');
+        const addrEl = document.getElementById('walletAddr');
+        const connectBtn = document.getElementById('connectWalletBtn');
+
+        // try to read connected account from tonConnect
+        let acc = null;
+        try {
+          acc = (tonConnect && tonConnect.account) ? tonConnect.account : connectedAccount;
+        } catch(e) { acc = connectedAccount; }
+
+        if(acc && acc.account) {
+          connectBtn.style.display = 'none';
+          info.style.display = 'flex';
+          addrEl.textContent = acc.account;
+          // keep connectedAccount consistent
+          connectedAccount = acc;
+        } else {
+          connectBtn.style.display = 'inline-block';
+          info.style.display = 'none';
+          addrEl.textContent = '';
+          connectedAccount = null;
+        }
+      }
+
+      refreshWalletUI();
+
+      // Payment: create TON URI and QR code / deep link
+      document.getElementById('btnPay').addEventListener('click', async () => {
+        updateCalc();
+        if(total <= 0) return alert('Your total is $0. Add items to pay.');
+
+        // Example: we will present a TON transfer link with amount in TON (decimal)
+        // NOTE: most wallets understand `ton://transfer/{address}?amount=X&text=...`
+        // Convert dollars to TON? This depends on your pricing model. Here we'll ask user for destination
+        // For production: your business should have a TON receiver address (vault/merchant). Put it here.
+        const MERCHANT_ADDRESS = 'EQCXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'; // <<--- REPLACE WITH YOUR ACTUAL TON ADDRESS
+
+        if(!MERCHANT_ADDRESS || MERCHANT_ADDRESS.startsWith('EQCXXXX')){
+          // If merchant address not set, show a friendly error and show QR of dummy link so you can test
+          alert('Merchant TON address not configured. Replace MERCHANT_ADDRESS in code with your receiving address.');
+        }
+
+        // Convert USD pricing to TON amount: NOTE you must decide conversion. Here we assume 1 TON = 1 USD for demo.
+        // Replace with a real exchange rate fetch from your backend or a crypto price API.
+        const exchangeRateTONperUSD = 1.0; // <-- CHANGE: fetch real price from server
+        const amountTON = (total * exchangeRateTONperUSD).toFixed(4); // 4 decimals
+
+        // Build TON transfer URI
+        const memo = encodeURIComponent(`YaadVibe booking - ${new Date().toISOString().slice(0,10)}`);
+        const tonUri = `ton://transfer/${MERCHANT_ADDRESS}?amount=${amountTON}&text=${memo}`;
+
+        // Clear previous
+        const qrArea = document.getElementById('qr-area');
+        qrArea.innerHTML = '';
+
+        // If wallet is connected via TonConnect SDK, you can optionally ask it to send transaction programmatically:
+        if(tonConnect && tonConnect.account) {
+          // Show a confirmation step with two choices: use user's wallet modal, or show QR
+          const useSdk = confirm('Wallet connected. Click OK to ask the connected wallet to send the TON payment via TonConnect (recommended). Click Cancel to show a QR code instead.');
+          if(useSdk) {
+            try {
+              // Example sendTransaction usage - this requires the TonConnect SDK to support this shape
+              // NOTE: Amount below is in TON (string). Some versions expect "amountNano" (in nanotons). Check SDK docs.
+              // If your SDK expects nanotons (1 TON = 1e9 nanotons) then multiply by 1e9 and pass integer string.
+              const amountNano = (Number(amountTON) * 1e9).toFixed(0); // convert TON -> nanotons
+              const tx = {
+                validUntil: Math.floor(Date.now()/1000) + 60*5, // 5 minutes
+                messages: [
+                  {
+                    to: MERCHANT_ADDRESS,
+                    amount: amountNano
+                    // data: null // optional
+                  }
+                ]
+              };
+              // sendTransaction returns promise; SDK will open the wallet modal
+              const res = await tonConnect.sendTransaction(tx);
+              console.log('sendTransaction result', res);
+              alert('Transaction request sent to wallet. Check your wallet to confirm.');
+              return;
+            } catch (err) {
+              console.error('sendTransaction failed', err);
+              alert('sendTransaction failed: ' + (err.message || err));
+              // fallback to QR below
+            }
+          }
+        }
+
+        // Fallback: show QR + a deep link for mobile wallets
+        const qrTitle = document.createElement('div');
+        qrTitle.style.marginBottom = '8px';
+        qrTitle.style.color = '#FFD700';
+        qrTitle.textContent = `Scan to pay ${amountTON} TON`;
+        qrArea.appendChild(qrTitle);
+
+        // Create QR (tonUri)
+        const qrDiv = document.createElement('div');
+        qrArea.appendChild(qrDiv);
+        new QRCode(qrDiv, {
+          text: tonUri,
+          width: 220,
+          height: 220
+        });
+
+        // Show deep link button(s)
+        const linkRow = document.createElement('div');
+        linkRow.style.marginTop = '12px';
+        linkRow.style.display = 'flex';
+        linkRow.style.gap = '10px';
+        linkRow.style.justifyContent = 'center';
+
+        const openBtn = document.createElement('a');
+        openBtn.className = 'btn gold';
+        openBtn.textContent = 'Open wallet (if on mobile)';
+        openBtn.href = tonUri;
+        openBtn.style.textDecoration = 'none';
+        linkRow.appendChild(openBtn);
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn';
+        copyBtn.textContent = 'Copy transfer link';
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(tonUri).then(()=> alert('Copied transfer link to clipboard'));
+        };
+        linkRow.appendChild(copyBtn);
+
+        qrArea.appendChild(linkRow);
+      });
+
+      // For convenience: show wallet UI refresh every few seconds (optional)
+      setInterval(() => {
+        try { refreshWalletUI(); } catch(e){/*noop*/ }
+      }, 3000);
+
+    }); // DOMContentLoaded
   </script>
 </body>
 </html>
